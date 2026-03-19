@@ -40,6 +40,7 @@ Examples:
 All text-based project documents use Markdown (.md). Do not create or convert to .docx unless explicitly asked.
 
 # OPERATING RULES
+- **NEVER write files to the root of this workspace.** Every file you create — no exceptions — goes inside `OUTPUTS/`. This includes scripts, one-off fixes, scratch files, and anything else. If it doesn't belong to a project subfolder yet, put it directly in `OUTPUTS/`.
 - If the brief is unclear or incomplete, use the `AskUserQuestion` tool. Don't fill gaps with generic filler. I want to refine the approach with you before you execute.
 - Don't over-explain. Deliver the work. Save the commentary unless I ask for it.
 - Never delete files anywhere.

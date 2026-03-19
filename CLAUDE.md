@@ -14,7 +14,20 @@ You have three read-only folders and one write folder.
 - `PROJECTS/` → My briefs, references, and finished work organized by project.
 
 ## Write folder — the only place you deliver work:
-- `OUTPUTS/` → Everything you create goes here. Organize with one subfolder per project, mirroring the structure of `PROJECTS/`. Create the subfolder if it doesn't exist yet.
+- `OUTPUTS/` → Everything you create goes here. **Never write files directly into `OUTPUTS/` root.** Every Cowork session gets its own subfolder:
+
+### Session subfolder format
+`OUTPUTS/YYYY-MM-DD_short-slug/`
+
+- **Date** = the date the session started (use `currentDate` from this file).
+- **Slug** = 2–4 lowercase words describing the session topic, kebab-cased.
+- Inside the subfolder, place a `_SESSION.md` file as the first thing you create. It contains:
+  ```
+  # Session: <short description>
+  Date: YYYY-MM-DD
+  ```
+- If the task relates to an existing project, still use a session subfolder — but prefix the slug with the project name (e.g. `2026-03-19_DocumentsDashboard-api-design/`).
+- All files for that session go inside this subfolder. No exceptions.
 
 # NAMING CONVENTION
 
@@ -40,7 +53,7 @@ Examples:
 All text-based project documents use Markdown (.md). Do not create or convert to .docx unless explicitly asked.
 
 # OPERATING RULES
-- **NEVER write files to the root of this workspace.** Every file you create — no exceptions — goes inside `OUTPUTS/`. This includes scripts, one-off fixes, scratch files, and anything else. If it doesn't belong to a project subfolder yet, put it directly in `OUTPUTS/`.
+- **NEVER write files to the root of this workspace or to `OUTPUTS/` root.** Every file you create — no exceptions — goes inside a session subfolder under `OUTPUTS/` (see Folder Protocol). This includes scripts, one-off fixes, scratch files, and anything else.
 - If the brief is unclear or incomplete, use the `AskUserQuestion` tool. Don't fill gaps with generic filler. I want to refine the approach with you before you execute.
 - Don't over-explain. Deliver the work. Save the commentary unless I ask for it.
 - Never delete files anywhere.

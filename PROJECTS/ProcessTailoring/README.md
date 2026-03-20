@@ -7,12 +7,12 @@ How corporate and Tech department processes need to evolve as LLM tooling adopti
 | Code | Initiative | Folder |
 |------|-----------|--------|
 | AU | The Absolute Unit | `AbsoluteUnit/` |
-| CKO | Corporate Knowledge Organisation | `CorporateKnowledgeOrganisation/` |
+| KNO | Corporate Knowledge Organisation | `CorporateKnowledgeOrganisation/` |
 | DORA | DORA Metrics Tooling Setup | `DORAMetrics/` |
 | IM | Incident Management Setup | `IncidentManagement/` |
 | MCP | MCP for Internal Services | `MCPInternalServices/` |
-| ACF | Agentic Coding Fluency | `AgenticCodingFluency/` |
-| AMF | Agentic Management Fluency | `AgenticManagementFluency/` |
+| AGCO | Agentic Coding Fluency | `AgenticCodingFluency/` |
+| AGMA | Agentic Management Fluency | `AgenticManagementFluency/` |
 
 ## How to use
 

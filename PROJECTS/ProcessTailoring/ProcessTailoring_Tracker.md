@@ -27,7 +27,7 @@ Last updated: 2026-03-20
 
 ---
 
-## CKO — Corporate Knowledge Organisation
+## KNO — Corporate Knowledge Organisation
 
 **One-liner:** Define strict rules for organising all company knowledge so it is consumable by AI agents.
 
@@ -85,7 +85,7 @@ Last updated: 2026-03-20
 
 ---
 
-## ACF — Agentic Coding Fluency
+## AGCO — Agentic Coding Fluency
 
 **One-liner:** Teach Engineers to use agentic coding tools effectively so the whole team leverages AI potential.
 
@@ -98,7 +98,7 @@ Last updated: 2026-03-20
 
 ---
 
-## AMF — Agentic Management Fluency
+## AGMA — Agentic Management Fluency
 
 **One-liner:** Teach Product people efficient agentic LLM usage and help them reach an advanced, self-growing setup.
 

@@ -15,11 +15,11 @@ Out of ~130 line items, fewer than 10 are rated anything other than 1.0 ("Great"
 
 Many of their "1.0" answers are probably accurate *for their context*:
 
-- Access reviews only during on-/offboarding? At 20 people, you know everyone — role changes are visible. At 200, people change roles and nobody revokes the old permissions.
-- No external security audit? At 20 people with low revenue, the cost/benefit doesn't justify it. Post-acquisition, Tourlane's risk profile applies.
-- On-call "accepted but not contractual"? At 20 people, informal agreements work. At 200, employment law and works councils make this untenable.
-- Performance reviews without documents? At 20, the CEO knows everyone. At 200, undocumented processes are invisible processes.
-- "Depends on project" for test coverage? At 20, everyone knows the state of each project. At 200, you need measurable standards.
+- Access reviews only during on-/offboarding? At 20 people, you know everyone — role changes are visible. At 200, people change roles and nobody revokes the old permissions. `[Security Answers → Access → "Is access reviewed quarterly?"]`
+- No external security audit? At 20 people with low revenue, the cost/benefit doesn't justify it. Post-acquisition, Tourlane's risk profile applies. `[Security Answers → Vulnerability management & Pen-Test → "Where Security audits performed in the last 12 months?"]`
+- On-call "accepted but not contractual"? At 20 people, informal agreements work. At 200, employment law and works councils make this untenable. `[Systems Answers → Architecture & Operation → "Is pager duty contractually regulated?"]`
+- Performance reviews without documents? At 20, the CEO knows everyone. At 200, undocumented processes are invisible processes. `[People Answers → Talent Management → "Does a potential and performance assessment per employee exist?"]`
+- "Depends on project" for test coverage? At 20, everyone knows the state of each project. At 200, you need measurable standards. `[Systems Answers → Quality → "What is the current test coverage?"]`
 
 ### How to calibrate: the two-score approach
 
@@ -27,20 +27,20 @@ Many of their "1.0" answers are probably accurate *for their context*:
 
 **Score A — Verification (is their claim accurate for their context?)**
 
-| Score | Meaning |
-|-------|---------|
-| ✓ Verified | Claim checks out. This works for a 20-person company. |
-| ~ Partial | Somewhat true, but even for their size there are gaps. |
-| ✗ Not verified | Claim doesn't hold up even on their own terms. |
+| Score          | Meaning                                                |     |
+| -------------- | ------------------------------------------------------ | --- |
+| ✓ Verified     | Claim checks out. This works for a 20-person company.  |     |
+| ~ Partial      | Somewhat true, but even for their size there are gaps. |     |
+| ✗ Not verified | Claim doesn't hold up even on their own terms.         |     |
 
 **Score B — Integration Readiness (how much work to bring this to Tourlane standard?)**
 
-| Score | Meaning | Typical effort |
-|-------|---------|----------------|
-| 0 | **Ready** | Works as-is inside Tourlane. No changes needed. |
-| 1 | **Minor adaptation** | Small adjustments: config changes, adding to existing Tourlane processes. Weeks. |
-| 2 | **Significant work** | New processes, tooling, or practices need to be built. 1–3 months. |
-| 3 | **Major gap** | Fundamental capability missing. Needs investment, hiring, or structural change. 3–6+ months. |
+| Score | Meaning              | Typical effort                                                                               |
+| ----- | -------------------- | -------------------------------------------------------------------------------------------- |
+| 0     | **Ready**            | Works as-is inside Tourlane. No changes needed.                                              |
+| 1     | **Minor adaptation** | Small adjustments: config changes, adding to existing Tourlane processes. Weeks.             |
+| 2     | **Significant work** | New processes, tooling, or practices need to be built. 1–3 months.                           |
+| 3     | **Major gap**        | Fundamental capability missing. Needs investment, hiring, or structural change. 3–6+ months. |
 
 Score A tells you about trustworthiness and self-awareness. Score B tells you about integration cost and timeline. A company that scores ✓/2 (honest about their state, but far from your standard) is actually a better acquisition target than one that scores ✗/1 (dishonest, but coincidentally closer to your bar).
 
@@ -58,14 +58,14 @@ Not everything scales linearly. Some practices need fundamental change; others t
 
 **High scale sensitivity (their "1" is likely your "2" or "3"):**
 
-| Area | Why it doesn't scale | What Tourlane probably needs |
-|------|---------------------|------------------------------|
-| Access management | At 20 people, everyone knows everyone. No dormant accounts because departures are visible. | Quarterly access reviews, automated provisioning/deprovisioning, RBAC tied to HR system |
-| Security training | Phishing tests work at any size, but 200 engineers need structured secure coding training | Annual secure coding training, onboarding security module, incident response drills |
-| On-call | Informal agreement among 20 people ≠ contractual obligation for 200 | Contractual on-call clauses, compensation model, rotation fairness, escalation paths |
-| Performance management | CEO knows 20 people. Nobody knows 200 without documented frameworks. | Documented review cycles, calibration sessions, written feedback trails |
-| Incident management | At 20, everyone is in one Slack channel. At 200, you need formal severity levels, comms plans, post-mortems. | Incident classification, on-call rotation, post-mortem process, status pages |
-| Test coverage standards | "Depends on project" works when 3 people own all projects. At 200, you need minimums. | Organization-wide coverage thresholds, quality gates in CI |
+| Area                    | Why it doesn't scale                                                                                         | What Tourlane probably needs                                                            |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
+| Access management       | At 20 people, everyone knows everyone. No dormant accounts because departures are visible.                   | Quarterly access reviews, automated provisioning/deprovisioning, RBAC tied to HR system |
+| Security training       | Phishing tests work at any size, but 200 engineers need structured secure coding training                    | Annual secure coding training, onboarding security module, incident response drills     |
+| On-call                 | Informal agreement among 20 people ≠ contractual obligation for 200                                          | Contractual on-call clauses, compensation model, rotation fairness, escalation paths    |
+| Performance management  | CEO knows 20 people. Nobody knows 200 without documented frameworks.                                         | Documented review cycles, calibration sessions, written feedback trails                 |
+| Incident management     | At 20, everyone is in one Slack channel. At 200, you need formal severity levels, comms plans, post-mortems. | Incident classification, on-call rotation, post-mortem process, status pages            |
+| Test coverage standards | "Depends on project" works when 3 people own all projects. At 200, you need minimums.                        | Organization-wide coverage thresholds, quality gates in CI                              |
 
 **Low scale sensitivity (their "1" probably transfers):**
 
@@ -83,34 +83,34 @@ Not everything scales linearly. Some practices need fundamental change; others t
 
 ### Items they rated 2.0 (the only admitted gaps)
 
-| Area | Item | Their comment | What to probe |
-|------|------|---------------|---------------|
-| Security | GDPR assessment | No external assessment, internal only | Ask for evidence of the internal process |
-| Security | Access review cadence | Not quarterly — only on-/offboarding | What happens to dormant accounts? |
-| Security | Email encryption at rest | "Not required for GDPR compliance, yet" | Verify this legal interpretation |
-| Security | Data encryption | Customer-sensitive yes, public no | Where's the boundary defined? |
-| Security | Training | No external security training | Only phishing tests — is that enough? |
-| People | Diversity | "Good, but could be better" | Only honest 2.0 in People section |
-| People | Talent assessment | "Regular reviews but no specific documents" | No paper trail = no real process |
-| Systems | Vendor lock-in | "Some AWS services, no non-solvables" | Which services? Migration cost estimate? |
-| Systems | On-call | "Not contractually regulated" | Legal risk post-acquisition |
+| Area | Item | Source | Their comment | What to probe |
+|------|------|--------|---------------|---------------|
+| Security | GDPR assessment | `Security Answers → Licenses & Application Management → "Are applications assessed security and GDPR conformity?"` | No external assessment, internal only | Ask for evidence of the internal process |
+| Security | Access review cadence | `Security Answers → Access → "Is access reviewed quarterly?"` | Not quarterly — only on-/offboarding | What happens to dormant accounts? |
+| Security | Email encryption at rest | `Security Answers → Passwords and Emails → "Are E-mail addresses encrypted at rest?"` | "Not required for GDPR compliance, yet" | Verify this legal interpretation |
+| Security | Data encryption | `Security Answers → Production Data → "Is data encrypted in storage?"` | Customer-sensitive yes, public no | Where's the boundary defined? |
+| Security | Training | `Security Answers → Training → "Are developers trained on security…?"` | No external security training | Only phishing tests — is that enough? |
+| People | Diversity | `People Answers → Teams and Organisation → "How is the diversity?"` | "Good, but could be better" | Only honest 2.0 in People section |
+| People | Talent assessment | `People Answers → Talent Management → "Does a potential and performance assessment per employee exist?"` | "Regular reviews but no specific documents" | No paper trail = no real process |
+| Systems | Vendor lock-in | `Systems Answers → Architecture & Operation → "Are there vendor lock-in risks…?"` | "Some AWS services, no non-solvables" | Which services? Migration cost estimate? |
+| Systems | On-call | `Systems Answers → Architecture & Operation → "Is pager duty contractually regulated?"` | "Not contractually regulated" | Legal risk post-acquisition |
 
 ### Claims that should trigger skepticism
 
 These are rated 1.0 but warrant hard verification:
 
-1. **"Elite" DORA metrics** — multiple deploys per day. For a small company with native apps (App Store review cycles), this needs unpacking. Elite DORA for mobile is unusual.
-2. **100% AI coding adoption** — every developer, every project? What does "adoption" mean here — Copilot autocomplete or agentic coding?
-3. **All engineers senior+ level** — in a small company, this could be title inflation or a genuine hiring bar. Verify with actual leveling criteria.
-4. **< 3 days onboarding to first productive commit** — impressive if true. Ask to see the onboarding checklist and what "productive" means.
-5. **~€1,500/month total infrastructure cost** — for multiple products with AI inference, this is suspiciously low. Clarify what's included.
-6. **No data warehouse but claims data-driven decisions** — contradictory. Where do analytical queries run?
-7. **WCAG accessibility = "Yes"** — for native mobile apps, this is a significant claim. What level? Audited by whom?
-8. **No legacy code at all** — every company has some. What's their definition?
-9. **Can scale 10x** — based on what? Load testing evidence?
-10. **Disaster recovery simulated** — "frequency depends on the project." So is it tested or not?
-11. **STRIDE threat modeling "when applicable"** — who decides when it's applicable?
-12. **PM2 AGPL claim** — they say "no AGPL licensing obligations apply" because they only use PM2 to run Node.js. This needs legal verification — AGPL obligations can be triggered by network use.
+1. **"Elite" DORA metrics** `[Systems Answers → Releases → "What is the deployment frequency and lead time (DORA)?"]` — multiple deploys per day. For a small company with native apps (App Store review cycles), this needs unpacking. Elite DORA for mobile is unusual.
+2. **100% AI coding adoption** `[Systems Answers → Development & Process → "What is the AI coding adoption?"]` — every developer, every project? What does "adoption" mean here — Copilot autocomplete or agentic coding?
+3. **All engineers senior+ level** `[People Answers → Skills → "What is the technical skill level of people?"]` — in a small company, this could be title inflation or a genuine hiring bar. Verify with actual leveling criteria.
+4. **< 3 days onboarding to first productive commit** `[Systems Answers → Development & Process → "What is the onboarding time for a new engineer to first productive commit?"]` — impressive if true. Ask to see the onboarding checklist and what "productive" means.
+5. **~€1,500/month total infrastructure cost** `[Systems Answers → Architecture & Operation → "What is the monthly infrastructure cost and cost per transaction/user?"]` — for multiple products with AI inference, this is suspiciously low. Clarify what's included.
+6. **No data warehouse but claims data-driven decisions** `[Systems Answers → Data / AI → "Do data warehouse, data lake, data marts exist?" vs. "Is data used for decisions?"]` — contradictory. Where do analytical queries run?
+7. **WCAG accessibility = "Yes"** `[Systems Answers → Applications → "Does the application support accessibility (WCAG)?"]` — for native mobile apps, this is a significant claim. What level? Audited by whom?
+8. **No legacy code at all** `[Systems Answers → Legacy → "Is the application legacy code?" + "Is there other legacy code existent?"]` — every company has some. What's their definition?
+9. **Can scale 10x** `[Systems Answers → Performance → "Can the current setup be scaled 10x?"]` — based on what? Load testing evidence?
+10. **Disaster recovery simulated** `[Security Answers → Disaster recovery → "Has been a disaster simulated in the last 3 months?"]` — "frequency depends on the project." So is it tested or not?
+11. **STRIDE threat modeling "when applicable"** `[Security Answers → Vulnerability management & Pen-Test → "Do developers perform thread modelling?"]` — who decides when it's applicable?
+12. **PM2 AGPL claim** `[Security Answers → Licenses & Application Management → "Are there any GPL/AGPL/LGPL licenses?"]` — they say "no AGPL licensing obligations apply" because they only use PM2 to run Node.js. This needs legal verification — AGPL obligations can be triggered by network use.
 
 ---
 
@@ -136,10 +136,10 @@ Set expectations: "We've reviewed your self-assessment. Today we want to go deep
 
 Ask them to show, not tell:
 
-- [ ] "Walk us through a backup restore you did recently. Which system, what triggered it, how long did it take?"
-- [ ] "Show us the runbook for a full disaster recovery. If your primary region goes down tomorrow, what happens step by step?"
-- [ ] "You said disaster simulations depend on the project — which projects have been tested, and which haven't?"
-- [ ] "Show us the monitoring dashboard. How would you know within 5 minutes that a backup failed?"
+- [ ] "Walk us through a backup restore you did recently. Which system, what triggered it, how long did it take?" `[Security Answers → Backups → "How often are backups tested?"]`
+- [ ] "Show us the runbook for a full disaster recovery. If your primary region goes down tomorrow, what happens step by step?" `[Security Answers → Disaster recovery → "Can systems be setup after disaster?"]`
+- [ ] "You said disaster simulations depend on the project — which projects have been tested, and which haven't?" `[Security Answers → Disaster recovery → "Has been a disaster simulated in the last 3 months?"]`
+- [ ] "Show us the monitoring dashboard. How would you know within 5 minutes that a backup failed?" `[Security Answers → Backups → "What systems have a backup? Is coverage complete?"]`
 
 *Red flag:* No runbook exists, or it hasn't been updated in 6+ months.
 *Yellow flag:* DR tested for some projects but not the critical ones.
@@ -147,10 +147,10 @@ Ask them to show, not tell:
 
 **00:25–00:40 — Access Management & Credentials (15 min)**
 
-- [ ] "Show us your access control matrix. Who has admin access to what?"
-- [ ] "Your access reviews happen only during on-/offboarding. What happens when someone changes roles? Walk us through a concrete example."
-- [ ] "Show us the MFA configuration on your GitHub org, CI pipeline, and cloud console."
-- [ ] "You use both a custom auth system and Auth0 depending on the project. What's the plan to consolidate? Is there a migration path?"
+- [ ] "Show us your access control matrix. Who has admin access to what?" `[Security Answers → Access → "Are admin and privileged access accounts inventoried?"]`
+- [ ] "Your access reviews happen only during on-/offboarding. What happens when someone changes roles? Walk us through a concrete example." `[Security Answers → Access → "Is access reviewed quarterly?"]`
+- [ ] "Show us the MFA configuration on your GitHub org, CI pipeline, and cloud console." `[Security Answers → Access → "Is MFA for source code, CI, payment, login implemented?"]`
+- [ ] "You use both a custom auth system and Auth0 depending on the project. What's the plan to consolidate? Is there a migration path?" `[Security Answers → Passwords and Emails → "Is there a central identity provider (IdP) in use?"]`
 
 *Red flag:* No access matrix exists; admin access is broadly granted.
 *Yellow flag:* MFA enforced on some but not all critical systems.
@@ -158,11 +158,11 @@ Ask them to show, not tell:
 
 **00:40–00:55 — Vulnerability Management & Pen Testing (15 min)**
 
-- [ ] "Show us the Dependabot/Renovate dashboard. How many open security PRs right now?"
-- [ ] "You mentioned one pen-test on the support portal. Was this internal or external? Do you have the report?"
-- [ ] "No external security audits in 12 months — is that a conscious decision or a resource constraint?"
-- [ ] "Walk us through your SLA for critical vulnerabilities. You quoted 7–15 days for critical — can you show a recent example that hit this timeline?"
-- [ ] "The PM2 AGPL license — have you had legal counsel review the obligation? AGPL can trigger through network interaction."
+- [ ] "Show us the Dependabot/Renovate dashboard. How many open security PRs right now?" `[Security Answers → Vulnerability management & Pen-Test → "Are vulnerabilities tracked?"]`
+- [ ] "You mentioned one pen-test on the support portal. Was this internal or external? Do you have the report?" `[Security Answers → Vulnerability management & Pen-Test → "Where Pen-Tests performed in the last 6 months?"]`
+- [ ] "No external security audits in 12 months — is that a conscious decision or a resource constraint?" `[Security Answers → Vulnerability management & Pen-Test → "Where Security audits performed in the last 12 months?"]`
+- [ ] "Walk us through your SLA for critical vulnerabilities. You quoted 7–15 days for critical — can you show a recent example that hit this timeline?" `[Security Answers → Vulnerability management & Pen-Test → "What is the cycle time of a tracked vulnerability?"]`
+- [ ] "The PM2 AGPL license — have you had legal counsel review the obligation? AGPL can trigger through network interaction." `[Security Answers → Licenses & Application Management → "Are there any GPL/AGPL/LGPL licenses?"]`
 
 *Red flag:* No pen-test reports available; vulnerability backlog is unknown.
 *Yellow flag:* Internal testing only, no third-party validation.
@@ -176,11 +176,11 @@ Ask them to show, not tell:
 
 **01:00–01:20 — Architecture & Infrastructure (20 min)**
 
-- [ ] "Show us the C4 Level 1 and Level 2 diagrams. Walk us through the main data flows."
-- [ ] "You listed AWS, Azure, MongoDB, Supabase, Fly.io. What runs where, and why the multi-cloud approach? Is this intentional architecture or organic growth?"
-- [ ] "€1,500/month total infrastructure — does this include AI inference costs, third-party SaaS, monitoring tools? Walk us through the cost breakdown."
-- [ ] "Which AWS services create vendor lock-in? What would a migration to our infrastructure look like?"
-- [ ] "Your on-call is 'accepted by all engineers but not contractually regulated.' What happens post-acquisition when employment terms change?"
+- [ ] "Show us the C4 Level 1 and Level 2 diagrams. Walk us through the main data flows." `[Systems Answers → Architecture & Operation → "Is architecture documented? (C4 at least Level 1 & 2)?"]`
+- [ ] "You listed AWS, Azure, MongoDB, Supabase, Fly.io. What runs where, and why the multi-cloud approach? Is this intentional architecture or organic growth?" `[Systems Answers → Architecture & Operation → "What is the cloud provider and infrastructure setup?"]`
+- [ ] "€1,500/month total infrastructure — does this include AI inference costs, third-party SaaS, monitoring tools? Walk us through the cost breakdown." `[Systems Answers → Architecture & Operation → "What is the monthly infrastructure cost and cost per transaction/user?"]`
+- [ ] "Which AWS services create vendor lock-in? What would a migration to our infrastructure look like?" `[Systems Answers → Architecture & Operation → "Are there vendor lock-in risks, proprietary services?"]`
+- [ ] "Your on-call is 'accepted by all engineers but not contractually regulated.' What happens post-acquisition when employment terms change?" `[Systems Answers → Architecture & Operation → "Is pager duty contractually regulated?"]`
 
 *Red flag:* No architecture diagrams exist or they're severely outdated. Infra cost excludes significant items.
 *Yellow flag:* Multi-cloud is accidental, no clear infrastructure strategy.
@@ -188,11 +188,11 @@ Ask them to show, not tell:
 
 **01:20–01:40 — Release Process & DORA (20 min)**
 
-- [ ] "You claim Elite DORA deployment frequency — multiple times a day. Show us the deployment history for the last month. All products or just some?"
-- [ ] "For the native mobile apps — how do App Store review cycles factor into your deployment frequency? What does 'deploy' mean for iOS?"
-- [ ] "Show us a CI/CD pipeline run end-to-end. From push to production — what stages, what gates?"
-- [ ] "Rollbacks are 'controlled via stores.' What's the rollback time for a critical bug in production? Walk us through the last time you had to roll back."
-- [ ] "What's your change failure rate? How do you measure it?"
+- [ ] "You claim Elite DORA deployment frequency — multiple times a day. Show us the deployment history for the last month. All products or just some?" `[Systems Answers → Releases → "What is the deployment frequency and lead time (DORA)?"]`
+- [ ] "For the native mobile apps — how do App Store review cycles factor into your deployment frequency? What does 'deploy' mean for iOS?" `[Systems Answers → Releases → "How often do releases take place?"]`
+- [ ] "Show us a CI/CD pipeline run end-to-end. From push to production — what stages, what gates?" `[Systems Answers → Releases → "Are deployments fully automated trough test, staging and production?"]`
+- [ ] "Rollbacks are 'controlled via stores.' What's the rollback time for a critical bug in production? Walk us through the last time you had to roll back." `[Systems Answers → Releases → "Are rollbacks easy to perform?"]`
+- [ ] "What's your change failure rate? How do you measure it?" `[Systems Answers → Releases → "What is the deployment frequency and lead time (DORA)?"]`
 
 *Red flag:* DORA claim doesn't hold up when mobile release cycles are factored in. No pipeline to show.
 *Yellow flag:* Elite for backend, much slower for mobile — but wasn't distinguished in self-assessment.
@@ -200,12 +200,12 @@ Ask them to show, not tell:
 
 **01:40–01:55 — AI & Data (15 min)**
 
-- [ ] "You use GPT-4-Turbo, GPT-5, Claude Opus 4.6, BrowserUse LLM 3.0, Gemini 2.5 Flash. Walk us through which model is used where and why."
-- [ ] "No data warehouse, no MLOps, no model registry — but data is used for decisions and ContextSDK is in production. Where does analytical work actually happen?"
-- [ ] "What's your monthly AI inference spend? You said monitoring per project and user — show us the dashboard."
-- [ ] "Prompts are versioned in version control — show us the repo structure. How do you test prompt changes before production?"
-- [ ] "Your AI governance policy — can we see it? What does it cover?"
-- [ ] "100% AI coding adoption — what does that mean concretely? Which tools, what percentage of code is AI-generated, how do you ensure quality of AI-generated code?"
+- [ ] "You use GPT-4-Turbo, GPT-5, Claude Opus 4.6, BrowserUse LLM 3.0, Gemini 2.5 Flash. Walk us through which model is used where and why." `[Systems Answers → Data / AI → "Which LLM models (OSS vs. proprietary) are used?"]`
+- [ ] "No data warehouse, no MLOps, no model registry — but data is used for decisions and ContextSDK is in production. Where does analytical work actually happen?" `[Systems Answers → Data / AI → "Do data warehouse, data lake, data marts exist?" + "Is MLOps implemented?"]`
+- [ ] "What's your monthly AI inference spend? You said monitoring per project and user — show us the dashboard." `[Systems Answers → Data / AI → "Is there an AI cost model, what is the current inference spend…?"]`
+- [ ] "Prompts are versioned in version control — show us the repo structure. How do you test prompt changes before production?" `[Systems Answers → Data / AI → "Are prompts and chains versioned?"]`
+- [ ] "Your AI governance policy — can we see it? What does it cover?" `[Systems Answers → Data / AI → "Does a responsible AI / AI governance policy exist?"]`
+- [ ] "100% AI coding adoption — what does that mean concretely? Which tools, what percentage of code is AI-generated, how do you ensure quality of AI-generated code?" `[Systems Answers → Development & Process → "What is the AI coding adoption?"]`
 
 *Red flag:* AI costs are untracked or much higher than stated. No governance policy exists.
 *Yellow flag:* Heavy reliance on third-party AI with no fallback strategy.
@@ -213,11 +213,11 @@ Ask them to show, not tell:
 
 **01:55–02:10 — Code Quality & Testing (15 min)**
 
-- [ ] "Test coverage 'depends on project' — give us the actual numbers for your top 3 products."
-- [ ] "You said TDD is practiced. Show us a recent PR that demonstrates test-driven development."
-- [ ] "Code generated vs. manual ratio also 'depends on project.' What's the overall split? How do you review AI-generated code differently?"
-- [ ] "Show us the bug backlog. How many open bugs by severity? What's the oldest unresolved bug?"
-- [ ] "What does 'definition of done' look like? You said JIRA 'to be deployed' — is that the only gate?"
+- [ ] "Test coverage 'depends on project' — give us the actual numbers for your top 3 products." `[Systems Answers → Quality → "What is the current test coverage?"]`
+- [ ] "You said TDD is practiced. Show us a recent PR that demonstrates test-driven development." `[Systems Answers → Quality → "Do developers automate tests? (TDD?)"]`
+- [ ] "Code generated vs. manual ratio also 'depends on project.' What's the overall split? How do you review AI-generated code differently?" `[Systems Answers → Quality → "Ratio of code generated vs. manual?"]`
+- [ ] "Show us the bug backlog. How many open bugs by severity? What's the oldest unresolved bug?" `[Systems Answers → Quality → "Are bugs tracked? What is the trending line?"]`
+- [ ] "What does 'definition of done' look like? You said JIRA 'to be deployed' — is that the only gate?" `[Systems Answers → Development & Process → "Does a definition of ready and done exist?"]`
 
 *Red flag:* No measurable test coverage data. Bug backlog is large and stale.
 *Yellow flag:* Coverage varies wildly across projects with no minimum standard.
@@ -231,11 +231,11 @@ Ask them to show, not tell:
 
 **02:15–02:35 — Team & Skills (20 min)**
 
-- [ ] "All engineers are senior+. What are your leveling criteria? How do you distinguish senior from staff?"
-- [ ] "Onboarding in < 3 days to first productive commit — show us the onboarding guide. What counts as 'productive'?"
-- [ ] "You said no single points of failure. If your most experienced engineer left tomorrow, which systems would be most affected?"
-- [ ] "Knowledge is shared via Confluence — how current is the documentation? When was the last major doc update?"
-- [ ] "No skill gaps — really? What about areas like security engineering, SRE, or data engineering?"
+- [ ] "All engineers are senior+. What are your leveling criteria? How do you distinguish senior from staff?" `[People Answers → Skills → "What is the technical skill level of people?"]`
+- [ ] "Onboarding in < 3 days to first productive commit — show us the onboarding guide. What counts as 'productive'?" `[Systems Answers → Development & Process → "What is the onboarding time for a new engineer to first productive commit?"]`
+- [ ] "You said no single points of failure. If your most experienced engineer left tomorrow, which systems would be most affected?" `[People Answers → Teams and Organisation → "Do Single points of failure exist?"]`
+- [ ] "Knowledge is shared via Confluence — how current is the documentation? When was the last major doc update?" `[Systems Answers → Development & Process → "Is documentation sufficient for knowledge transfer?"]`
+- [ ] "No skill gaps — really? What about areas like security engineering, SRE, or data engineering?" `[People Answers → Skills → "Do gaps in the skills exist?"]`
 
 *Red flag:* No leveling framework exists. Documentation is outdated or sparse.
 *Yellow flag:* Leveling is informal. Some knowledge concentration despite claims.
@@ -243,11 +243,11 @@ Ask them to show, not tell:
 
 **02:35–02:50 — Retention, Talent & Culture (15 min)**
 
-- [ ] "Very low retention risk — what's the actual turnover rate over the last 2 years?"
-- [ ] "Performance reviews exist but no specific documents — how do you track performance over time? How would we inherit this?"
-- [ ] "Education budget is mostly used for AI budgets — does that mean AI tool subscriptions or actual learning?"
-- [ ] "Post-acquisition: what are the team's expectations? Have you discussed the acquisition with them? What are their concerns?"
-- [ ] "On-call not contractually regulated — what happens when we need to formalize employment terms?"
+- [ ] "Very low retention risk — what's the actual turnover rate over the last 2 years?" `[People Answers → Teams and Organisation → "What is the retention risk?"]`
+- [ ] "Performance reviews exist but no specific documents — how do you track performance over time? How would we inherit this?" `[People Answers → Talent Management → "Does a potential and performance assessment per employee exist?"]`
+- [ ] "Education budget is mostly used for AI budgets — does that mean AI tool subscriptions or actual learning?" `[People Answers → People Development → "Does an education budget exist? Is it used?"]`
+- [ ] "Post-acquisition: what are the team's expectations? Have you discussed the acquisition with them? What are their concerns?" `[People Answers → Teams and Organisation → "What is the mood in the team?"]`
+- [ ] "On-call not contractually regulated — what happens when we need to formalize employment terms?" `[Systems Answers → Architecture & Operation → "Is pager duty contractually regulated?"]`
 
 *Red flag:* Team doesn't know about the acquisition. High risk of attrition post-announcement.
 *Yellow flag:* Informal processes that work for a small team but won't scale.
@@ -316,34 +316,34 @@ Use this during the meeting. Score each area independently (you and CTO/VP Eng),
 
 ### Red Flags (potential deal-breakers or require contract clauses)
 
-- Cannot produce a disaster recovery runbook or evidence of a recent drill
-- Undisclosed critical/high vulnerabilities in production
-- No external security audit or pen-test ever performed by a third party
-- Actual infrastructure costs are significantly higher than stated (hidden costs in AI inference, SaaS tools)
-- PM2 AGPL license issue not reviewed by legal counsel
-- Key team members unaware of acquisition — high attrition risk
-- On-call arrangements have no legal basis — employment law exposure
-- No real access review process — risk of lingering permissions
+- Cannot produce a disaster recovery runbook or evidence of a recent drill `[Security Answers → Disaster recovery]`
+- Undisclosed critical/high vulnerabilities in production `[Security Answers → Vulnerability management & Pen-Test → "Are there open critical or high vulnerabilities?"]`
+- No external security audit or pen-test ever performed by a third party `[Security Answers → Vulnerability management & Pen-Test → "Where Security audits performed in the last 12 months?"]`
+- Actual infrastructure costs are significantly higher than stated (hidden costs in AI inference, SaaS tools) `[Systems Answers → Architecture & Operation → "What is the monthly infrastructure cost…?"]`
+- PM2 AGPL license issue not reviewed by legal counsel `[Security Answers → Licenses & Application Management → "Are there any GPL/AGPL/LGPL licenses?"]`
+- Key team members unaware of acquisition — high attrition risk `[People Answers → Teams and Organisation → "What is the retention risk?"]`
+- On-call arrangements have no legal basis — employment law exposure `[Systems Answers → Architecture & Operation → "Is pager duty contractually regulated?"]`
+- No real access review process — risk of lingering permissions `[Security Answers → Access → "Is access reviewed quarterly?"]`
 
 ### Yellow Flags (risks to manage post-acquisition)
 
-- Self-assessment is overwhelmingly optimistic — pattern of "everything is great" may indicate lack of critical self-awareness
-- Answers frequently say "depends on project" without specifics — suggests no company-wide standards
-- No data warehouse despite claiming data-driven decisions — limits analytical capability
-- Multi-cloud (AWS, Azure, Fly.io, Supabase, MongoDB) without clear strategy — operational complexity
-- Security training limited to phishing simulations — no secure coding education
-- WCAG compliance claimed but likely not formally audited for mobile apps
-- Talent assessment has no documentation — hard to inherit or continue
-- DORA "Elite" claim likely only applies to some products, not all
+- Self-assessment is overwhelmingly optimistic — pattern of "everything is great" may indicate lack of critical self-awareness `[Overview sheet — all categories]`
+- Answers frequently say "depends on project" without specifics — suggests no company-wide standards `[Systems Answers → Quality, Releases, multiple items]`
+- No data warehouse despite claiming data-driven decisions — limits analytical capability `[Systems Answers → Data / AI → "Do data warehouse, data lake, data marts exist?"]`
+- Multi-cloud (AWS, Azure, Fly.io, Supabase, MongoDB) without clear strategy — operational complexity `[Systems Answers → Architecture & Operation → "What is the cloud provider and infrastructure setup?"]`
+- Security training limited to phishing simulations — no secure coding education `[Security Answers → Training → "Are developers trained on security…?"]`
+- WCAG compliance claimed but likely not formally audited for mobile apps `[Systems Answers → Applications → "Does the application support accessibility (WCAG)?"]`
+- Talent assessment has no documentation — hard to inherit or continue `[People Answers → Talent Management → "Does a potential and performance assessment per employee exist?"]`
+- DORA "Elite" claim likely only applies to some products, not all `[Systems Answers → Releases → "What is the deployment frequency and lead time (DORA)?"]`
 
 ### Green Flags (positive signals)
 
-- Automated CI/CD with GitHub Actions — modern and maintainable
-- Dependabot/Renovate for vulnerability tracking — proactive approach
-- Confluence-based documentation culture — knowledge isn't only in heads
-- AI-forward strategy with multiple models — aligned with Tourlane's direction
-- Low stated infrastructure costs — if verified, this is excellent efficiency
-- Team retention appears genuinely strong based on what you know from working with them
+- Automated CI/CD with GitHub Actions — modern and maintainable `[Systems Answers → Releases → "Are deployments fully automated…?"]`
+- Dependabot/Renovate for vulnerability tracking — proactive approach `[Security Answers → Vulnerability management & Pen-Test → "Are vulnerabilities tracked?"]`
+- Confluence-based documentation culture — knowledge isn't only in heads `[Systems Answers → Development & Process → "Is documentation sufficient for knowledge transfer?"]`
+- AI-forward strategy with multiple models — aligned with Tourlane's direction `[Systems Answers → Data / AI → "Does an AI strategy exist and implemented?"]`
+- Low stated infrastructure costs — if verified, this is excellent efficiency `[Systems Answers → Architecture & Operation → "What is the monthly infrastructure cost…?"]`
+- Team retention appears genuinely strong based on what you know from working with them `[People Answers → Teams and Organisation → "What is the retention risk?"]`
 
 ---
 

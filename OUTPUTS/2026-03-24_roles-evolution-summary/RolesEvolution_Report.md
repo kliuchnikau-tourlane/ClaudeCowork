@@ -12,9 +12,9 @@
 
 **Engineering Managers** are evolving to a higher level — closer to a Head of Engineering function. As engineers become more autonomous, the EM moves toward broader area ownership, cross-team strategy, and organisational design. What's new: EMs need to design processes for the AI-augmented reality, drive knowledge management strategy, and protect teams from burnout as productivity increases.
 
-**Workflow** won't simplify as much as people predict. Faster delivery increases burnout risk, so processes that protect focus and mental capacity (like sprints) become more important, not less. Engineers taking on product responsibilities means more cross-team coordination, not fewer meetings.
+**Workflow** won't simplify as much as people on the Internet predict. Faster delivery increases burnout risk, so processes that protect focus and mental capacity (like sprints) become more important, not less. Engineers taking on product responsibilities means more cross-team coordination, not fewer meetings.
 
-**People need to develop:** engineers — code review, product thinking, travel domain expertise, full-stack generalism, ownership mindset, AI fluency. EMs — coaching through AI transition, new process design, knowledge management, team health protection.
+**People need to develop:** engineers — code review, product thinking, travel domain expertise, full-stack generalism, ownership mindset, AI fluency. EMs — cross-team technical strategy, org design, stakeholder alignment, coaching through AI transition, new process design, knowledge management, team health protection.
 
 **What the company needs:** space for teams to experiment with new models, investment in LLM-ready knowledge management, a deliberate company-wide AI strategy, and updated role definitions and career frameworks. We don't have rigid processes and we're not too large to change — but we need to do it intentionally.
 
@@ -73,8 +73,11 @@ For **engineers**, the skills that matter most are shifting:
 - **Independence and ownership** — driving your own agenda for your area, rather than waiting for someone to define the work.
 - **AI fluency** — knowing how to work effectively with AI tools, including how to structure knowledge and context so that AI produces better output.
 
-For **EMs**, the focus shifts toward:
+For **EMs**, the shift toward a higher-level, more strategic role means picking up responsibilities that traditionally belonged to Heads of Engineering:
 
+- **Cross-team technical strategy** — thinking about architecture direction, shared platforms, technical debt, and build-vs-buy decisions across multiple squads, not just within one team.
+- **Org design and hiring strategy** — thinking about how to structure teams for maximum autonomy and minimum coordination overhead. How many squads do we need, what should each own, what seniority mix do we need.
+- **Stakeholder and executive alignment** — translating engineering reality into business language. Why this investment matters, what's the risk of not doing something, where engineering capacity should go. Learning to speak in business outcomes, not just technical delivery.
 - **Coaching people through the AI transition** — helping each engineer find their way in a changing environment. Some adapt quickly, others need support. This is individual, not one-size-fits-all.
 - **Designing new processes** — not automating old workflows, but inventing new ones that fit how work actually happens now.
 - **Knowledge management strategy** — making sure the company's knowledge is organised, maintained, and structured for both humans and AI agents.

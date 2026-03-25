@@ -6,6 +6,20 @@
 
 ---
 
+## TL;DR
+
+**Engineers** are shifting from task executors to independent area owners who make product decisions, run experiments, and review AI-generated code. Code review — not code writing — is becoming the core engineering skill. The future engineer is a full-stack generalist with deep domain knowledge, owning their area end-to-end.
+
+**Engineering Managers** aren't being disrupted — the role is being validated. The things that matter most (people development, judgment calls, shaping how work happens) are exactly what AI can't replace. What's new: EMs need to design processes for the AI-augmented reality, drive knowledge management strategy, and protect teams from burnout as productivity increases.
+
+**Workflow** won't simplify as much as people predict. Faster delivery increases burnout risk, so processes that protect focus and mental capacity (like sprints) become more important, not less. Engineers taking on product responsibilities means more cross-team coordination, not fewer meetings.
+
+**People need to develop:** engineers — code review, product thinking, travel domain expertise, full-stack generalism, ownership mindset, AI fluency. EMs — coaching through AI transition, new process design, knowledge management, team health protection.
+
+**What the company needs:** space for teams to experiment with new models, investment in LLM-ready knowledge management, a deliberate company-wide AI strategy, and updated role definitions and career frameworks. We're the right size to move fast on this — but we need to do it intentionally.
+
+---
+
 I've been thinking about how AI is changing the way we work — not in theory, but practically, on our teams, at Tourlane. What follows is not a strategy document or a proposal. It's me thinking out loud about what I'm observing, where I believe things are heading, and what I think we should be paying attention to. I'd love for this to start a conversation.
 
 ## The Engineer Role: From Task Takers to Area Owners

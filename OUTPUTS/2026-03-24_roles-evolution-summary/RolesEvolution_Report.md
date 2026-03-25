@@ -22,7 +22,7 @@ All of this requires quite a lot of engineering experience, breadth of skill, co
 
 ## The EM Role: Enabler, People Leader, Transformer
 
-My focus as an EM is already on people — enabling them, removing impediments, helping them grow. My teams are senior and self-organising; I don't manage tasks or run execution. That doesn't change. What changes is what "enabling" looks like in the context of AI transformation.
+My focus as an EM is already on people — enabling them, removing impediments, helping them grow. My teams are senior and self-organising; I don't manage tasks or run execution. That doesn't change. If anything, AI validates what good EMs have been doing all along: the things that matter most — connecting people, shaping how work happens, making judgment calls that no tool can automate — are exactly the things the company will need more of as AI takes over the mechanical parts of engineering. The EM role isn't being disrupted. It's being confirmed.
 
 The most important thing I can do right now is help transform how we work, not just automate today's processes. There's a real risk that we take our existing workflows and bolt AI onto them — making the old way slightly faster without rethinking whether the old way still fits the new reality. I believe we need to build **new processes designed for the new reality**, not just accelerate the old ones.
 
@@ -34,11 +34,41 @@ Another area I think requires serious attention is **knowledge management**. As 
 
 I've seen predictions that meetings will dramatically decrease with AI and smaller teams. I'm not sure I agree, at least not in a straightforward way. Within a team, yes — ceremonies may shrink or simplify. But if engineers take on more product responsibility and make more decisions in their areas, they need to participate in more coordination *outside* their team. Previously, engineers worked independently for a two-week sprint with rare meetings, and managers handled the cross-team alignment. If engineers are now bringing their own product perspective, they need to be in more of those conversations. The overall meeting load may stay similar — it just shifts in nature from internal rituals to external coordination.
 
+## How Workflow and Collaboration Change
+
+There's a lot of talk in the industry about removing process as AI makes teams faster — getting rid of sprints, simplifying tickets, replacing standups with AI-generated summaries. I think this misses something important.
+
+Yes, the idea-to-shipping loop is compressing. When you can prototype in a day instead of a sprint, you can validate ideas faster and course-correct sooner. That's real, and it changes how we think about planning and delivery.
+
+But faster doesn't mean better if people burn out getting there. I'm already seeing that as engineers become more productive with AI, the expectation of output goes up — and with it, the risk of exhaustion. When an engineer can get more done in a day, the temptation is to fill every day to capacity. More efficiency quietly turns into more burnout.
+
+This is why I think processes that **protect focus and mental capacity** are becoming more important, not less. Sprints, for example, aren't just a planning tool — they're a container that limits how much work we take on at a time. They protect people from the pressure to always be shipping the next thing. In a world where building is fast and cheap, these guardrails matter more than ever. The same goes for any process that prevents constant context switching, which is one of the most draining things about engineering work.
+
+The real workflow change isn't about removing meetings or ceremonies. It's about being intentional: keeping the structures that protect people's energy and focus, while letting go of the ones that are just overhead. Standups, for instance, were never about status updates on our teams — they're about alignment and making sure people connect at least once a day. That's worth keeping. What's not worth keeping is process that exists only because "that's how agile works."
+
 ## What Worries Me
 
 **Quality and trust.** Travel is a domain where errors have direct business and customer consequences. A pricing bug, a booking edge case, a broken itinerary — these aren't abstract quality concerns, they're revenue and reputation. As we rely more on AI-generated code, we need to be honest about the fact that reviewing AI output is hard. The code can look correct, pass tests, and still be subtly wrong. We need strong verification practices, and we need to resist the temptation to prioritise speed over correctness.
 
 **Strategy vs. randomness.** My bigger worry is that we adopt AI tools randomly, without a coherent strategy. Everyone uses different tools in different ways, there's no shared understanding of what good AI-augmented work looks like, and we end up with a patchwork instead of a transformation. The good news is that as a company we're in a great position to do this well — we're not so big and rigid that change is impossible. We have the flexibility to adjust to the new ways of working. But we need to do it deliberately and invest time and thinking into it, because there are no "industry standards" to follow anymore. The new standards are being invented and experimented with right now, by companies like us. And since this is experimentation, we need to expect that some things will fail and not work as envisioned — there are no "years of practice" behind any of this yet.
+
+## What People Need to Develop
+
+For **engineers**, the skills that matter most are shifting:
+
+- **Code review** — reading and critiquing AI-generated code is now the core daily activity, not writing code from scratch. This requires deeper expertise, not less.
+- **Product thinking** — understanding *why* something should be built, not just *how*. Questioning requirements, proposing alternatives, running experiments.
+- **Domain knowledge** — deep understanding of Tourlane's travel business: booking flows, pricing rules, inventory logic. AI can write generic code, but it can't know our business. This is what makes an engineer irreplaceable.
+- **Full-stack generalism** — the ability to work across the stack rather than specialising in one layer. AI tools make it possible for one person to cover what used to need two or three specialists.
+- **Independence and ownership** — driving your own agenda for your area, rather than waiting for someone to define the work.
+- **AI fluency** — knowing how to work effectively with AI tools, including how to structure knowledge and context so that AI produces better output.
+
+For **EMs**, the focus shifts toward:
+
+- **Coaching people through the AI transition** — helping each engineer find their way in a changing environment. Some adapt quickly, others need support. This is individual, not one-size-fits-all.
+- **Designing new processes** — not automating old workflows, but inventing new ones that fit how work actually happens now.
+- **Knowledge management strategy** — making sure the company's knowledge is organised, maintained, and structured for both humans and AI agents.
+- **Protecting team health** — as efficiency increases, so does the risk of burnout. The EM needs to watch for this and make sure that "more productive" doesn't become "more exhausted."
 
 ## What I Think We Need
 

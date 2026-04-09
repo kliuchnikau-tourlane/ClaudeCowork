@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.cowork.granola-export</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/opt/homebrew/opt/python@3.14/bin/python3</string>
+        <string>/Users/mb-113/Projects/ClaudeCowork/scripts/granola-export.py</string>
+        <string>--date</string>
+        <string>today</string>
+        <string>--output</string>
+        <string>/Users/mb-113/Projects/ClaudeCowork/MeetingNotes/</string>
+    </array>
+    <key>StartCalendarInterval</key>
+    <array>
+        <!-- Monday through Friday at 16:55 -->
+        <dict>
+            <key>Weekday</key><integer>1</integer>
+            <key>Hour</key><integer>16</integer>
+            <key>Minute</key><integer>55</integer>
+        </dict>
+        <dict>
+            <key>Weekday</key><integer>2</integer>
+            <key>Hour</key><integer>16</integer>
+            <key>Minute</key><integer>55</integer>
+        </dict>
+        <dict>
+            <key>Weekday</key><integer>3</integer>
+            <key>Hour</key><integer>16</integer>
+            <key>Minute</key><integer>55</integer>
+        </dict>
+        <dict>
+            <key>Weekday</key><integer>4</integer>
+            <key>Hour</key><integer>16</integer>
+            <key>Minute</key><integer>55</integer>
+        </dict>
+        <dict>
+            <key>Weekday</key><integer>5</integer>
+            <key>Hour</key><integer>16</integer>
+            <key>Minute</key><integer>55</integer>
+        </dict>
+    </array>
+    <key>StandardOutPath</key>
+    <string>/Users/mb-113/Projects/ClaudeCowork/scripts/granola-export.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/mb-113/Projects/ClaudeCowork/scripts/granola-export.log</string>
+</dict>
+</plist>

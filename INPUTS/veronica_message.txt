@@ -1,0 +1,3 @@
+Write a short Slack message that I can send to my VP alongside the document.
+I want to say that this doc includes everything I gathered in a day from Kristina, Magdalena, Karolina. The proposal doc was reviewed and approved by them. The proposal is the option that works in Tourlane long-term interests. And it is relevant in any case: if we acquire Lambus or not this is what we should plan to do.
+Also mention, that this document is long, because it includes detailed Migration Workstreams section that should be refined and transformed into real development plan with a roadmap separately, after the core decisions are made. I included it to have more data written for tech team onboarding and to have a starting point for the future plan.

@@ -2,7 +2,7 @@
 Type: person
 Role: Staff Engineer for the backend teams.
 First seen: 2026-04-07
-Last updated: 2026-04-09
+Last updated: 2026-04-10
 
 ## Context
 Owns catalog system design and rollout plan. Key person for Wetu deprecation and destination/area architecture.
@@ -16,3 +16,4 @@ Owns catalog system design and rollout plan. Key person for Wetu deprecation and
 - **2026-04-09** — Led Wetu accommodations sync meeting. Has a solid API draft for catalog accommodation search (on Miro, not yet documented).
 - Confirmed: accommodations replacement is straightforward — expose catalog content via search endpoint (name + country), Trip Planner switches from Wetu/Elephant to catalog.
 - Destinations replacement is harder and less urgent. Raised content licensing risk: Tourlane may not have proper legal rights to use Wetu content (images, descriptions for areas) outside Wetu's itinerary builder — Wetu already asked Tourlane to reduce API load. Proposed interim solution for areas: pull existing Wetu area data into Elephant storage and serve from there, but geo shapes are unreliable (Wetu stopped guaranteeing them since API change). Will prepare documented API draft from Miro board for Monday discussion with Gregor. (Source: Wetu for accommodations — gather info)
+- **2026-04-10** — At alignment meeting, clarified that the quickest path for touristic areas is maintaining existing feature set. Emphasized that if Spaeti doesn't solve the Wetu dependency, TP2 will build it in — making it a permanent dependency. Confirmed accommodation search API foundation is reusable for both manual items replacement and future search capability. Highlighted that room-level mapping is secondary priority since an external service exists as fallback. (Source: Align Next steps touristic area domain)

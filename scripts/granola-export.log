@@ -1,1 +1,7 @@
 /opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python: can't open file '/Users/mb-113/Projects/ClaudeCowork/scripts/granola-export.py': [Errno 2] No such file or directory
+Exporting Granola notes for 2026-04-10...
+  Cache: /Users/mb-113/Library/Application Support/Granola/cache-v6.json
+  Exported: Support Portal Migration — Technical Deep Dive -> Support-Portal-Migration--Technical-Deep-Dive.md
+  Exported: Benefits 2026: Briefing for Leaders + Q&A -> Benefits-2026-Briefing-for-Leaders--QA.md
+  Exported: [Align] Next steps touristic area domain -> Align-Next-steps-touristic-area-domain.md
+Done. Exported 3 meeting(s) to /Users/mb-113/Projects/ClaudeCowork/MeetingNotes/2026-04-10/

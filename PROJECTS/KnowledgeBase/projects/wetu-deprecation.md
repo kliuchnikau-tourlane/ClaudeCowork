@@ -1,7 +1,7 @@
 # Wetu Deprecation
 Type: project
 First seen: 2026-04-07
-Last updated: 2026-04-09
+Last updated: 2026-04-10
 
 ## Context
 Removing Wetu (V2) as the source of truth for accommodations, destinations, and touristic areas across Trip Planner and related systems. Cross-team effort involving Spaeti, Mochi, and potentially Foxes. THE most discussed topic of the day — this is the critical blocker for supply extension.
@@ -28,3 +28,4 @@ Removing Wetu (V2) as the source of truth for accommodations, destinations, and 
   - Phase 1 (C2) = replace manual accommodation input in TP1 — Spaeti exposes catalog content API (search by name + country code), Trip Planner switches from Wetu/Elephant to catalog.
   - Phase 2 (likely C3) = replace accommodation map search with full catalog search (needs additional filters). The search API being designed serves both Wetu replacement AND regular catalog search (not separate implementations). Wetu API currently returns mixed item types (accommodations, areas, rentals) — need to clarify which non-accommodation types Trip Planner actually uses. Content licensing risk: Pedro raised that Tourlane may not have legal rights to store/use Wetu content outside their itinerary builder (need legal review). Interim solution for areas: pull existing Wetu area data into Elephant, but geo shapes unreliable since Wetu API change. Bulk of implementation work is on Trip Planner side, not Spaeti. Erlinis shared screen recording of TP1-Wetu interaction (Slack link preserved in meeting notes).
   - Monday: Gregor returns, deeper dive planned. (Source: Wetu for accommodations — gather info)
+- **2026-04-10** — Formal alignment meeting held with Christine, Robert, Claudia, Pedro, Wieland, Aliaksei. Robert identified three types of destinations: aspirational, administrative, and search (newly introduced by TP2). The search use case adds significant complexity — TP2 uses touristic areas for accommodation recommendations and transport routing, meaning losing areas isn't just a conversion problem but also impacts core search functionality. Discovery is still in "problem phase" per Christine — next check-in for problem sign-off to happen during cycle planning at end of month. Wieland on infra week next week. Priorities: inspirational touristic areas replacement is top priority; search concept is secondary ("that train has left" but lower priority). Room-level mapping is deprioritized since external service exists as fallback. Pedro confirmed: if destinations work doesn't make it into next cycle, they'll be blocked from launching new destinations. (Source: Align Next steps touristic area domain)

@@ -123,6 +123,18 @@
   - Erlinis shared a detailed screen recording showing how Trip Planner frontend communicates with Gecko backend to Wetu. Link in Slack: https://tourlane.slack.com/archives/C0ALA2Q6Y92/p1775719185915679?thread_ts=1775663081.692889&cid=C0ALA2Q6Y92. Pedro and Kiryl already reviewed it. Important context for Monday's discussion.
   - Source: Wetu for accommodations — gather info (2026-04-09)
 
+- [ ] **Review Markus's support portal migration roadmap on Confluence** - due 2026-04-17, p2
+  - Markus wrote a detailed migration roadmap document. Review it to prepare for cycle 2 planning — need to decide which phases to include and whether to allocate Markus full-time to migration. Link: https://tourlane.atlassian.net/wiki/spaces/TPD/pages/4651155469/Support+Portal+to+CFA+Migration+Roadmap
+  - Source: Support Portal Migration — Technical Deep Dive (2026-04-10)
+
+- [ ] **Follow up with Markus on effort/risk details per migration phase** - due 2026-04-15, p2
+  - Asked Markus during the meeting to add effort estimates (sprint counts) and risk descriptions per phase to his Confluence document. Follow up to make sure it's done before cycle planning.
+  - Source: Support Portal Migration — Technical Deep Dive (2026-04-10)
+
+- [ ] **Review learning budget approval policy on Confluence** - p3
+  - New learning budget process announced for leaders. Employee-driven requests, manager is quality gate. 8 approval criteria. Development plan required before any request. Form on Confluence. Be ready if team members submit requests.
+  - Source: Benefits 2026: Briefing for Leaders + Q&A (2026-04-10)
+
 ## Waiting On
 
 ## Someday

@@ -1,0 +1,294 @@
+# Summary from Granola:
+
+### Support Portal Migration Overview
+
+- Markus wrote comprehensive migration guide: [https://tourlane.atlassian.net/wiki/spaces/TPD/pages/4651155469/Support+Portal+to+CFA+Migration+Roadmap](https://tourlane.atlassian.net/wiki/spaces/TPD/pages/4651155469/Support+Portal+to+CFA+Migration+Roadmap)
+- Current portal built as monorepo with Next.js and TypeScript
+- Uses Strapi CMS for FAQ content management
+  - Supports 3 languages (German, French, English)
+  - Vector database for AI-powered search
+  - PostgreSQL backend via Supabase
+- Migration target: integrate into CFA project using React and new UI framework
+
+### Phase 1: Authenticated Customer Area
+
+- Scope: migrate logged-in user functionality to user portal
+  - Trip visualization (already live since last Monday)
+  - Invoice section (fetches from Salesforce)
+  - Emergency contact information
+  - Same components used across guest/admin views
+- Effort estimate: 2-3 sprints (Markus full-time focus)
+- Risk level: Medium-Low
+- Main challenge: converting Next.js components to React with new design system
+
+### Phase 2: AI Support Form & Chat
+
+- Core functionality migration
+  - General support form with AI responses
+  - Modification chat for trip changes
+  - Vector store integration for FAQ matching
+  - Salesforce case creation workflow
+- Current metrics: 14,000 customer requests processed
+- Effort estimate: High complexity, high risk
+  - Heavy AI logic tightly coupled to Next.js
+  - Vector database dependencies
+  - Sensitive customer interaction flows
+- Requires complete rewrite of AI response system
+
+### Phase 3: Admin Dashboard
+
+- Employee support tools
+  - Customer request history view
+  - Trip data access for support agents
+  - Analytics dashboard (replacing current Google Sheets)
+  - Support request tracking and management
+- New admin view launching next week
+- Requires separate CFA sub-application for employee access
+- Lower priority than customer-facing features
+
+
+
+# Full Meeting Transcript:
+
+Meeting Title: Support Portal Migration — Technical Deep Dive
+Date: Apr 10
+Meeting participants: Markus Klemann-ext
+
+Transcript:
+
+Me: Ну, sorry, я нечаянно. Ну что мне известно? Испугалась очень чина. Извини, закрывай дверь мне её. Мне отрешёт уже. Hello?
+Them: Aló. Ja, Ulrich
+Me: How are you doing?
+Them: mean, it's Friday, so also good time. But still a lot to do today.
+Me: Yeah.
+Them: And yeah. So you you're back this week, yeah, already from the
+Me: Yeah. Yeah. I'm back this week trying kinda kinda a lot of things need to prepare for cycle planning and for when is back. We have a lot of things kind of happening for all the teams, basically. And nowadays, kind of it's clear that for this cycle, every pretty much every team has twice the amount of ideas that they want to tackle. And we be able to pull all of that. So we are kind of trying to figure out, to estimate, to assess kind of kind of priorities and figure out what we gonna be focusing on.
+Them: cycle two is like the the second part there for year or is cycle two or what what is cycle two?
+Me: Cycle two is, like, next quarter. So, yeah, kind of renamed quarters to cycle
+Them: Okay.
+Me: this year. Yeah. Just because the first quarter started on February, February 1 rather than January 1. So it's, like, not a quarter, but you're not confusing. Now it's like back to weird synchronization. So they're doing, like, the next cycle slash quarter, and it's gonna be, like, two months. So we can actually start cycle
+Them: Ok.
+Me: three as a quarter three and get rid of
+Them: Ah, okay. So
+Me: terminology. So
+Them: okay. So it's a short hiccup, let's say, but then in the third circle the start, I think in the done then, ja? Also the six also
+Me: yeah. Yes. Q three starts
+Them: Na,
+Me: July, and we want to kind of start q '3 and four. So, like, as usual, without this kind of
+Them: Okay,
+Me: asynchronous
+Them: Ja, also jetzt, glaub ich, Also ja, Lead Center to Computing, wenn dann dann zum Beispiel Menschen sagen, miss light or something else. So it's good to be.
+Me: Yeah.
+Them: In Leinwand.
+Me: Basically, next quarter is, two months. It's May, June.
+Them: Ok.
+Me: Yeah, we want to be tackling a lot, but yeah, everyone needs something. A lot of things happening and yeah, I wanted to discuss with you, with Veronica, asked me to follow-up on. I think, like, Cristina was on this topic since February. Right? And it was kind of back and forth. It
+Them: No hay dos cosas.
+Me: so you're aware of all these kind of ideas kind of this new user portal and that they're kind of creating this user portal for user self-service. It's logical that's kind of self-service and my trips and all the other things. There rather than support portal. Right?
+Them: Hörst Du dir aus, wär dich's haben, man für gau. Ey, was auch so mit Schockläppste, ja, wie fast Letzte her, hab ich fast auch von mir. Also er er folg auch so mit, I can handle these things also come clearly. Say, and the support let's say. Also wir hätte discussions with Christina, we'd also say, okay, I I can do this task now, which I planned. For example, this was now the trip visualization for the customer itself and also now for the tool and employees. And this is all, say, live now since last also last week Monday, so
+Me: Yep.
+Them: live, and this is basically the same view also what the customers have in mobile, and this also was the, let's say, in very short time, let's say, You know, of course, just in the next deck, what we have in Columbus. Yeah? So in next and yeah, this push is there. Yeah, of course. And then now is in the studio correctly, the next two piece I mean, that's also your basically given this two. Is about, okay, how we can extract now the authenticated area what we have for the customer outcome as a public child and place it into this portal business. Of course, mainly, of course, also then the trip in which are which I I I already wrote.
+Me: Yep.
+Them: And, ja, I mean, also, I mean, I saw you in the position this morning, but also book now to our time. I sent you ready link could in this page about these things and about your questions already.
+Me: You sent me a link
+Them: In the chat here. In the
+Me: Ah, okay.
+Them: In the chat here. In the chat of of meeting here. Yes.
+Me: So this is support port
+Them: Yeah. Yeah. Of course, I we we can also go all of this together, maybe a share, but then we can go to the
+Me: So this is, like,
+Them: step by step. But it's already
+Me: document that you wrote recently or
+Them: No. No. I mean, some minutes ago. Some minutes ago. I mean, da ist ist son wir in der typischen this morning, wenn ich sozusagen time now yet to see what we have all really in Bristolportal and what already has the CFA project. Yeah?
+Me: Mhmm.
+Them: Let's say. And then, of course, I mean, I think important task now if we can or or or, yeah, over we align what we can do in this circle two, ja? And what I think also is possible possible still, what also Hans mentioned, yeah, that we can migrate the authentic authenticate area, which we already have. In this property hotel. I can migrate, of course, to a sub yeah. So different components in the CFA project. Yeah. Mean, this is still, I think, possible, and we are yeah. Because, I mean, you have structure's the same almost, and the business is also like TypeScript written. Let's say, yeah, source the same. Basically, what what, of course, changes is, yeah, also how we communicate, com to back end. And, of course, that with the front end have to be yeah, yeah, set up with this what's again with name? Fusion new UI framework, yeah?
+Me: Yes.
+Them: Das ist still possible, of course, ja?
+Me: When see Right?
+Them: Ja.
+Me: Yep. Yep.
+Them: Ja, okay. Break this here really, down here in different phases, ja? And here we phases one, for example, this is now the step, let's say, what we can do in the circle two. Yeah? So what I meant, but we are maybe we can just here go over here these things step by step. Yeah. Because I think as I you want to have, like, a full picture. Yeah? I would like the full picture, what have to be done, or what's, like, features the support portal have come completely, yeah, to get an idea what, yeah,
+Me: Yeah. Yeah.
+Them: have to be done, and there may be risks, let's say. Yeah?
+Me: True. Yeah. Because, if you've seen like Hans did some three options proposal like, back in February, I guess, right, and with with estimates. And now what's Turlane is pushing for is, like, a little bit different. Right? It's more of migrating things into Draw Lane stack, migrating CFA repo, monorepo, upgrade it to, like, React, right? And using this design system, also kind of using all the kind of component that user portal is using. So kind of making it part of user portal and doing it in a user portal kind of patterns. Right? Because they have, like, some agreements. They like, some components, and we need to kind of if we are to migrate it, we are to kind of plug it in so it kind of their target repository structure and kind of conventions and everything.
+Them: Okay. Ja, das wird heute dann. Okay. Yeah. But I think we can just go through the look material. I think I I I also already each important feature. Let's say, with also with content management, with the front end, with the with the two forms. Yeah. Like, this general form of modification chat and these things, ja, but, you will see this when you're in the in the in the So, ja, of course, ja, das Dokument ist noch hier about to how to complete migrate the proposal into the CFA. Project. I mean, also overall, let's say, Berthal is also, like, monoepo, yeah. We have, like, two separate projects One project is content management. System is scrappy. We have Good people fill in the the data there. Yeah? And our our our software part is web web API. As next, and we fetch from this copy system the FAQ data, let's say. Yeah? We have number two projects we have inside our Monorepo
+Me: Mhmm. And so so in this
+Them: LSR here.
+Me: strappy CMS, we only have FAQ, or we also something else? Only if
+Them: No. No. Just so true. I I feel cool.
+Me: Okay.
+Them: No, we have for These things here. Yeah. Also, like also also we have, like like, let's say, important tables there. One important table is, like, the categories itself. Yeah? So we now for example, here, Let me go here. We have like here, like, category. Wait. May I put it in English maybe. Aber in English, we don't have so much content. Ja, okay, erzähl
+Me: Yeah. That's fine.
+Them: easy. Also here's one category, ja, as board flight.
+Me: Yeah. Yeah.
+Them: Information, yeah, and many, of course, items are here assigned to this. Yeah? And and of course, we support free different languages, French, German, and English for each FAQ item and for each FAQ Kicka two.
+Me: Mhmm.
+Them: This is saved. And ja, of course, this is like normal content management system, ja, so this whole view here can be Also, like, im
+Me: Sure.
+Them: WordPress, yeah, which text editor can be modified pictures can be uploaded. You you have, for example, here. Yeah. This can be uploaded as well here. And, yeah, we also have here, like, a rating. Yeah. But this is, yeah, just some simple logic. Yeah. The customer can just rate like, FSQ item, and then we get feedback. Yeah? We mail
+Me: And these beneferatings, we store them somewhere, or we just email
+Them: Aber ist halt nicht mehr.
+Me: Okay.
+Them: Das Mail von euch, das Mail, ja.
+Me: We don't don't persist anything when when the
+Them: Bist dort gründlich, na, das nur, damit dass das das hier
+Me: Mhmm.
+Them: just a simple E-mail here. This is FFQ. One user said, this is not
+Me: Yeah. Yeah.
+Them: helpful and, yeah, that's it. Und ja, I mean, wer
+Me: Mhmm.
+Them: planned there. Yeah? And because, of course, we also keep in mind because then, of course, some of these things will change, of course, yeah, because some of these tickets then mixed no more sense to implement into the current system. Then, of course, But then, of course, with new CFI CFA system then. Or maybe just, mean, let's say here's one of these tasks, for example, about, that the customer can give some feedback for example. Wenn wir Menschen das auch so becodet, c I I mentioned this, this haben wir hier, ja.
+Me: Mhmm.
+Them: Okay, but ja, maybe this goes the best step. Also general, of course, also our tech stack is a monorepo, ja, als called Humorepo, ja? Also das das das das das das das das das das das like a framework, yeah, for That is also very widely used, ja, in in in in and as mentioned, we have two big projects. Yeah. One one is, like, just a web view. And the other application is just the content management view, and we have these three different Yeah. And, of course, also a lot a lot of, like, API and T versions, yeah, which I which I will show you in a second. Yeah. Then from from the basic setup,
+Me: On CMSV, CMSV is like CMS is headless, and we have our own front end on top of it.
+Them: Ja, also ich kann also schauen was gerne.
+Me: So, like, si meses,
+Them: ja, production or not.
+Me: basically for, I don't know, a part, right? So we have, like, authenticated user part that we really want to migrate to,
+Them: Lock-genauen-des-System, ja, eins now I'm in the... Yeah, for lock in, ja? And here for example, also, of course, show these informations here. So also we
+Me: Yeah. Yeah.
+Them: need, also we need from the new, user portal what what we have in in the, CFA project, the meet then if if I call, of course, to the system. Yeah? Yeah. But but but but but
+Me: Okay. It's like
+Them: Ist ist das das ist das das ist das ist Da fing Milikat ja, because doing the same, of course, yeah, because over, like, here, front end is also, of course, complete another software as we're as for content management system. Yeah? So I have all if I calls, we're the system and we're we're we're if I calls, are the same then, yeah? Because this is just technical functions and we we we of course, we from and Yeah. So this is just like copy pasting. Yeah. And nothing really have to be my greatest, let's say. So this is very, like, straightforward. Yeah. And, yeah, and this now here, the phase one is about the my question from just for of I think area then you also follow for about about phase two. Okay. We have, like, this front end. And also where the customer is there, and it's not-login we are there. And this is, of course, about the context form and what you have here. Also basically, what we have, let like, here. Also, this also just the search here. Also, we just for example, also here the data we have from the content management system. And, also, there's some vectors door searches and also, yeah, some over like some checks, yeah, to find the correct and matching SIQ data, let's say. Yeah? Und das ist neuer Part. Und also hier like result page result page.
+Me: not purely manually managed, this FAQ. So it's also kind of suggestions from
+Them: Ja, ja. Also also also also so so so store, and we make their, like, Zoom montik check there. I mean, also each of these each of these data here is stored in a separate vector database. Yeah? And this is very practical because with this vector based churches then is very fast, let's say, a very good possible, yeah, to search in these data for the same wordings. Yeah? That's the reason, ja, it's ja, to find many things. Yeah, like in the fly Na, it's in German now. To fly... Und personal Letzter Jahr in Behold, Alpha Q Delta Years, ja? Also es das wär's like Vector Store. Business logic let's say, but yeah, but do the same, yeah? The business logic is written in TypeScript, ja? And this is, of course, in the pendant, let's say, from NextJS and can be also just, yeah, like
+Me: Ajá.
+Them: copy paste it, let's say, to the new project. Yeah? For this case.
+Me: Yep.
+Them: Yeah. And for Bank America, we're a bigger partner, of course, I mean, also system, we have, like, here, the And for example, we have two different kinds of categories. One is like a normal one, You can see here. Here's a a flag is destination. Category is here not set. Yeah? So it's false. So that means this category here, appears here on top. Also all of these here are not have no relation to to destinations.
+Me: Mhmm.
+Them: But we also have destination based content. For example, here, we have info missions about
+Me: Okay.
+Them: Brazil. For example, here, also category. And these things
+Me: Ajá.
+Them: here. For example, Brazil is I I cannot see it now. Ah doch, hier, da wer's it.
+Me: Yep.
+Them: And then's PSR and here the same, yeah, we have different FAQ items grouped, ja, for this hier, ja? So that's basically it, ja? These two parts here. Ja, and here's now Form, ja? And there, of course, is the big part that we have some AI I I process here. Ja, that we just gist of course some feedback, Maybe I can give you a short walk through here again. Right. I for supplements. Think I have some links Think I have some links here, I can easily open. Maybe that's a good idea. Mhm. Yes. Hören Sie das? Ja.
+Me: Yep.
+Them: Minus Lürmer now, aber da fing jetzt, wer ist vielleicht vor Ort The customers writing the inside. The key number, then the topic, This also here will be soon ich geh be removed, ja? So the customer don't have to choose this, because we can detect if they I I of course. We analyze here when we text. We know, of course, when, what
+Me: Yep.
+Them: topic we have to add to then. Yeah? But here in this case, the customers
+Me: Mhmm.
+Them: ask, like, normal questions. And this, for example, here content here, which is here, this is 100% inside the content from the ecosystem. So is a customers, touching this, for example here, wie fall der hit? Let's say. Also the question is here, yeah, where I find the booking number or booking Rufexempel. Ja, Tierforexempel ist, like the head, ja, a code, ja, so information is here. Let's say. And then we do in this moment here, yeah, we fetch Also we now, of course, what the customers asking, when we ask the Victor store, okay, do do have some the very high matches for this questions. Yes. You have. Okay? Then we then we have, like, maybe 15 or 20 maybe from this for queue. Data. And then we insert we wise, let's say, in the either. So that means the eye know about this data, and it's can respond. Yeah? So the customer wenn ich hier... Gut, ja? Er ist dann, wisst ihr, vom hier. Und dann ja ein Best-Case-Wednesday, customers hitting them here, yes, it was helpful, so no sales force cases when pretty then, ja? Or here it's when no nutt. Ja? I want staging. Okay. That's good. And then, yeah, as it was, case when it's okay. And then What I'd say is also, it's really heavy ja, so big topic, let's say.
+Me: Yep.
+Them: To point this. And this, of course, is not part of authentic area. Ja? So I make this by in tension here in phase two. Ja? Also das ist phase two, als board say have to switch I have to switch in a second. Alright. Einmal ja so hochscreen. Okay. Yeah. So I submitted now for for some seconds, I I submitted the request we had on staging. So 04/10/0924. If it is two hours, Yeah, okay. It's the same, yeah? So then we have, yeah, here, the form request. Let let let's say, and to see, you have a whole data here in this system. Yeah? Also so wie hier exakt respond what the I wrote. Yeah? So this year, is the same what, dense. And off here, where is it? Okay. It's way now. But this year was, like, a feedback. What would we
+Me: Mhmm.
+Them: I responded. And here, for example, we also log, okay, which FFQ data was used? And here, for example, okay, the question was, whereas the booking number and this here had a very high match, let's say, yeah, to this FAQ later here. So we in in solchitts viess things into the, ja, knowledge then from the aspect of the data let's say. Yeah? And, yeah, there are some more stuff inside here. Ja, weil ja, das, of course, ist son bisschen heavier hier für Logik. Wir finden die also safer like the Salesforce case. In best case, I'm logged in here and staging. I can just do it.
+Me: How exactly we are using it again? Superbase?
+Them: Also ich weiß es, like Postgres database. Also, will wir sind die eure Ausdauer, Forward Database. We use for the web software and for Struppy. Also das Postgres database.
+Me: So trappy works
+Them: Oh, yeah.
+Me: on top of fungus? Oh, okay, okay. Yep.
+Them: Adiós, adiós. Adiós.
+Me: Got it.
+Them: Mir gefällt es hier. Also also also hier kannst Du hier, also wir bist hier ja, ist Support-Pudel-Staging, where when we have, like,
+Me: Yeah. Yeah.
+Them: Yeah. Also, we use one database, but with two Schimmertas.
+Me: Mhmm.
+Them: Schemes. Und Scheme ist, dass von Websoftware, ja, form request here. Yeah? You see it here. Here many form requests. What we also have, like, contents from the Scrappy system saved in the same database, but in another yeah, In that state, and this we find here. Yeah? So and here, for example, is very too important tables. This, for example, here, ja? This is like so ja, the data from the FAQ data center. And store base is just like a hosted your managed wrapper for Postgres database. We will also Backups, ja? Das ist
+Me: Yeah. Mhmm.
+Them: Yes. Yeah. I don't want to show you the the Salesforce case, let's say. And, of course, I'm not not logged in. This is pub copy. Ja, spielt korrekt. Und hier, Expert in Salesforce, weil I think I can just click here. And then I have to replace the case ID. Before. Yeah. And here you can see now that the Salesforce case is
+Me: Yep.
+Them: created. Yeah? I ask, yeah, where is the booking number? And for example, here, you have for each request, we make, like, a summary. For the Also logic we ask. Also, each request we send, we summarize. Yeah? So the the agent then has more help and guidance what to do. Ja? In this case, ja, ah, könnte fine work, wir bekommen bla-bla-ja. Das ist also so excited, let's say, because it's a very simple question. But, yeah, we have some of course, more important things also then. Okay. Ja, this is, ja, this is also done, but was ist task, of course. Yeah. Maybe you can just, yeah, scroll a bit down. Okay. Maybe yeah, maybe we go maybe just straightforwardly again. I'm not not sure how much time we have and when we have left, ja?
+Me: We we booked, like, an hour twelve.
+Them: Genau, okay. Okay,
+Me: Mhmm.
+Them: Okay. Maybe first one step back. Yeah? Because you also ask what is the current Hector für Support ja? What we have. And here I made, like, a breakdown, yeah, about the backend's tech behalf. Yeah? And this is also we use
+Me: Yep. No.
+Them: wie Also content and backend is usually, separate. Yeah? And of course, endpoints, let's say. Okay. This is all there. The front end has to call this once. But there's no no will connection there usually, ja? Also so each time, wenn wenn wär's backend end point and the front end, what, to fetch it or to access is then this have to be written there on post sites, ja? Also webcam
+Me: Yep.
+Them: wir wir in in in And LPC is like a TypeScript function call, ja? And also here's good thing, but, for example, next or also next year s. Ich ich habe Front End, can just write a function call. Also also can just write a function to access the backend function because it's inside the same project, let's say.
+Me: Yep.
+Them: And so we where's then, like, auto complete. And usually, when it's not possible, you have to have, like, when, like, let's say. Yeah? Also das ist gut. I mean, also maybe show you a simple example for this. Okay. Das wird maybe pretty simple. Yeah. Also, we have, like, front end and we have back end. We just like get bookings And here's, like, fact fetch bookings. Yeah. And forget bookings, for example, die Hürse ID. And fetch U-Kings-User. Ja, und für you can just write this Also also also you can prevent this function let's say, and you know exactly then what this function needs.
+Me: Mhmm.
+Them: So, I mean, that's very I mean, like a normal function call. You can do to do the front end to call, like, a back end function. This is very fast then. Yeah? Because you don't have to write, like, separate functions. You can just write one function. Yeah. And this is nice. I'd say. I mean, this also bit No, ja, main approach. We have the same also in documents dashboard. I think. It's the same there. Yeah. So, this is already familiar least, also für, ja, also also also cooler, I think also, I think, using this in some next year as projects. Yeah. But I'm not sure. I'm not sure. Herbert, yeah, guess this? Wenn wir ja Fetch-Data, für example, ja, for authentication, we fetch for data. We fetch the gift informations. We set some contact informations. Think this is also from, Cliff Planner, I think. Yeah? Because we etch data about like, context data Hier ja, das
+Me: Mhmm.
+Them: hier, vor example, da fing das auch so, hedge from somewhere, ja? Von service. Or we also like for example, if a customer is on the road, we also fetch like we're's emergency numbers. Ja, something directly immediately, when when we hier schauen, dass eben emergency number there. Yeah?
+Me: Mhmm.
+Them: Yeah. Okay. Yeah. Then we also have a chat. Inside. I mean, this is not live yet, but Data vom hem
+Me: Yep.
+Them: itself. Yeah? And this was already some months ago already implemented. In the support portal. But it's not live yet. Yeah, because, ja, we decided to not live it live. But with with with this, for example, is also like a plant task, let's say. Yeah? But I think now, of course, when we decide now to, ja, stop here, of course, in in in this Then, of course, this have to be realigned. Ja, hab kostest das Task oder das feature for chatting for customer... This own data is, of course, just
+Me: Yep.
+Them: possible be able to log in. Yeah? And this feature then also have to be moved then to the CFA system. Ja, wenn die have, also ja, ist das Held-Adresse Recently quit live.
+Me: No, no, eso no.
+Them: Did you see this yet here? Okay, okay. Also also auch solche Parts of the sport, portal, ja? Ich auch so each employee can here look here to this and can cell. Yeah? And this here is the same view, which the customer seeing when he log in in his Spot portal view. Yeah? So you see here on the top, he sees, yeah, like, the trip summary. Ja, hier hier hier sehen wir PIN Code. This PIN Code is fetched from the Server.
+Me: Yeah.
+Them: Let's say. Okay? Then we have here invoice section, this invoice section fetches the data from Salesforce, yeah, and the show it here. And this hier, for example, is is the new big part, yeah, which, ja, post released last week, yeah. This was released for the customer itself. And
+Me: Yep.
+Them: also now for the people itself to, you know, to just look, for example, now into some data. And also it was also very nice Also ich hab example in documents Dashboard hier, wie auch so halt vielleicht hier LinkedIn Zeit, ja? So vom documents dashboard, yeah, we can see the trip and the the the the data here. For this thing. We can also jump now into the support, hotel, trip inside. Here. Ja, das sind ja und hier we can see or here like like a like customer support agent, say, has here the same view here of the trip like in the app? Ja, this is what we mentioned. And this, of course, is for bib task, of course, what we have to, yeah, migrate then.
+Me: Mhmm. I'm I'm clicking
+Them: Also das das heißt also
+Me: and this thing, basically, it's reused between guest view and admin view, and
+Them: Yes. Yes. Yes. Yes. The same component. It's it's the same component. It's it's the same. I mean, we're big, of course, heavy thing there is the a sink. ja, also wird zum Beispiel
+Me: Yep.
+Them: big, of course, Pertz Kid Wars, but it's it's it's of course, written in HiteScript, ja? So it also, of course, will be can be reused for the CFA project then and for for your for for for the main my question, let's let's say the big task is here just, yeah, to to migrate each next UI com on and here to the wrecked You mainly, yeah, the main task let's say, ja?
+Me: Yeah, yeah. So it will take, like, some adjust. And, like, overall, since kind of many components are used like, between guest view and logged in view and admin view. So it makes sense to migrate everything there. So they are kind of altogether reusing each other.
+Them: Sorry. Of course, mean we have some more things, ja? Also we have some more stuff. This will be released next week. Maybe I can also give you, like, a quick overview about this. Hope you have somewhere else because I have always have have to start with project, but this is not ready yet. Let me find hopefully a screenshot. Ah ja, okay, ja, some some smaller Screenshots, but got so nice. I can I can just give you a thought with you Aber wie das, das kommt, wenn wir halt mit Ja? I mean, okay. Bist jetzt hier. Ich habe Samesport Aber ist das auf view from a a prepare, ja, in this not buddiert, ja? Also Du bist zum Beispiel hier ist say, of of next week. Yeah? Because as I mentioned before, be safe each of the support requests We save in the database. Yeah? That I
+Me: Mhmm.
+Them: again this one here. Yeah? Also so we have also each each of all of this
+Me: Okay. We started here. And we store them, and we send them to Salesforce.
+Them: Yes. Got it. Yeah. Yes. Yes. Yes. I mean, also each here. Yeah? We have I think, thousand, I think, all ready support requests. Not sure if I see here number. Oh, ja, hier. Von fourteentausend, ja. Also wir haben fourteentausend customer
+Me: Yeah.
+Them: requests, ja. Wir haben journal form oder wir this ja? Und customers asking here if Salesforce case, for example, here is credit Let's say what's the data here was used, for example, and also what the for example, where responded? Also ich hab vielleicht 'n an 'ner dieses Let's say, yeah, what, for example, language was written from the customer, for example, and, what the customer one, for example. Yeah, here, like a refund or whatever. Before, we saved this and, or, yeah, or we think we Data hier Ja, und das gut geschieht ja, aber da aber was bist ja. Also bin bist ist just lecke vom data we saved in Google Sheet, ja? Interessier bei example hier now, okay, we have the the inflection rate, for example, here from eight to nine percent because the customer was happy with the response, from the let's say, and don't Didn't then Salesforce jetzt, für example, ja. Also wir wissen's hier, zum Beispiel wir wissen's hier,
+Me: Yep.
+Them: Also hier und Christine auch so ja, like ja, but bis, Finger, for example, will be completely like, removed. I mean, possibly, have then next week, like, a new function in the sales in in in Like, Ja, das ist dass wir like a Screenow, ja? Also dann, für Samuel Christina, auch vielleicht kann check den hier für Support kann jetzt ja in eure ja, we have a chat, let's say, can make some x here.
+Me: Yep. So it's replaced
+Them: Next week. Back.
+Me: Excel sheet
+Them: Ja, das ist Yes, yes, correct. Because I I also I also don't like this here. Let's say I I like to have more software, of course, and not the sheet. I have the sheets yet, let's say. But this is client, of course. Ja. Und das, for example, ist, wir wissen's like part of like his ja? Because, I mean, I I I make you some, like, a pulse. Yeah? Also
+Me: Yeah. Yeah.
+Them: phase one for watch us for of an area for for the customer area. Phase two was for the short term general form and modification chat.
+Me: Mhmm.
+Them: Which I can also show you again So we talked about the same. Let's use this here. K, wenn hier, for example, the topic is here at just my let's say, then this opens here. They can ask, okay. What can I do here? And then the chat is responding. Okay. German. Sorry about that. Okay. I can just ask yeah, change my flight. Let's say, Yeah. Whatever. And then I can say, okay. Everything looks fine. Sent the request. Yeah? So now summary. And then I can just say confirm. Yeah. So then this request here. Yeah. Like, okay. What the customer ask, he asked about flights. Change is, okay, you want to change for flight one the later I mean, das hat zum Titel, ja, so ist er, not really im hier. But now for example, I can just say confirm, Yeah? And then this, of course, we request the also then be stored inside the database I'm on staging. Good. But I'm not on production for Western. The people have to do something there. But you can wait some seconds. K. Done?
+Me: Okay. Vamos
+Them: So now it has to be here. Wenn wir uns staging. So it means you have to be the new response. Yeah. It's 09:45 or 11:45. Correct?
+Me: Mhmm.
+Them: Yes. You can see the source was not like before the normal general form. Yeah. The source was modification chat. Yeah. Sourced them separate, of course, yeah, these things. And now, of course, here we don't have a response for where are you? Because this is not matching here, but but still like a sales force case, ja? So, again, the Salesforce case can be looked up here. And based on this check then, we have a new modification request. Yeah? So here's, again, like a summary. Yeah? Request to move a flight, one day. Later. User confirmed, yeah, whatever. And here's, like, a summary. Yeah? And, also, for example, this should approach. We also have a chance that customer is doing multiple changes, ja, at just with one chat and one, like, respond. Yeah? So there's also part And we also have, like, a Yeah? So this is here. This is like just the chat with the customer has is written into, like, a text form. Let me open it. Here. Yeah. Here. Basically, the same, yeah, what the customer's for budget, yeah? Yeah? Also, that's okay what what the customer is writing and what the I well, well, well, was responding as the same. Basically. And this data then, of course, also next week will be visible in the new view for the for the for the support. Yeah? So if you just look in, okay, what was the customer really writing, yeah, instead instead of having this year not so nice, ja, like ja, like, written
+Me: Mhmm.
+Them: text here. Let's say.
+Me: Okay.
+Them: Yeah. And then, yeah, and the superbass of course, you you can also safest. Yeah? I mean, the safest, yeah, I mean, we have here next to the support request. Yeah. We
+Me: Conversation, señora.
+Them: also save also here, like, the conversation. So the conversation was ja, again here, ja? I did hear about this booking number here for me. And here we can see the whole, yeah, also the whole, like, flow, yeah, what the customer was writing and, of course, what the AI was responding. Things also very available. Yeah. And this, for example, will also be available next week here, yeah, in this section. Requests. So okay. But, yeah, I mean, yeah, and made here for the whole, like, admin area part. I can also send you the link. Already, of course, with this this is accessible for each employee. I send it to you here on Slack, but I'm gonna be
+Me: Yeah. Yeah. It's, like, it would be better.
+Them: Here's the job. So you can also look in there. Ja. For for for to reason, I made made this here as phase three, let's say, and we can also of course, you decide now or somebody superportal, of course. Wenn wir also maybe wie have to do in the CFA project We have to do, like, a new, let's say, SAPPLE let's say, just for let's say, let's say that so. We can log in that we can see, like, in with the customer, and then we can see, okay, each invoice, we can see each trip and review. We can see also here, like, as as I mentioned now, yeah, each, like, support requests. Yeah? And there's also a very big ask, let's say, ja, so ey, made this here in in phase three, ja, like this.
+Me: Okay.
+Them: Yeah. And then phase four, I mean, I just, yeah, four. I love you. I mean, I have some more things, like, written here. Yeah. But but I think this is not for now. This is just I think I can explain.
+Me: Yeah. Mhmm.
+Them: Ja, Phase-four für Example ist ja, ist system itself, ja? Because this is like itself, Because our own Data, of course, ja, is not here saved, ja? Also also saved to the same database, yeah, but in Schema. So jetzt hier, Und ja, bin, this is currently safety and superbase. And also, of course, the software is hosted Yeah. And flight. All is horses as a separate software. Let's use accessible here. And of course we also have staging and production area. Business fear staging. And this is basically the same. Duction is here like the portal CMS tool lane. W a not sure what this means. But I mean, it was before. Maybe work. Load work balance on there. Not sure. That's what it means. Yeah. And you have also have like this copy like. Staging, of course, for this system. Yeah. And this data here is of course. It said hosted, managed postgres and superbase. And I'm also not sure if Tolane wants this. Yeah. To migrate like just the software, of course. Yeah. Although just the software strapi. Maybe to a sub. Project to CFA. And for example maybe the database, because I think Kleane likes to use a WSR thing in AWS. It's also possible to set up or whatever.
+Me: Yeah, Tourin. Likes. Yeah, from what I know these front-end teams they use contentful heavily. Is it kind of feasible to be contentful instead of strappy or it's kind of already too tight with that it's kind of not a good time investment. Too.
+Them: I think to do this. I mean, I mean, I never had contact relief. I mean, you sometimes wrote like this Kulane software. And also had some interactions. I was kind of thought about. Britain. As well how we can use this. But the things like famous thing also for headless.
+Me: Yeah.
+Them: Very famous. And we also have just. Two credits. There are. Very straightforward.
+Me: Not much.
+Them: We have, let's see. An offices production. As we have some users, of course, there are two. Manage. This buildable system. On the finger, this is of course me.
+Me: Yep. Sure.
+Them: For example here, Jana-Smith, I'm not sure maybe it's a copy writer. I think external person. We have like, yeah, these people also not go. Much permissions. But people of course to set up this.
+Me: I don't think it's.
+Them: Of course here as well.
+Me: Like. Any any difference really kind of it's same as. It's not. A central part okay so let's quickly so I need to run in three minutes let's go back to phase one and overview everything so like phase one is authenticated customer area it's something that we need to go into this user portal part right so it's kind of currently connected to support portal it goes into user portal part so we integrate it and it is you assess it will take like two three sprints to migrate this part.
+Them: Yes. With me, of course, I'm half part of the comments. Just what I do and I'm half parts. If you mean like full sprints like one full year and yeah.
+Me: Okay you you'll need to just focus on these for two three sprints without looking at the report okay.
+Them: Yes to do it. Yeah, he can say like. A breakdown. Yeah. What's have to be done here, let's say, like the summary, I mean simpler. Maybe he's a mistake here because this is not.
+Me: Yeah it's just like I need to run in two minutes let's briefly go through all the points right so let's go back to phase one so you mentioned like two three sprints risk medium low dominion you can also add a risk section to this phase one to explain what kind of risks are there and what kind of kind of things can slow things down so it can or you have it already. Yeah you.
+Them: Everybody. I have here some already here something written here.
+Me: Have. Yeah. So you can you link these kind of risks to phases like which phase is affected by which risk. Right because you have like. The bottom and applied.
+Them: Okay, you want to hear like a linked Klema faces, shall I say? Yeah. Okay.
+Me: Yeah maybe like in line them into phases so phase two and three let's go back.
+Them: First one. Okay, this is for migration. Phase two was like the front. Although like the general form, more vacation form. And yeah, the whole. Logic that responds to big tasks.
+Me: So you have all the all the kind of core of support portal and here we would need to kind of create a new. Support portal application in CFA right so it's kind of a separate sport portal part there.
+Them: One person.
+Me: Right.
+Them: Yes. Or we just.
+Me: Yeah what are the effort and risks here so you mentioned like high and high and what's kind of.
+Them: Yeah.
+Me: The hardest part about effort and the risks.
+Them: Before, of course, I mean, we have very heavy logic there, of course, for the vector store things. Yeah. For the reply and also from a modification. Of course. And this is very sensitive, let's say. Very tightly now coupled to the. Next UI. Of course, run there. And of course, have to be written completely new, let's say about breaking things, of course. And another example and also maybe.
+Me: Okay.
+Them: Hosting all the software. Of course here. Now we are. And of course we want to know fully also migrate this whole thing. This one here. Stays the same. Hostess. But we have also have this community finisher, let's say. So this is a very high risk and the business much effort. Of course. I recommend, of course, you have to do first just face one, of course. It's very big, let's say. But the main feature, let's say two and let's say it's more like optional. Yeah. Because just review for the. Let's say not so heavy and not so risky, let's say.
+Me: Yeah but if we want to migrate it's kind of yet another CFA kind of. Just for. So yeah I need to run can you please add these risks and maybe explain the effort for phase 234.
+Them: Okay.
+Me: In more details like high like how many sprints you estimate and then we can catch up later.
+Them: Okay.
+Me: Great summary thanks thank you.
+Them: Okay. No problem. Yeah. Okay, see you.

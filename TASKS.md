@@ -2,15 +2,15 @@
 
 ## Active
 
-- [ ] **Talk to Pedro about Wetu deprecation plan and options** - due 2026-04-08, p1
+- [x] **Talk to Pedro about Wetu deprecation plan and options** - due 2026-04-08, p1
   - Get his point of view on Wetu deprecation approach and catalog rollout. Ask him to write down his plan with options (ADR-style) before the Monday kickoff.
   - Source: EM Sync (2026-04-07)
 
-- [ ] **Include Kiryl in C2 planning ASAP** - due 2026-04-08, p1
+- [x] **Include Kiryl in C2 planning ASAP** - due 2026-04-08, p1
   - Kiryl is currently off but needs to be brought into cycle 2 planning as soon as possible.
   - Source: EM Sync (2026-04-07)
 
-- [ ] **Plan kickoff meeting for Monday — Wetu deprecation & catalog rollout** - due 2026-04-08, p1
+- [x] **Plan kickoff meeting for Monday — Wetu deprecation & catalog rollout** - due 2026-04-08, p1
   - Set up meeting with Pedro, Gregor (back Monday), Robert, Silvia, and Aliaksei. Goal: align on Wetu deprecation scope and work packages for C2. Silvia to prepare Karolina if needed.
   - Source: EM Sync (2026-04-07)
 
@@ -26,12 +26,21 @@
   - Robert shared this document. Review to understand prior thinking on Wetu deprecation.
   - Source: EM Sync (2026-04-07)
 
-- [ ] **Onboard Wieland into destinations topic** - p2
+- [x] **Onboard Wieland into destinations topic** - p2
   - Wieland to own and drive the destinations topic alongside Pedro, since Gregor won't be available long-term.
   - Source: EM Sync (2026-04-07)
 
 - [ ] **Collect team vacation plans for C2 (and ideally through end of year)** - due 2026-04-11, p2
   - Short cycle — every unplanned absence hurts. Request plans from all team members, at minimum for C2. Discuss case-by-case in 1:1s.
+	  - [x] Sascha
+	  - [ ] Oleksii
+	  - [x] Minh
+	  - [ ] Markus
+	  - [x] Kiryl
+	  - [x] Wieland
+	  - [ ] Talha
+	  - [ ] Nishant
+	  - [ ] Leon
   - Source: EM Sync (2026-04-07)
 
 - [ ] **Prepare Spaeti impact story for product monthly** - p2
@@ -46,8 +55,8 @@
   - Christine asked to see which suppliers onboard first and what each brings in CM1 impact.
   - Source: Outcome roadmap Spati (2026-04-07)
 
-- [ ] **Decide on mapping service ownership for C2** - p3
-  - Room-level/offer mapping crucial for smart book. Spaeti builds it or booking team handles it. Decide with Kiryl and Sascha.
+- [ ] **Decide on room-level mapping API ownership for C2** - p3
+  - Room-level/offer mapping crucial for smart book. Spaeti builds it or booking team handles it, but inside Spa. Decide with Kiryl and Sascha.
   - Source: Outcome roadmap Spati (2026-04-07)
 
 - [ ] **Talk to Talha about pairing on 11 Infotech adapter** - due 2026-04-09, p2

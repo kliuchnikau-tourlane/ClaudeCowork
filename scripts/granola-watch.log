@@ -1,0 +1,138 @@
+[2026-04-10 15:19:27] Starting Granola cache watcher
+[2026-04-10 15:19:27] Starting Granola cache watcher
+[2026-04-10 15:19:27]   Cache: /Users/mb-113/Library/Application Support/Granola/cache-v6.json
+[2026-04-10 15:19:27]   Cache: /Users/mb-113/Library/Application Support/Granola/cache-v6.json
+[2026-04-10 15:19:27]   Output: /Users/mb-113/Projects/ClaudeCowork/MeetingNotes
+[2026-04-10 15:19:27]   Output: /Users/mb-113/Projects/ClaudeCowork/MeetingNotes
+[2026-04-10 15:19:27]   Debounce: 60s
+[2026-04-10 15:19:27]   Debounce: 60s
+[2026-04-10 15:19:27] Cache changed — exporting meetings for 2026-04-10
+[2026-04-10 15:19:27] Cache changed — exporting meetings for 2026-04-10
+[2026-04-10 15:19:28]   Exporting Granola notes for 2026-04-10...
+[2026-04-10 15:19:28]   Exporting Granola notes for 2026-04-10...
+[2026-04-10 15:19:28]   Cache: /Users/mb-113/Library/Application Support/Granola/cache-v6.json
+[2026-04-10 15:19:28]   Cache: /Users/mb-113/Library/Application Support/Granola/cache-v6.json
+[2026-04-10 15:19:28]   Exported: Support Portal Migration — Technical Deep Dive -> Support-Portal-Migration--Technical-Deep-Dive.md
+[2026-04-10 15:19:28]   Exported: Support Portal Migration — Technical Deep Dive -> Support-Portal-Migration--Technical-Deep-Dive.md
+[2026-04-10 15:19:28]   Exported: Benefits 2026: Briefing for Leaders + Q&A -> Benefits-2026-Briefing-for-Leaders--QA.md
+[2026-04-10 15:19:28]   Exported: Benefits 2026: Briefing for Leaders + Q&A -> Benefits-2026-Briefing-for-Leaders--QA.md
+[2026-04-10 15:19:28]   Exported: [Align] Next steps touristic area domain -> Align-Next-steps-touristic-area-domain.md
+[2026-04-10 15:19:28]   Exported: [Align] Next steps touristic area domain -> Align-Next-steps-touristic-area-domain.md
+[2026-04-10 15:19:28]   Done. Exported 3 meeting(s) to /Users/mb-113/Projects/ClaudeCowork/MeetingNotes/2026-04-10/
+[2026-04-10 15:19:28]   Done. Exported 3 meeting(s) to /Users/mb-113/Projects/ClaudeCowork/MeetingNotes/2026-04-10/
+[2026-04-10 15:19:28] Export complete
+[2026-04-10 15:19:28] Export complete
+[2026-04-10 15:19:57] Cache write detected — waiting 60s for quiet period...
+[2026-04-10 15:19:57] Cache write detected — waiting 60s for quiet period...
+[2026-04-10 15:20:06] Cache write detected — waiting 60s for quiet period...
+[2026-04-10 15:20:06] Cache write detected — waiting 60s for quiet period...
+/Users/mb-113/Projects/ClaudeCowork/scripts/granola-watch.sh: line 34: 12160 Terminated: 15          ( sleep "$DEBOUNCE_SECONDS"; do_export )
+[2026-04-10 15:21:06] Cache changed — exporting meetings for 2026-04-10
+[2026-04-10 15:21:06] Cache changed — exporting meetings for 2026-04-10
+[2026-04-10 15:21:06]   Exporting Granola notes for 2026-04-10...
+[2026-04-10 15:21:06]   Exporting Granola notes for 2026-04-10...
+[2026-04-10 15:21:06]   Cache: /Users/mb-113/Library/Application Support/Granola/cache-v6.json
+[2026-04-10 15:21:06]   Cache: /Users/mb-113/Library/Application Support/Granola/cache-v6.json
+[2026-04-10 15:21:06]   Exported: Support Portal Migration — Technical Deep Dive -> Support-Portal-Migration--Technical-Deep-Dive.md
+[2026-04-10 15:21:06]   Exported: Support Portal Migration — Technical Deep Dive -> Support-Portal-Migration--Technical-Deep-Dive.md
+[2026-04-10 15:21:06]   Exported: Benefits 2026: Briefing for Leaders + Q&A -> Benefits-2026-Briefing-for-Leaders--QA.md
+[2026-04-10 15:21:06]   Exported: Benefits 2026: Briefing for Leaders + Q&A -> Benefits-2026-Briefing-for-Leaders--QA.md
+[2026-04-10 15:21:06]   Exported: [Align] Next steps touristic area domain -> Align-Next-steps-touristic-area-domain.md
+[2026-04-10 15:21:06]   Exported: [Align] Next steps touristic area domain -> Align-Next-steps-touristic-area-domain.md
+[2026-04-10 15:21:06]   Done. Exported 3 meeting(s) to /Users/mb-113/Projects/ClaudeCowork/MeetingNotes/2026-04-10/
+[2026-04-10 15:21:06]   Done. Exported 3 meeting(s) to /Users/mb-113/Projects/ClaudeCowork/MeetingNotes/2026-04-10/
+[2026-04-10 15:21:06] Export complete
+[2026-04-10 15:21:06] Export complete
+[2026-04-10 15:29:59] Cache write detected — waiting 60s for quiet period...
+[2026-04-10 15:29:59] Cache write detected — waiting 60s for quiet period...
+[2026-04-10 15:30:59] Cache changed — exporting meetings for 2026-04-10
+[2026-04-10 15:30:59] Cache changed — exporting meetings for 2026-04-10
+[2026-04-10 15:30:59]   Exporting Granola notes for 2026-04-10...
+[2026-04-10 15:30:59]   Exporting Granola notes for 2026-04-10...
+[2026-04-10 15:30:59]   Cache: /Users/mb-113/Library/Application Support/Granola/cache-v6.json
+[2026-04-10 15:30:59]   Cache: /Users/mb-113/Library/Application Support/Granola/cache-v6.json
+[2026-04-10 15:30:59]   Exported: Support Portal Migration — Technical Deep Dive -> Support-Portal-Migration--Technical-Deep-Dive.md
+[2026-04-10 15:30:59]   Exported: Support Portal Migration — Technical Deep Dive -> Support-Portal-Migration--Technical-Deep-Dive.md
+[2026-04-10 15:30:59]   Exported: Benefits 2026: Briefing for Leaders + Q&A -> Benefits-2026-Briefing-for-Leaders--QA.md
+[2026-04-10 15:30:59]   Exported: Benefits 2026: Briefing for Leaders + Q&A -> Benefits-2026-Briefing-for-Leaders--QA.md
+[2026-04-10 15:30:59]   Exported: [Align] Next steps touristic area domain -> Align-Next-steps-touristic-area-domain.md
+[2026-04-10 15:30:59]   Exported: [Align] Next steps touristic area domain -> Align-Next-steps-touristic-area-domain.md
+[2026-04-10 15:30:59]   Done. Exported 3 meeting(s) to /Users/mb-113/Projects/ClaudeCowork/MeetingNotes/2026-04-10/
+[2026-04-10 15:30:59]   Done. Exported 3 meeting(s) to /Users/mb-113/Projects/ClaudeCowork/MeetingNotes/2026-04-10/
+[2026-04-10 15:30:59] Export complete
+[2026-04-10 15:30:59] Export complete
+[2026-04-10 15:47:33] Cache write detected — waiting 60s for quiet period...
+[2026-04-10 15:47:33] Cache write detected — waiting 60s for quiet period...
+[2026-04-10 15:48:33] Cache changed — exporting meetings for 2026-04-10
+[2026-04-10 15:48:33] Cache changed — exporting meetings for 2026-04-10
+[2026-04-10 15:48:33]   Exporting Granola notes for 2026-04-10...
+[2026-04-10 15:48:33]   Exporting Granola notes for 2026-04-10...
+[2026-04-10 15:48:33]   Cache: /Users/mb-113/Library/Application Support/Granola/cache-v6.json
+[2026-04-10 15:48:33]   Cache: /Users/mb-113/Library/Application Support/Granola/cache-v6.json
+[2026-04-10 15:48:33]   Exported: Support Portal Migration — Technical Deep Dive -> Support-Portal-Migration--Technical-Deep-Dive.md
+[2026-04-10 15:48:33]   Exported: Support Portal Migration — Technical Deep Dive -> Support-Portal-Migration--Technical-Deep-Dive.md
+[2026-04-10 15:48:33]   Exported: Benefits 2026: Briefing for Leaders + Q&A -> Benefits-2026-Briefing-for-Leaders--QA.md
+[2026-04-10 15:48:33]   Exported: Benefits 2026: Briefing for Leaders + Q&A -> Benefits-2026-Briefing-for-Leaders--QA.md
+[2026-04-10 15:48:33]   Exported: [Align] Next steps touristic area domain -> Align-Next-steps-touristic-area-domain.md
+[2026-04-10 15:48:33]   Exported: [Align] Next steps touristic area domain -> Align-Next-steps-touristic-area-domain.md
+[2026-04-10 15:48:33]   Done. Exported 3 meeting(s) to /Users/mb-113/Projects/ClaudeCowork/MeetingNotes/2026-04-10/
+[2026-04-10 15:48:33]   Done. Exported 3 meeting(s) to /Users/mb-113/Projects/ClaudeCowork/MeetingNotes/2026-04-10/
+[2026-04-10 15:48:33] Export complete
+[2026-04-10 15:48:33] Export complete
+[2026-04-10 15:59:27] Cache write detected — waiting 60s for quiet period...
+[2026-04-10 15:59:27] Cache write detected — waiting 60s for quiet period...
+[2026-04-10 16:00:27] Cache changed — exporting meetings for 2026-04-10
+[2026-04-10 16:00:27] Cache changed — exporting meetings for 2026-04-10
+[2026-04-10 16:00:27]   Exporting Granola notes for 2026-04-10...
+[2026-04-10 16:00:27]   Exporting Granola notes for 2026-04-10...
+[2026-04-10 16:00:27]   Cache: /Users/mb-113/Library/Application Support/Granola/cache-v6.json
+[2026-04-10 16:00:27]   Cache: /Users/mb-113/Library/Application Support/Granola/cache-v6.json
+[2026-04-10 16:00:27]   Exported: Support Portal Migration — Technical Deep Dive -> Support-Portal-Migration--Technical-Deep-Dive.md
+[2026-04-10 16:00:27]   Exported: Support Portal Migration — Technical Deep Dive -> Support-Portal-Migration--Technical-Deep-Dive.md
+[2026-04-10 16:00:27]   Exported: Benefits 2026: Briefing for Leaders + Q&A -> Benefits-2026-Briefing-for-Leaders--QA.md
+[2026-04-10 16:00:27]   Exported: Benefits 2026: Briefing for Leaders + Q&A -> Benefits-2026-Briefing-for-Leaders--QA.md
+[2026-04-10 16:00:27]   Exported: [Align] Next steps touristic area domain -> Align-Next-steps-touristic-area-domain.md
+[2026-04-10 16:00:27]   Exported: [Align] Next steps touristic area domain -> Align-Next-steps-touristic-area-domain.md
+[2026-04-10 16:00:27]   Done. Exported 3 meeting(s) to /Users/mb-113/Projects/ClaudeCowork/MeetingNotes/2026-04-10/
+[2026-04-10 16:00:27]   Done. Exported 3 meeting(s) to /Users/mb-113/Projects/ClaudeCowork/MeetingNotes/2026-04-10/
+[2026-04-10 16:00:27] Export complete
+[2026-04-10 16:00:27] Export complete
+[2026-04-10 16:04:59] Cache write detected — waiting 60s for quiet period...
+[2026-04-10 16:04:59] Cache write detected — waiting 60s for quiet period...
+[2026-04-10 16:05:08] Cache write detected — waiting 60s for quiet period...
+[2026-04-10 16:05:08] Cache write detected — waiting 60s for quiet period...
+/Users/mb-113/Projects/ClaudeCowork/scripts/granola-watch.sh: line 34: 12847 Terminated: 15          ( sleep "$DEBOUNCE_SECONDS"; do_export )
+[2026-04-10 16:06:08] Cache changed — exporting meetings for 2026-04-10
+[2026-04-10 16:06:08] Cache changed — exporting meetings for 2026-04-10
+[2026-04-10 16:06:09]   Exporting Granola notes for 2026-04-10...
+[2026-04-10 16:06:09]   Exporting Granola notes for 2026-04-10...
+[2026-04-10 16:06:09]   Cache: /Users/mb-113/Library/Application Support/Granola/cache-v6.json
+[2026-04-10 16:06:09]   Cache: /Users/mb-113/Library/Application Support/Granola/cache-v6.json
+[2026-04-10 16:06:09]   Exported: Support Portal Migration — Technical Deep Dive -> Support-Portal-Migration--Technical-Deep-Dive.md
+[2026-04-10 16:06:09]   Exported: Support Portal Migration — Technical Deep Dive -> Support-Portal-Migration--Technical-Deep-Dive.md
+[2026-04-10 16:06:09]   Exported: Benefits 2026: Briefing for Leaders + Q&A -> Benefits-2026-Briefing-for-Leaders--QA.md
+[2026-04-10 16:06:09]   Exported: Benefits 2026: Briefing for Leaders + Q&A -> Benefits-2026-Briefing-for-Leaders--QA.md
+[2026-04-10 16:06:09]   Exported: [Align] Next steps touristic area domain -> Align-Next-steps-touristic-area-domain.md
+[2026-04-10 16:06:09]   Exported: [Align] Next steps touristic area domain -> Align-Next-steps-touristic-area-domain.md
+[2026-04-10 16:06:09]   Done. Exported 3 meeting(s) to /Users/mb-113/Projects/ClaudeCowork/MeetingNotes/2026-04-10/
+[2026-04-10 16:06:09]   Done. Exported 3 meeting(s) to /Users/mb-113/Projects/ClaudeCowork/MeetingNotes/2026-04-10/
+[2026-04-10 16:06:09] Export complete
+[2026-04-10 16:06:09] Export complete
+[2026-04-10 16:15:09] Cache write detected — waiting 60s for quiet period...
+[2026-04-10 16:15:09] Cache write detected — waiting 60s for quiet period...
+[2026-04-10 16:16:09] Cache changed — exporting meetings for 2026-04-10
+[2026-04-10 16:16:09] Cache changed — exporting meetings for 2026-04-10
+[2026-04-10 16:16:09]   Exporting Granola notes for 2026-04-10...
+[2026-04-10 16:16:09]   Exporting Granola notes for 2026-04-10...
+[2026-04-10 16:16:09]   Cache: /Users/mb-113/Library/Application Support/Granola/cache-v6.json
+[2026-04-10 16:16:09]   Cache: /Users/mb-113/Library/Application Support/Granola/cache-v6.json
+[2026-04-10 16:16:09]   Exported: Support Portal Migration — Technical Deep Dive -> Support-Portal-Migration--Technical-Deep-Dive.md
+[2026-04-10 16:16:09]   Exported: Support Portal Migration — Technical Deep Dive -> Support-Portal-Migration--Technical-Deep-Dive.md
+[2026-04-10 16:16:09]   Exported: Benefits 2026: Briefing for Leaders + Q&A -> Benefits-2026-Briefing-for-Leaders--QA.md
+[2026-04-10 16:16:09]   Exported: Benefits 2026: Briefing for Leaders + Q&A -> Benefits-2026-Briefing-for-Leaders--QA.md
+[2026-04-10 16:16:09]   Exported: [Align] Next steps touristic area domain -> Align-Next-steps-touristic-area-domain.md
+[2026-04-10 16:16:09]   Exported: [Align] Next steps touristic area domain -> Align-Next-steps-touristic-area-domain.md
+[2026-04-10 16:16:09]   Done. Exported 3 meeting(s) to /Users/mb-113/Projects/ClaudeCowork/MeetingNotes/2026-04-10/
+[2026-04-10 16:16:09]   Done. Exported 3 meeting(s) to /Users/mb-113/Projects/ClaudeCowork/MeetingNotes/2026-04-10/
+[2026-04-10 16:16:09] Export complete
+[2026-04-10 16:16:09] Export complete

@@ -95,6 +95,34 @@
   - Coordinate with Wieland, Pedro, Kiryl, and Claudia to swarm on Destinations topic during office week (April 20). Wieland in office until Wednesday only. Goal: produce capacity estimates for cycle planning by end of April.
   - Source: Kick-off: Destinations onboarding (2026-04-08)
 
+- [ ] **Check Wetu content licensing with legal team** - due 2026-04-17, p2
+  - Pedro raised that Tourlane may not have proper legal rights to store/use Wetu content (images, area descriptions) outside Wetu's itinerary builder. Wetu has already asked Tourlane to reduce API load. Need to review contract terms with legal to understand what happens when/if the contract ends — are we allowed to keep using stored content?
+  - Source: Wetu for accommodations — gather info (2026-04-09)
+
+- [ ] **Monday: Wetu deprecation deep-dive with Gregor + Pedro** - due 2026-04-14, p1
+  - Gregor is back Monday. Schedule and run the planned deeper discussion on Wetu deprecation. Pedro is preparing API draft from Miro board. Combine with Erlinis's screen recording of TP1-Wetu interaction for full picture. Key questions: exact Wetu usage in TP1 beyond accommodations, how to handle mixed item types, what can be negotiated between Spaeti and Trip Planner teams.
+  - Source: Wetu for accommodations — gather info; 1:1 — Wieland / Aliaksei (2026-04-09)
+
+- [ ] **Share API outsourcing risk management plan with team** - due 2026-04-14, p3
+  - Wieland hasn't seen the risk management plan that was created with Pedro. Check if Claudia shared it with the team; if not, share it so everyone (especially Wieland, who will be maintaining adapters) understands the strategy: which DMCs stay in-house, circuit breaker approach, escalation process.
+  - Source: 1:1 — Wieland / Aliaksei (2026-04-09)
+
+- [ ] **Review Booking.com analysis results from Wieland with Kiryl** - due 2026-04-11, p3
+  - Kiryl mentioned Wieland completed the Booking.com review/ratings analysis (checking if Booking.com data covers what Expedia doesn't). Kiryl said he'll look at it tomorrow (April 10). Review the results to decide if Booking.com integration is needed for content quality.
+  - Source: 1:1 — Kiryl / Aliaksei (2026-04-09)
+
+- [ ] **Consolidate all C2 initiatives into prioritized plan with Kiryl** - due 2026-04-18, p1
+  - Kiryl raised that there are too many things to fit in 2 months: Wetu deprecation (accommodations + destinations), API for Sascha (room-level mapping), Expedia certification, catalog search, Booking.com analysis, API outsourcing adapter, MCP tooling. Need to collect all initiatives with dependencies and make realistic commitments. Claudia started something on Miro — check and build on it.
+  - Source: 1:1 — Kiryl / Aliaksei (2026-04-09)
+
+- [ ] **Coordinate Sascha's room-level mapping API with Kiryl** - due 2026-04-14, p2
+  - Sascha needs an API from Spaeti for room-level DMC mapping (smart booking investigation). Kiryl acknowledged this in 1:1 — needs to document input/output/process. Follow up to make sure this gets scoped and included in C2 planning.
+  - Source: 1:1 — Kiryl / Aliaksei (2026-04-09)
+
+- [ ] **Watch Erlinis's screen recording of TP1-Wetu interaction** - due 2026-04-14, p2
+  - Erlinis shared a detailed screen recording showing how Trip Planner frontend communicates with Gecko backend to Wetu. Link in Slack: https://tourlane.slack.com/archives/C0ALA2Q6Y92/p1775719185915679?thread_ts=1775663081.692889&cid=C0ALA2Q6Y92. Pedro and Kiryl already reviewed it. Important context for Monday's discussion.
+  - Source: Wetu for accommodations — gather info (2026-04-09)
+
 ## Waiting On
 
 ## Someday

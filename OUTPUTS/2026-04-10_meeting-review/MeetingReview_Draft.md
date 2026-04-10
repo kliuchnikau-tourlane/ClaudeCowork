@@ -28,7 +28,9 @@
 #### [P3] UPDATE — pedro-alves.md
 > **Current context**: Staff Engineer for backend teams. Owns catalog system design and rollout plan. Key person for Wetu deprecation.
 > **Proposed addition**:
-> - **2026-04-09** — Led Wetu accommodations sync meeting. Has a solid API draft for catalog accommodation search (on Miro, not yet documented). Confirmed: accommodations replacement is straightforward — expose catalog content via search endpoint (name + country), Trip Planner switches from Wetu/Elephant to catalog. Destinations replacement is harder and less urgent. Raised content licensing risk: Tourlane may not have proper legal rights to use Wetu content (images, descriptions for areas) outside Wetu's itinerary builder — Wetu already asked Tourlane to reduce API load. Proposed interim solution for areas: pull existing Wetu area data into Elephant storage and serve from there, but geo shapes are unreliable (Wetu stopped guaranteeing them since API change). Will prepare documented API draft from Miro board for Monday discussion with Gregor. (Source: Wetu for accommodations — gather info)
+> - **2026-04-09** — Led Wetu accommodations sync meeting. Has a solid API draft for catalog accommodation search (on Miro, not yet documented). 
+> - Confirmed: accommodations replacement is straightforward — expose catalog content via search endpoint (name + country), Trip Planner switches from Wetu/Elephant to catalog. 
+> - Destinations replacement is harder and less urgent. Raised content licensing risk: Tourlane may not have proper legal rights to use Wetu content (images, descriptions for areas) outside Wetu's itinerary builder — Wetu already asked Tourlane to reduce API load. Proposed interim solution for areas: pull existing Wetu area data into Elephant storage and serve from there, but geo shapes are unreliable (Wetu stopped guaranteeing them since API change). Will prepare documented API draft from Miro board for Monday discussion with Gregor. (Source: Wetu for accommodations — gather info)
 > **Source**: Wetu for accommodations — gather info that we know so far
 > **Action**: [x] Accept  [ ] Decline  [ ] Rephrase
 
@@ -44,7 +46,10 @@
 #### [PR1] UPDATE — wetu-deprecation.md
 > **Current status in KB**: 5 work packages identified for TP changes. Destinations kick-off held. Accommodation decoupling confirmed more urgent than destinations.
 > **Proposed update**:
-> - **2026-04-09** — Accommodations sync held (Aliaksei, Kiryl, Pedro). Two-phase approach agreed: Phase 1 (C2) = replace manual accommodation input in TP1 — Spaeti exposes catalog content API (search by name + country code), Trip Planner switches from Wetu/Elephant to catalog. Phase 2 (likely C3) = replace accommodation map search with full catalog search (needs additional filters). The search API being designed serves both Wetu replacement AND regular catalog search (not separate implementations). Wetu API currently returns mixed item types (accommodations, areas, rentals) — need to clarify which non-accommodation types Trip Planner actually uses. Content licensing risk: Pedro raised that Tourlane may not have legal rights to store/use Wetu content outside their itinerary builder (need legal review). Interim solution for areas: pull existing Wetu area data into Elephant, but geo shapes unreliable since Wetu API change. Bulk of implementation work is on Trip Planner side, not Spaeti. Erlini shared screen recording of TP1-Wetu interaction (Slack link preserved in meeting notes). Monday: Gregor returns, deeper dive planned. (Source: Wetu for accommodations — gather info)
+> - **2026-04-09** — Accommodations sync held (Aliaksei, Kiryl, Pedro). Two-phase approach agreed: 
+> - Phase 1 (C2) = replace manual accommodation input in TP1 — Spaeti exposes catalog content API (search by name + country code), Trip Planner switches from Wetu/Elephant to catalog. 
+> - Phase 2 (likely C3) = replace accommodation map search with full catalog search (needs additional filters). The search API being designed serves both Wetu replacement AND regular catalog search (not separate implementations). Wetu API currently returns mixed item types (accommodations, areas, rentals) — need to clarify which non-accommodation types Trip Planner actually uses. Content licensing risk: Pedro raised that Tourlane may not have legal rights to store/use Wetu content outside their itinerary builder (need legal review). Interim solution for areas: pull existing Wetu area data into Elephant, but geo shapes unreliable since Wetu API change. Bulk of implementation work is on Trip Planner side, not Spaeti. Erlinis shared screen recording of TP1-Wetu interaction (Slack link preserved in meeting notes). 
+> - Monday: Gregor returns, deeper dive planned. (Source: Wetu for accommodations — gather info)
 > **Source**: Wetu for accommodations — gather info that we know so far
 > **Action**: [x] Accept  [ ] Decline  [ ] Rephrase
 
@@ -58,7 +63,7 @@
 #### [PR3] UPDATE — api-outsourcing.md
 > **Current status in KB**: Partner signed, adapter work starting, first integrations Agent Trails and Thompson. Risk management created.
 > **Proposed update**:
-> - **2026-04-09** — Wieland now more positive (was initially critical). Gateway adapter approach confirmed: one Tour Plan adapter, then DMC connections released through it. Wieland's concerns: support cases add complexity with extra layer; DMC API quality varies (Private Safaris cited as painful example); responsiveness may drop after initial sales phase. Risk discussion: 11 Infotech hosting is closed-source on their infra — company bankruptcy or service failure is a business risk. Strategy: keep ~5 critical adapters in-house as circuit breakers, outsource the rest. Start slow with non-critical DMCs to battle-test before migrating critical ones. Aliaksei to share risk management plan with wider team. Wieland: "The integration on our side will be fast" (building the adapter). (Source: 1:1 — Wieland / Aliaksei)
+> - **2026-04-09** — Wieland now more positive (was initially critical). Gateway adapter approach confirmed: one TourPlan-like adapter, then DMC connections released through it. Wieland's concerns: support cases add complexity with extra layer; DMC API quality varies (Private Safaris cited as painful example); responsiveness may drop after initial sales phase. Risk discussion: 11 Infotech hosting is closed-source on their infra — company bankruptcy or service failure is a business risk. Strategy: keep ~5 critical adapters in-house as circuit breakers, outsource the rest. Start slow with non-critical DMCs to battle-test before migrating critical ones. Aliaksei to share risk management plan with wider team. Wieland: "The integration on our side will be fast" (building the adapter). (Source: 1:1 — Wieland / Aliaksei)
 > **Source**: 1:1 — Wieland / Aliaksei
 > **Action**: [x] Accept  [ ] Decline  [ ] Rephrase
 
@@ -102,14 +107,14 @@
 > **Source**: 1:1 — Wieland / Aliaksei
 > **Action**: [x] Accept  [ ] Decline  [ ] Rephrase
 
-#### [T4] Review Booking.com analysis results from Kiryl
-> **Description**: Kiryl mentioned someone completed the Booking.com review/ratings analysis (checking if Booking.com data covers what Expedia doesn't). Kiryl said he'll look at it tomorrow (April 10). Review the results to decide if Booking.com integration is needed for content quality.
+#### [T4] Review Booking.com analysis results from Wieland with Kiryl
+> **Description**: Kiryl mentioned Wieland completed the Booking.com review/ratings analysis (checking if Booking.com data covers what Expedia doesn't). Kiryl said he'll look at it tomorrow (April 10). Review the results to decide if Booking.com integration is needed for content quality.
 > **Due**: 2026-04-11
 > **Priority**: p3
 > **Source**: 1:1 — Kiryl / Aliaksei
 > **Action**: [x] Accept  [ ] Decline  [ ] Rephrase
 
-#### [T5] Consolidate all C2 initiatives into prioritized plan
+#### [T5] Consolidate all C2 initiatives into prioritized plan with Kiryl
 > **Description**: Kiryl raised that there are too many things to fit in 2 months: Wetu deprecation (accommodations + destinations), API for Sascha (room-level mapping), Expedia certification, catalog search, Booking.com analysis, API outsourcing adapter, MCP tooling. Need to collect all initiatives with dependencies and make realistic commitments. Claudia started something on Miro — check and build on it.
 > **Due**: 2026-04-18
 > **Priority**: p1
@@ -123,8 +128,8 @@
 > **Source**: 1:1 — Kiryl / Aliaksei
 > **Action**: [x] Accept  [ ] Decline  [ ] Rephrase
 
-#### [T7] Watch Erlini's screen recording of TP1-Wetu interaction
-> **Description**: Erlini shared a detailed screen recording showing how Trip Planner frontend communicates with Gecko backend to Wetu. Link in Slack: https://tourlane.slack.com/archives/C0ALA2Q6Y92/p1775719185915679?thread_ts=1775663081.692889&cid=C0ALA2Q6Y92. Pedro and Kiryl already reviewed it. Important context for Monday's discussion.
+#### [T7] Watch Erlinis's screen recording of TP1-Wetu interaction
+> **Description**: Erlinis shared a detailed screen recording showing how Trip Planner frontend communicates with Gecko backend to Wetu. Link in Slack: https://tourlane.slack.com/archives/C0ALA2Q6Y92/p1775719185915679?thread_ts=1775663081.692889&cid=C0ALA2Q6Y92. Pedro and Kiryl already reviewed it. Important context for Monday's discussion.
 > **Due**: 2026-04-14
 > **Priority**: p2
 > **Source**: Wetu for accommodations — gather info

@@ -43,9 +43,9 @@
 > **Source**: Content Automation Weekly Check
 > **Action**: [x] Accept  [ ] Decline  [ ] Rephrase
 
-#### [P6] NEW — jakob.md
+#### [P6] NEW — jakob-pupke.md
 > **Current context**: NEW — not yet in KB
-> **Proposed addition**: Engineer. Proposed to take over infrastructure guild leadership from Gregor (already pairing with him). Transition planned for last week of April infrastructure guild meeting. Alternative candidates mentioned: Sasha, Stefan (data infrastructure experience).
+> **Proposed addition**: Senior Engineer on the frontend teams. Proposed to take over infrastructure guild leadership from Gregor (already pairing with him). Transition planned for last week of April infrastructure guild meeting. Alternative candidates mentioned: Sasha, Stefan (data infrastructure experience).
 > **Source**: EM Sync Weekly
 > **Action**: [x] Accept  [ ] Decline  [ ] Rephrase
 
@@ -130,7 +130,7 @@
 ## Suggested Tasks
 
 #### [T1] Draft RAPID document for destination launch block
-> **Description**: Draft a RAPID decision document requesting Karen's sign-off to block new destination launches for the next 10 months. Include rationale (team capacity, Wetu migration priority), scope (new destinations only — existing corridor expansions unaffected), and fallback option (fast-track destination content from Wetu). Share with the group for feedback before submitting.
+> **Description**: Pedro to Draft a RAPID decision document requesting Karen's sign-off to block new destination launches for the next 10 months. Include rationale (team capacity, Wetu migration priority), scope (new destinations only — existing corridor expansions unaffected), and fallback option (fast-track destination content from Wetu). Share with the group for feedback before submitting.
 > **Due**: 2026-04-22
 > **Priority**: p2
 > **Source**: Content Automation Weekly Check — Claudia/Pedro confirmed need for formal sign-off.
@@ -162,14 +162,14 @@
 > **Due**: 2026-04-22
 > **Priority**: p3
 > **Source**: Content Automation Weekly Check — open decision on filter future.
-> **Action**: [x] Accept  [ ] Decline  [ ] Rephrase
+> **Action**: [ ] Accept  [x] Decline  [ ] Rephrase
 
 #### [T6] Ensure Expedia test booking passes in staging
 > **Description**: Last open item for Expedia certification: properly pass a test booking in staging. Must trigger booking from trip planning and show it in booking platform. Coordinate with team (flagged in small channel). This is the final gate before certification.
 > **Due**: 2026-04-18
 > **Priority**: p1
 > **Source**: Content Automation Weekly Check — only remaining certification blocker after TNCs.
-> **Action**: [x] Accept  [ ] Decline  [ ] Rephrase
+> **Action**: [ ] Accept  [x] Decline  [ ] Rephrase
 
 ---
 

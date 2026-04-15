@@ -135,6 +135,22 @@
   - New learning budget process announced for leaders. Employee-driven requests, manager is quality gate. 8 approval criteria. Development plan required before any request. Form on Confluence. Be ready if team members submit requests.
   - Source: Benefits 2026: Briefing for Leaders + Q&A (2026-04-10)
 
+- [ ] **Draft RAPID document for destination launch block** - due 2026-04-22, p2
+  - Pedro to draft a RAPID decision document requesting Karen's sign-off to block new destination launches for the next 10 months. Include rationale (team capacity, Wetu migration priority), scope (new destinations only — existing corridor expansions unaffected), and fallback option (fast-track destination content from Wetu). Share with the group for feedback before submitting.
+  - Source: Content Automation Weekly Check (2026-04-14)
+
+- [ ] **Prepare initiative status updates for bi-weekly meeting** - due 2026-04-16, p2
+  - For the new bi-weekly sync with Robert, prepare status on: (1) Content automation / Wetu migration, (2) API outsourcing, (3) Expedia certification, (4) Smart booking discovery. Focus on: on-track vs delayed, remaining work, risks/blockers. Written update can follow 1-2 days after meeting.
+  - Source: Aliaksei/Robert Biweekly Status Report (2026-04-14)
+
+- [ ] **Organize joint workshop with Foxes team for support portal migration** - due 2026-04-25, p2
+  - Coordinate a half-day workshop with Foxes team to align on support portal migration scope. Agenda: share Steff's vision prototype, review current support portal capabilities, identify what Foxes already have in new user portal, define migration steps, create technical milestones. Include Kristina, Markus, Foxes team, and Shubham (design).
+  - Source: Support Portal Migration sync (2026-04-14)
+
+- [ ] **Plan completeness check coverage without Markus** - due 2026-04-22, p2
+  - Markus will be full-time on support portal migration. Determine who handles completeness check finalization — can Minh cover it, or does it need to be paused? Discuss with Kristina and team during cycle 2 planning.
+  - Source: Support Portal Migration sync (2026-04-14)
+
 ## Waiting On
 
 ## Someday

@@ -1,7 +1,7 @@
 # API Outsourcing
 Type: project
 First seen: 2026-04-07
-Last updated: 2026-04-09
+Last updated: 2026-04-14
 
 ## Context
 Outsourcing API connections for pending suppliers to an external vendor "11infotech". Spaeti initiative to reduce margin leakage and manual booking work.
@@ -11,3 +11,4 @@ Outsourcing API connections for pending suppliers to an external vendor "11infot
 - **2026-04-08** — 11 Infotech sent everything needed to start; adapter work can begin immediately. Talha assigned after Expedia certification. Generic adapter estimated at ~3 weeks. First integrations: Agent Trails and Thompson. Tour Plan must do their own integration (high volume). DMCs ordered by margin/gross bookings. Discova questions redirected to 11 Infotech directly (no longer Spaeti's problem). Claudia creating backlog/timeline list with API credentials and integration dates — first version expected today. Team morale concern: members worried API outsourcing means "outsourcing their jobs," especially external contractors — surfaced during standup. Sprint may need to be recreated to accommodate urgency. Consider pairing Talha with Leon or Minh for speed. All DMCs in backlog are for existing destinations (no new destination launches needed). Claudia suggested delaying TP2 area work until 11 Infotech is live. (Source: Weekly Aliaksei / Claudia)
 - **2026-04-08** - Pedro wasn't happy about what they sent and wants to request changes (source: discussion with Claudia)
 - **2026-04-09** — Wieland now more positive (was initially critical). Gateway adapter approach confirmed: one TourPlan-like adapter, then DMC connections released through it. Wieland's concerns: support cases add complexity with extra layer; DMC API quality varies (Private Safaris cited as painful example); responsiveness may drop after initial sales phase. Risk discussion: 11 Infotech hosting is closed-source on their infra — company bankruptcy or service failure is a business risk. Strategy: keep ~5 critical adapters in-house as circuit breakers, outsource the rest. Start slow with non-critical DMCs to battle-test before migrating critical ones. Aliaksei to share risk management plan with wider team. Wieland: "The integration on our side will be fast" (building the adapter). (Source: 1:1 — Wieland / Aliaksei)
+- **2026-04-14** — Expected minimal team impact once gateway is ready — at most 1 engineer for onboarding support. Aliaksei plans to define streamlined switching process (current system → infotech) and optimize since it needs to happen 14-20 times. If launching an integration from infotech still takes more than ~1 day of engineer time, something is wrong. (Source: Content Automation Weekly Check)

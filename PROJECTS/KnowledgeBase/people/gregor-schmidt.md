@@ -2,7 +2,7 @@
 Type: person
 Role: Staff engineer for the frontend teams
 First seen: 2026-04-07
-Last updated: 2026-04-09
+Last updated: 2026-04-14
 
 ## Context
 Expert on destinations, Trip Planner, and Wetu internals. Leaving the company in ~1.5–2 months. Critical knowledge holder.
@@ -11,3 +11,4 @@ Expert on destinations, Trip Planner, and Wetu internals. Leaving the company in
 - **2026-04-07** — Departure confirmed: 1.5–2 months remaining. Currently working on TP2, will be busy until ~mid-May. Back on Monday. Has deep knowledge of Wetu deprecation approach — told Robert it's "doable in one cycle" (but assumed 3-month cycle). Gregor and Pedro are the only ones who fully understand the Wetu/catalog/Trip Planner interactions. Needs to do staged knowledge handovers to Mochi team. May go on vacation mid-June. Also carries incident management knowledge that needs to be transferred. (Source: Get started with Granola side conversation, EM Sync)
 - **2026-04-08** — For infra specifically, knowledge transfer is in good shape — Gregor was more reviewing than contributing in recent infra weeks, and documentation is solid. Worked with Jacob last week on infra PRs. (Source: 1:1 — Sascha / Aliaksei)
 - **2026-04-09** — Wieland confirmed: only Jakob has enough knowledge to potentially take over infra ownership after Gregor leaves, but Jakob is very busy. Gregor is back Monday — Wieland will sync with him on destinations and infra. Has written many documents about destinations (Pedro noted "a bit too many" scattered across Confluence). In office Monday and Wednesday of team event week (April 20). (Source: 1:1 — Wieland / Aliaksei)
+- **2026-04-14** — Unavailable for V2/Wetu work until mid-May due to current commitments (through April), vacation, and infrastructure week. Currently leads infrastructure guild — transition planned for last week of April, with Jakob proposed as successor (already pairing with Gregor). Pedro lacks Gregor's deep knowledge for V2 work, making Gregor's availability a bottleneck. (Source: EM Sync Weekly)

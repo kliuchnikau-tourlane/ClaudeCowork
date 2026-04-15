@@ -1,0 +1,95 @@
+# Aliaksei / Robert
+
+Tue, 14 Apr 26 · robert.wolf@tourlane.com, PR-20 HQ-2-Japan (4) [TV]
+
+### Meeting Purpose & Context
+
+- Moving from asynchronous to synchronous status updates for high-level initiatives
+- Information loss and misalignment in current async process
+  - People interpret messages differently
+  - No opportunity for clarifying questions
+  - Confusion about status meaning, risks, and remaining work
+- Focus on initiative-level updates, not ticket-level details
+
+### Process Changes
+
+- Synchronous discussion of urgent/pressing initiatives
+- Meeting outcomes inform written status updates posted 1-2 days later
+- Prioritize initiatives that are off-track or need attention
+- Green-light initiatives can remain as status updates
+- Accountability clarification needed
+  - Some initiatives lack clear ownership
+  - Gap between engineering and product delivery responsibility
+
+### Current Initiative Status Questions
+
+- Content automation: unclear progress and remaining work
+- Outsourcing: getting green light but missing details on completion
+- Expedia certification: external dependency creating risk
+  - Progress made in last 2 days with many closures
+  - Still see risk due to Expedia dependency
+- Smart booking: discovery process status unclear
+
+### Meeting Structure & Frequency
+
+- Bi-weekly cadence initially
+- May reduce to monthly once process established
+- Consider splitting by domains (Speedy/Flamingo vs other teams)
+- Focus on three key questions per initiative:
+  1. Are we on track for cycle one delivery?
+  2. Is progress as expected or delayed?
+  3. What risks/blockers exist?
+
+### Next Steps
+
+- Try new process for few iterations before adjusting
+- Robert to check with Christina about moving meeting to later time
+  - Current 9:30 AM timing conflicts with doctor appointments
+  - Won’t change this week - decline if can’t attend and provide written update
+- Proper 1-on-1 scheduled later this week
+
+---
+
+Transcript:
+
+Meeting Title: Aliaksei / Robert
+Date: Apr 14
+Meeting participants: Aliaksei Kliuchnikau, Robert Wolf, PR-20 HQ-2-Japan (4) [TV]
+
+Transcript:
+
+Them: Alexei.
+Me: Hello.
+Them: Just to catch up with you, because when we introduce this meeting, you were in vacation and I had to cancel our last 101. This is why I actually never had a chance to. So basically what we realized is that in this asynchronous update, there is information loss and there's an opportunity loss to align to come to an aligned understanding what's actually means. This is why we decided to move it to a synchronous process where we discuss at least the most urgent or the most pressuring one. With this aligned understanding, we can take the meeting outcome then to write a summary. Where you have, which can be then posted as a status update a day later. So the problem that we have is. First of all, in this asynchronous processes, we are losing information density and the way of asking questions to. The huddle to ask understanding questions. This is why in the end there was no. And also like people understand the message in a one way, other people understand another way. So there was a confusion not about the status that was achieved, but what it actually meant. And what is the risk and the work that's left. And what we don't want to do is we don't want to have this on ticket level. What we want to have is all these high level initiatives. So for example, where are we with content automation? What is the meaning deliverance? What's the meaning risk? Are we on track? Yes, no. And maybe we prioritize the topics on the initiatives that I'm not on track or need attention. And the rest can be status update. But I see this at the moment. This meeting will, if the output that makes the status update easy. And also less back and forth in the status update. And in the end, as Tina and I need to understand where we are delivering. And for me, it's at the moment from the speedy team quite clear. Expedia certification is like, I know the question marks that I have is because it's an external dependency. But to be honest, I also don't fully understand where we are with the content automation and where exactly we are with the outsourcing. Like I get green light. So everything seems to be okay. But I want just to hear and understand what are the missing parts, how much that's left. And for smart booking, what is the discovery process? How much we have been processed and the rest. We can do as a status update. The reason is in the moment we started this process, we also realized, for example, that some initiatives, no one feels responsible. So for example, if there is a product like initially I said engineering manager group responsible for the engineering. Delivery. So are you responsible for product delivery? Like if as a product discovery in the in the roadmap?
+Me: Depends.
+Them: Depends for the sign depends. Zia is a problem that she has data scientists in the team. This fell to this gap in this asynchronous communication.
+Me: Okay yeah we can we can try it like and also concern that many will have. I don't. Know. Some questions are easier to clarify like meaningfully asynchronously rather than just on the spot whatever you have in your brain.
+Them: This makes sense. What I would suggest is how I would suggest this meeting is we go to the teams that are responsible for. And so for example speedy. Everything that's pending. We either update the status in the meeting or like everything that's pending or currently in work, you inform yourself before. Like you are accountable, not necessarily responsible. You are getting the status update of the initiatives that are pending. And then we're discussing them. If there are follow up questions in the meeting, this is why the final status update is maybe one or two days later. So out of this meeting, it could be, oh, I don't fully understand the status update and you cannot fully explain it. There will be no follow up meeting, well, only in emergency cases, but the normal way would then be you take everything that's discussed and add this information that you have now asynchronously connected afterwards.
+Me: So in this kind of bi-weekly. Update I just include. This missing piece.
+Them: So basically, and I'm, for example, for the IRS team, I'm starting adding or trying to add owners. Because product scoping, which was in the roadmap. Was not engineering. And in another discussion that we have, who should, is there someone who should have holistically a view of an initiative? And who should it be? But this is a follow-up question. For me, it's more important at the moment that we are discussing the things. That are currently in the engineering world and where we have a problem.
+Me: Okay let's see how it goes so we should have like. Clear set of questions we want to answer for the meeting so we. Because like for the the example with this meetings over sharing is a real thing. That kind of everyone should know all the little pieces that you've been working on right and sharing.
+Them: Saying maybe we could focus on everything. Like first of all, if you're telling me on track can be done in cycle one as planned. We can go on. Like I would like to focus on the initiatives where you see a remaining list of the main important.
+Me: And who is the audience right so we have like you Christina we have all the PMs as well they need all of the updates.
+Them: I was thinking also to cut this into certain domains. So for example, having speedy and flamingo, but in the end we have now the weighted application going forward. A tool planner. Like maybe we separate foxes and default end team and the sales force team in another meeting. But this is what we need to see after school three iterations.
+Me: Okay let's try. It.
+Them: It's in the end reaction to the multiple times something to the slack message fault to the gap.
+Me: Okay.
+Them: And I don't blame anyone. It was also partly meme just misunderstanding what was written and I didn't even ask. My only need is maybe this is just answering a question for what are the questions that needs to be answered. On each eye level. Thing that's on the road. Map. I need to understand if we are on track. If there is a progress is as initially expected, if we are delayed yes, no. And what are the risks that we see or the blockers that we have? If I'm not so much interested in anything that wants back. And for me the question is content. Outsourcing and expedia certification. Do we have a chance to have it done in cycle one? Most likely yes. But for expedia certification, I still see a risk because depending on expedia.
+Me: Yeah yeah even though it's like way lower over the last two days they closed a lot.
+Them: I know, I know, I saw it, but maybe this is just why you speak only few minutes because you can answer most of the time these questions. And I feel you that's a lot of effort. But if we see this more established and maybe we need this every four weeks, every month. We can then increase the frequency. But right now we need to get more into the details of the initiatives to understand where they are. And then like once we understood what the initiative is about and where we are, I think the update becomes easier. Okay.
+Me: Do we do we need to do it like that early in the morning.
+Them: What is this like early in the morning? I think sorry for this week. Maybe I can talk to Christine to move it a bit out. There.
+Me: Yeah we'll be a bit helpful.
+Them: Okay.
+Me: I had a doctor appointments at 9 on 30 I can actually do it tomorrow. So yeah.
+Them: And if it's a one-time sync. Then we can discuss this anyways. Or this is a general thing that you don't think the name would work.
+Me: Sometimes it works sometimes it doesn't like if you if you need to go to the doctor you usually go like way early but kind of nine but when they open. Yeah.
+Them: To Christina to move it to a later time. But this will not happen this week. If you can't join this week, then just decline and you need to give a written update.
+Me: I should I should be should be able to be fine yeah I hope all sort everything with my doctor tomorrow.
+Them: Okay, let me know, Aleksei. I mean moving a meeting with so many people now in this difficult. This is important.
+Me: Exactly yeah so I'm trying to kind of understand do we need to release that many dependencies for this?
+Them: That's all what I wanted to do. With. You later in the TPD. You have a one on one, a proper one. This week.
+Me: Third a.
+Them: Now we are. Yeah, we have it to see.
+Me: Good yeah see you later.
+Them: You later. Bye.

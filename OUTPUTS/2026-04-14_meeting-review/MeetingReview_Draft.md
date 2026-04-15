@@ -12,7 +12,7 @@
 
 #### [P1] NEW — veronica-garcia.md
 > **Current context**: NEW — not yet in KB
-> **Proposed addition**: Veronica Garcia (veronica.garcia@tourlane.com). Senior tech leader at Tourlane — likely VP Engineering or CTO level based on scope of discussion. Drives strategic decisions on Lambus acquisition, org restructuring, and AI transformation vision. Direct involvement in Aliaksei's career development conversations. Thinks about "AI as an operating system" for the company, shift from APIs to skills, and a potential "AI Platform Engineer" role. Wants to push domain-driven design and clear data ownership as foundation for AI initiatives.
+> **Proposed addition**: Veronica Garcia (veronica.garcia@tourlane.com). VP Engineering and Product at Tourlane. Drives strategic decisions on Lambus acquisition, org restructuring, and AI transformation vision. Direct involvement in Aliaksei's career development conversations. Thinks about "AI as an operating system" for the company, shift from APIs to skills, and a potential "AI Platform Engineer" role. Wants to push domain-driven design and clear data ownership as foundation for AI initiatives.
 > **Source**: Aliaksei / Veronica (2026-04-13)
 > **Action**: [x] Accept  [ ] Decline  [ ] Rephrase
 
@@ -50,7 +50,7 @@
 
 #### [PR1] UPDATE — support-portal-migration.md
 > **Current status in KB**: 4-phase migration plan documented. Phase 1 (auth area, 2–3 sprints), Phase 2 (forms + AI chat, high effort/risk), Phase 3 (admin area), Phase 4 (CMS migration).
-> **Proposed update**: **2026-04-13** — Marcos completed deep-dive reassessment. Phase 4A estimate confirmed at 2–3 sprints. Phase 4B (full backend/tech stack migration) now estimated at 5–7 additional sprints — far higher than anticipated due to tight coupling to Nuxt.js/Node.js. CMS migration to Contentful questioned (isolated to support portal, unclear benefit). Critical finding: AI features (chatbot, FAQ analysis, ticket-based improvements) cannot be purchased contractually from Lambus. Chatbot may use Lambus internal ML models — risk flagged. Veronica wants to proceed with migration regardless of Lambus merger outcome (product/UX rationale). Current lean: keep existing tech stack rather than full migration, pending feature breakdown of AI vs non-AI components. Marcos working with Foxes team on concrete next steps for Phase 4A. (Source: Aliaksei / Veronica)
+> **Proposed update**: **2026-04-13** — Marcus completed deep-dive reassessment. Phase 4A estimate confirmed at 2–3 sprints. Phase 4B (full backend/tech stack migration) now estimated at 5–7 additional sprints on top of 4A — far higher than anticipated due to tight coupling to Nuxt.js/Node.js. CMS migration to Contentful questioned (isolated to support portal, unclear benefit). Critical finding: AI features (chatbot, FAQ analysis, ticket-based improvements) cannot be purchased contractually from Lambus. Chatbot may use Lambus internal ML models — risk flagged. Veronica wants to proceed with migration regardless of Lambus merger outcome (product/UX rationale). Current lean: keep existing tech stack rather than full migration, pending feature breakdown of AI vs non-AI components. Marcos working with Foxes team on concrete next steps for Phase 4A. (Source: Aliaksei / Veronica)
 > **Source**: Aliaksei / Veronica (2026-04-13)
 > **Action**: [x] Accept  [ ] Decline  [ ] Rephrase
 

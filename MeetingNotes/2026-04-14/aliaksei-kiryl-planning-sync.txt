@@ -1,0 +1,118 @@
+# Aliaksei / Kiryl
+
+Tue, 14 Apr 26 · kiryl.karetnikau@tourlane.com, PR-20 HQ-2-Japan (4) [TV]
+
+### System Migration Discussion
+
+- Legacy supply system (ISPS) needs modernization
+- Considering move to remote login system
+  - No pre-temperature requirements
+  - Alternative design with search by name functionality
+- Catalog management system integration required
+  - Current system not handling UADs properly
+  - DNA sector recommendations need accommodation search
+  - Reference system for accommodation booking
+
+### Technical Implementation Challenges
+
+- Manual input procedures causing issues
+  - Virtual catalog system needs automation
+  - Current process requires manual intervention
+- Search functionality improvements needed
+  - Search by name implementation
+  - Catalog integration with booking system
+- Migration prerequisites must be addressed before proceeding
+
+### Booking System Architecture
+
+- Smart booking system development in progress
+- Room level mapping service integration
+  - Budget considerations for implementation
+  - Technical assessment required
+- Multiple booking channels need consolidation
+  - Private booking and smart booking alignment
+  - Custom equilibrium deployment options
+
+### Development Priorities
+
+- Documentation and testing framework
+  - Performance optimization needed
+  - Integration testing requirements
+- Breaking changes management
+  - Minimal damage approach during transitions
+  - Process improvements for delivery
+- Timeline considerations for implementation phases
+
+---
+
+Transcript:
+
+Meeting Title: Aliaksei / Kiryl
+Date: Apr 14
+Meeting participants: Aliaksei Kliuchnikau, Kiryl Karetnikau, PR-20 HQ-2-Japan (4) [TV]
+
+Transcript:
+
+Me: Hello one, two bunch.
+Them: One to one. Two.
+Me: But we was like.
+Them: Was not the most number one.
+Me: Can you see? Out?
+Them: Yet. Pretty sure to that. S the task. Remember why it's Kyle's nation. No storm. Ing.
+Me: Of me?
+Them: What is your storage number? Yet? So it will be. Worth no endpoint. With the water question, when the token level. Okay, more format of stuff. So we're just abrasive point.
+Me: Okay. Ma'am.
+Them: Liber may at the windfield supply known as the bubble ice. Supply system, which is legacy, the ISPS elephant. Any is minim. Um is meaning to that. So start non-away system. What if I move. The. Cockbridge? Supply? To remote bital login? No pre-temperature. No. But near to it. Another design. With the search by name. And pointatorium budget next. Notice. The deviation. We need to. Be up.
+Me: Must have a minute. At a priority. Engine. Okay.
+Them: So. That client catalog. In nusnatrical is not. Technia is not. Catalog dosene. UADs that most of our sector three pack with DNA is now at the recommendation. No, search item accommodation with the uuad. S reference in elephant accommodation. Yeah. To contend egmc otas if so pro Chan. Nel. E problematic. Yes. And point search for catalog. And you smoke with pre-sheets. Nobody has to catalog. And also things to. Pastor. It switches tuition in the piston and triplinary.
+Me: You must have prerequisite with migration.
+Them: Search by name. Then to study what input manual input boot. Is this problem anybody issue manual input. And you issued no the procedure in virtual as a prostitute catalog. In pushed in push head set of the body.
+Me: Then.
+Them: The billing fest ocean. Is elephant of catalog nipple to feed the babbling aviation. At auctionable process card generally doubted delivery. That could deploy the custom equilibrium. What the cover TD. Private booking smart booking can point at another.
+Me: What video? Stream of cator and drug no drugs I wish documentation trailer is the pseudony. M card that has is gala with the stavache pretty rich. Solely an officiation.
+Them: Which is focused on documentaric pinpoint of nowhere. What. No issue podcast. Kanye. Merged uid snap primardic motion. This ignoring roots. Of balance. No opener short cover plan this for migration. Steps wouldn't be.
+Me: Note.
+Them: Talked. The earth of a castu. At plus leota. Absentee lip. So motionable planigrade. Poses after this is. The most cloudy schedule.
+Me: Cross. Copy. Plant. If stomach commitment. That would lead to another. Migrative document. Able scope. It's just an era. That is supply dimension. Not the palazz. On the plate. Of a plate will be red. If you just instituted. Would. Room level mapping smart booking at torsion. When you don't achieve it. Spiral model with. Easily. It's a smart book and also keep it pretty legitimate. At no suggestion. The white is dealing with sure. I'm going to give my motion to plug in. A. Tolk situation. I'm not a calculator. Java wishing shock performance. I'm not that offshore. Do materials to be made in is gala because there is.
+Them: Kendra at its step and time nublane o. Strich to clear the plane euro. What was that reaction good on the result?
+Me: Planary. Which nasiidi plans to meet the glm.
+Them: Easier. No tuition is not the concern. Not this.
+Me: Store.
+Them: Monkey or stinky cator. Booking we can comment grad. Uation. What. The tax and the project. None other. Question. E abnigrade.
+Me: Then.
+Them: Tag boost. No breaking changes. Delivery to it. No issue. Partner. Okay medium cross in br. Am set. Is millennia. Minimal damage. Here. Without integration. Maybe domain grilling is tooth proofing.com for sequels to put down. With the process. It means limit on a spot okay. Nova turbo smother doesn't it what are feed instant tax version? Would break down pocket. Three minutes if you do and you told review score. Case Wi-Fi stuff location level cleanest your height the punishment is a process. Ed Kalish to the process if consequence of leash. Is the function the process to it submerge function. Enables matrix. Relational. Alternative is because that all the Knumber good at the image.
+Me: Another three sheets. Material kupala rich top members.
+Them: The most visible enemy system dynamic.
+Me: Shown us the yeast. Anarcist about via. To me plant with a pediatric bullet. Points to planer, which served on another chest. At not that cycle planning. Cloud. No book in com migrant. If principal cloudy and what map in resolveny. I'm not a quitted technician assessment. That is some. Room level mapping service budget. By the shamroz smart booking machine development. So it's usually my uniberal to him national. What if she was not 18 episodes? Morbid pump jack with frames deals snatching technic. Ian? Even the technicians keep the wishing mistake. If total clouds issue near pastel nitro. Gen.
+Them: Procedure.
+Me: With. Cardam she has.
+Them: Okay.
+Me: Delay frame shift engineering the quid assessment. To to show that the ePA with grasp automatically to the tile we. At the affected national planning. Virtual areas manufacturing minimum.
+Them: Nothing integrates to this query. Yet. Known as manual suppliers. It's not a good crypto. Just call it IPF. Is not any which is.
+Me: Okay.
+Them: None other customer to the school. Another boot set in a protot attack triple solution the avatar supplier Tourism.
+Me: No. No.
+Them: Vestibule inventory. Not to robots migrate progress of s bottle if submachine in Islam.
+Me: It has. To pressure which.
+Them: Those have been. Asian Trails narmal no cheaper. You still may know yes another boots material.
+Me: Thermal period.
+Them: No chassis. Portal. Just. Even trails Asian Trails done it's also a gene accommodation activity standard activities learned accommodation under system. Quoted. What is is manually created no another question. This module time criteria PDC code that's the use case to ask. The pedestrian and other.
+Me: The baggage technician with the bias with. In another. Small.
+Them: Computers here. Not sell it sql there is. Two is showing.
+Me: Budget on as na infre is showing you where to argue another.
+Them: That all good on cosine premature issues but measures call them satia.
+Me: Issue that we did the.
+Them: Is another file but islam nowhere destination it was gone and you would build miscontent push let's no.
+Me: What python evolution varnish has updated me.
+Them: Content management also yes.
+Me: No I get the timeline of galavi twist.
+Them: To it I'm going to. That with short discovery actually can be not. Iss. Ue.
+Me: Bullsh.
+Them: No.
+Me: Av. Number she just showed a.
+Them: De the source of the way the sample social is more time with sh in. Certification and launch many. Issue code.
+Me: Cash daily post. Ium really posted technician revolution at roadmap.
+Them: Okay okay.
+Me: The best I'm booking the baton appear. Assessment. Potential via my linki if you open the figure of she or not. The let's focus. The consultant sure. What Gran. Ada is delicious. I'm not a panyak the pivot ethnic among the rock biotechi itamus okay so. She extracts her on postmaterials it was more than a smart booking produced spring not sequel three. Other question is nucleuside. The option you don't was. Just. What.
+Them: Management catalog management system. There is room. Okay. Okay.
+Me: Yes.

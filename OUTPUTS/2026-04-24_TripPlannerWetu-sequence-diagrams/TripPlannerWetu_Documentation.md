@@ -114,40 +114,41 @@ sequenceDiagram
     participant TripViz as TripViz (customer)
 
     Agent->>TP: Click "Trip with Sync"
-    TP->>BE: Sync trip
-    Note over BE: Build itinerary skeleton:<br/>wetu_id per accommodation,<br/>leg dates, theme, branding (legacy, unused)
+    TP->>BE: Sync trip (trip_id)
+    Note over BE: Build itinerary skeleton by reading the Trip's<br/>offer items: accommodation wetu_id per leg,<br/>leg dates, theme, branding (legacy, unused)
 
-    BE->>Wetu: PUT itinerary<br/>(wetu_ids + dates)
+    BE->>Wetu: PUT itinerary<br/>(accommodation wetu_ids + dates)
     Wetu-->>BE: Itinerary upserted
     BE->>Wetu: GET enriched itinerary<br/>(private Wetu UI API)
-    Wetu-->>BE: Itinerary JSON with content[]:<br/>• accommodations (descriptions in all langs, images)<br/>• touristic areas: e.g. Cape Town → Western Cape →<br/>  South Africa → Africa (polygons when available)<br/>• explicit accommodation → area mapping
+    Wetu-->>BE: Itinerary JSON with content[]:<br/>• accommodations — identified by wetu_id,<br/>  descriptions (all langs), images<br/>• touristic areas — identified by wetu_id,<br/>  Cape Town → Western Cape → South Africa → Africa<br/>  (polygons when available)<br/>• accommodation → area mapping<br/>  (pairs of wetu_ids)
 
     loop For each accommodation in content[]
-        BE->>Eleph: Find by wetu_id
+        BE->>Eleph: Find accommodation by wetu_id<br/>(record PK is elephant_uuid)
         alt Exists in Elephant
-            BE->>Eleph: Update descriptions, images
+            BE->>Eleph: Update descriptions, images<br/>(by elephant_uuid)
         else New
-            BE->>Eleph: Create accommodation<br/>(store wetu_id + elephant_uuid)
+            BE->>Eleph: Create accommodation<br/>(PK = new elephant_uuid, attribute = wetu_id)
         end
     end
 
     loop For each touristic area in content[]
-        BE->>Eleph: Find area by wetu_id
+        BE->>Eleph: Find area by wetu_id<br/>(record PK is elephant_uuid)
         alt Exists
-            BE->>Eleph: Update descriptions, images, polygon if present
+            BE->>Eleph: Update descriptions, images, polygon<br/>(by elephant_uuid, polygon if present)
         else New
-            BE->>Eleph: Create area
+            BE->>Eleph: Create area<br/>(PK = new elephant_uuid, attribute = wetu_id)
         end
-        BE->>Eleph: Upsert explicit accommodation → area mapping<br/>(added end-2024, replaces reliance on polygons)
+        BE->>Eleph: Upsert (accommodation_elephant_uuid → area_elephant_uuid) mapping<br/>— resolved from the wetu_id pairs in the payload above<br/>(added end-2024, replaces reliance on polygons)
     end
 
     BE-->>TP: 200 Sync OK
     TP-->>Agent: "Trip synced" toast
 
     Note over BE,SK: Visualization is built asynchronously
-    BE->>SK: Enqueue "build TripViz JSON" job
+    BE->>SK: Enqueue "build TripViz JSON" job (trip_id)
 
-    SK->>Eleph: Fetch accommodation, area, country, descriptions, images
+    Note over SK: Resolve Trip → offer items → elephant_uuids
+    SK->>Eleph: Fetch accommodations, areas, country,<br/>descriptions, images (all queries by elephant_uuid)
     Eleph-->>SK: Aggregated data (no Wetu calls in this step)
     SK->>S3: PUT tripviz.json
 
@@ -155,6 +156,23 @@ sequenceDiagram
     S3-->>TripViz: JSON
     TripViz-->>Agent: Customer-facing trip view
 ```
+
+### ID assumptions used above (please verify — flag any wetu_id leaks)
+
+The point of this list is to make every ID explicit so we can spot any wetu-specific ID sneaking into storage or logic where it doesn't belong. Confidence reflects how sure I am; "verify" items are where I'd like Gregor to confirm or correct.
+
+| Step | Assumed ID in use | Confidence |
+|------|-------------------|------------|
+| Sync trigger — TP FE → BE | `trip_id` | High |
+| Build itinerary skeleton | `wetu_id` per accommodation, read off the Trip's offer items (stored in Gecko API) | High |
+| PUT / GET itinerary at Wetu | `wetu_id` on the wire (forced by Wetu's API) | High |
+| Itinerary JSON content[] — accommodations, areas, and the accommodation→area pairs all identified by `wetu_id` inside Wetu's namespace | High |
+| Elephant lookup for an accommodation / area | query by the `wetu_id` attribute; record PK is `elephant_uuid` | **Verify** — need to confirm Elephant actually has a `wetu_id` index rather than re-scanning |
+| Elephant create for an accommodation / area | `elephant_uuid` as PK, `wetu_id` stored as attribute | High |
+| Explicit accommodation → area mapping stored in Elephant | `elephant_accommodation_uuid → elephant_area_uuid` (translated from the `wetu_id` pair before persisting) | **Verify** — if we actually persist `wetu_id` pairs here, that's a wetu_id leak into Elephant worth retiring during deprecation |
+| Sidekiq job argument | `trip_id` (job resolves to `elephant_uuid`s itself by reading the Trip) | **Verify** — job could equally take the offer_id or a list of elephant_uuids |
+| Sidekiq fetches from Elephant | all queries by `elephant_uuid` | High |
+| S3 object | keyed by `trip_id` (or a derived URL) | **Verify** |
 
 Post-deprecation note. This is the interaction we want to remove. Content should come from catalog (Expedia / own-managed) instead of Wetu. Gregor: *"this would all just go away, without replacement"* — the upsert-into-Elephant half and the Sidekiq / S3 / TripViz half stay; only the Wetu calls and the Wetu-sourced content drop out.
 

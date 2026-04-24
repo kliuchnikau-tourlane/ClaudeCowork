@@ -144,8 +144,7 @@ sequenceDiagram
     BE-->>TP: 200 Sync OK
     TP-->>Agent: "Trip synced" toast
 
-    Note over BE,SK: Visualization is built asynchronously
-    BE->>SK: Enqueue "build TripViz JSON" job (trip_id)
+    BE->>SK: Enqueue "build TripViz JSON" job (trip_id)<br/>— async, does not block the sync response
 
     Note over SK: Resolve Trip → offer items → elephant_uuids
     SK->>Eleph: Fetch accommodations, areas, country,<br/>descriptions, images (all queries by elephant_uuid)
@@ -180,9 +179,11 @@ Addresses the open question pinned on the Miro sketch ("why is area syncing done
 
 ---
 
-## Diagram 3 — Manual accommodation input (including campground / area-as-accommodation)
+## Diagram 3 — Manual input with Link Content (accommodation or area, same flow)
 
-Context. Used where there is no DMC API connection. The agent creates an accommodation **without** an Elephant UUID. "Link content" can target either an accommodation **or** an area (campground case — the customer stays "somewhere in Cape Town"). Because there is no Elephant UUID yet, the first Trip Sync both enriches content **and** establishes the Elephant UUID so the invariant "TripViz only reads Elephant" holds.
+Context. Used where there is no DMC API connection (Accommodation Search returns nothing). The agent creates a manual entry on the Trip **without** an Elephant UUID. Link Content returns a **mixed list** from Wetu — both accommodations and areas in the same response — and the agent can pick any one of them. **Both kinds of item are linked the same way**: the picked `wetu_id` is saved onto a single slot on the manual entry, with no type flag stored alongside it. The accommodation-vs-area distinction only surfaces later, at render time, when TripViz fetches the resolved Elephant entity and sees whether it's an accommodation record or an area record. The campground case is just a concrete instance of picking an area (e.g. "Cape Town") instead of a hotel — same operation, same storage, different rendering downstream.
+
+Because there is no Elephant UUID yet, the first Trip Sync both enriches content **and** establishes the `elephant_uuid` on the manual entry so the invariant "TripViz only reads Elephant" holds.
 
 ```mermaid
 sequenceDiagram
@@ -193,48 +194,45 @@ sequenceDiagram
     participant Wetu as Wetu (content + itinerary)
     participant Eleph as Elephant
 
-    Agent->>TP: Create manual accommodation entry<br/>(name, rate — no elephant_uuid yet)
-    TP->>BE: Persist manual entry (no elephant_uuid)
-    BE-->>TP: Saved (placeholder)
+    Agent->>TP: Create manual entry on trip<br/>(name, rate — no wetu_id, no elephant_uuid)
+    TP->>BE: Persist manual entry
+    BE->>BE: Save placeholder onto Trip's offer item
+    BE-->>TP: Saved
 
     Agent->>TP: Open "Link content", type name
     TP->>BE: Search Wetu by name
-    BE->>Wetu: Suggestions
-    Wetu-->>BE: Candidates — accommodation OR area<br/>(campground use case: area only, e.g. "Cape Town")
-    BE-->>TP: Candidates
+    BE->>Wetu: Suggestions by name
+    Wetu-->>BE: Mixed list — accommodations AND areas<br/>in the same response, each with wetu_id<br/>and type flag (accommodation / area)
+    BE-->>TP: Candidates (type flag used for display only)
+    TP-->>Agent: Any match — hotel or area<br/>(campground case = pick an area)
 
-    Agent->>TP: Select candidate
-    TP->>BE: Store wetu_id on manual entry<br/>(still no elephant_uuid)
+    Agent->>TP: Select any candidate (accommodation OR area)
+    TP->>BE: Link candidate's wetu_id
+    BE->>BE: Save wetu_id onto the Trip's offer item<br/>— SAME slot regardless of type,<br/>NO type flag persisted here
+    Note over BE: One wetu_id on the manual entry.<br/>Accommodation vs area is NOT recorded locally —<br/>TripViz infers it from Elephant at render time.
     BE-->>TP: Linked
 
-    Note over TP,Eleph: Unlike Diagram 1, the elephant_uuid is not known yet —<br/>only the wetu_id. Binding happens during Trip Sync.
-
     Agent->>TP: Click "Trip with Sync"
-    TP->>BE: Sync trip
+    TP->>BE: Sync trip (trip_id)
     BE->>Wetu: PUT + GET itinerary (see Diagram 2)
-    Wetu-->>BE: Enriched itinerary JSON
+    Wetu-->>BE: Enriched itinerary<br/>(the linked wetu_id comes back as EITHER<br/>an accommodation OR an area entry)
 
-    Note over BE,Eleph: Same upsert flow as Diagram 2 plus UUID binding
-    BE->>Eleph: Find accommodation / area by wetu_id
-    alt Exists
-        Eleph-->>BE: elephant_uuid
-    else New
-        BE->>Eleph: Create accommodation / area
-        Eleph-->>BE: new elephant_uuid
-    end
-    BE->>BE: Bind elephant_uuid back onto the manual entry<br/>(fulfills "TripViz reads only Elephant")
+    Note over BE: Same upsert as Diagram 2, plus UUID binding
+    BE->>Eleph: Upsert by wetu_id<br/>(accommodation table OR area table,<br/>per the type in Wetu's payload)
+    Eleph-->>BE: elephant_uuid (for whichever type was chosen)
+    BE->>BE: Bind elephant_uuid onto the manual entry<br/>— SAME slot, still no type flag.<br/>Fulfils "TripViz reads only Elephant".
     BE-->>TP: 200 Sync OK
-
-    Note over Agent,Eleph: Sidekiq JSON build + TripViz visualization<br/>continue exactly as in Diagram 2.
 ```
 
-Post-deprecation note. Replace the Wetu search in "Link content" with a search against our own catalog (accommodations with content) and our own touristic areas (for the campground case). The UUID-binding-on-first-sync step goes away, because picking a catalog item already returns an elephant_uuid.
+After the sync, Sidekiq JSON build and TripViz visualization continue exactly as in Diagram 2. TripViz fetches the Elephant entity by `elephant_uuid` and renders hotel-card vs area-card based on the entity's own type in Elephant — that's where the accommodation-vs-area distinction finally becomes visible.
+
+Post-deprecation note. Replace the Wetu search with a search against our own catalog that returns the same mixed list (accommodations + areas). The storage contract on the Trip's offer item doesn't change — still one `wetu_id`-equivalent slot, still no type flag. The UUID-binding-on-first-sync step goes away because picking a catalog item already returns an `elephant_uuid` directly.
 
 ---
 
 ## Diagram 4 — Transport leg location search (self-contained)
 
-Context. For transport legs we need named waypoints with coordinates (airport, train station, harbor, ferry port, sometimes even an accommodation acting as a pickup point). These are pulled from Wetu's location search. **Not** persisted in Elephant. The Routing Service then computes the geometry between the two waypoints so TripViz can draw the line with a proper route.
+Context. For transport legs we need named waypoints with coordinates (airport, train station, harbor, ferry port, sometimes even an accommodation acting as a pickup point). These are pulled from Wetu's location search and saved onto the Trip's leg inside Gecko API — **nothing is written to Elephant**. The Routing Service then computes the geometry between the two waypoints so TripViz can draw the line with a proper route.
 
 ```mermaid
 sequenceDiagram
@@ -252,17 +250,15 @@ sequenceDiagram
     BE-->>TP: Candidates
 
     Agent->>TP: Pick origin / destination
-    TP->>BE: Save on leg:<br/>wetu_location_id + name + coordinates
+    TP->>BE: Save waypoint on leg
+    BE->>BE: Save on Trip's leg:<br/>wetu_location_id + name + coordinates<br/>(stays in Gecko API — Elephant untouched)
     BE-->>TP: Saved
 
-    Note over BE: BE uses wetu_location_id for identity checks<br/>(round-trip? same start/end?). Once Wetu is gone, replace<br/>with geo-distance heuristic or Google Places / Nominatim IDs.
+    Note over BE: BE uses wetu_location_id for identity checks<br/>(round-trip? same start/end?). Once Wetu is gone,<br/>replace with a geo-distance heuristic or<br/>Google Places / Nominatim IDs.
 
-    Note over TP,Wetu: NOT persisted into Elephant.
-
-    Note over BE,RS: Route geometry for TripViz
     BE->>RS: Compute route (origin, destination)
     RS-->>BE: Route geometry / duration
-    BE-->>TP: Route ready
+    BE-->>TP: Route ready (for TripViz map)
 ```
 
 Post-deprecation note. The simplest of the four to replace — swap Wetu location search for Google Places or Nominatim (OSM), licensing permitting, and replace the wetu_location_id-based identity checks in BE internals with a geo-distance heuristic. Gregor called this *"a story on a sprint, not an initiative"*.
@@ -274,7 +270,7 @@ Post-deprecation note. The simplest of the four to replace — swap Wetu locatio
 1. **Accommodation Search branch** (Diagram 1). On the Miro sketch, the arrow from Accommodation Search labels the return as "accommodations with optional wetu_id". Is that service reading `wetu_id` straight from Elephant, or does it merge from elsewhere? Worth pinning before we remove Wetu — it drives whether "Link content" can disappear entirely or needs a catalog-backed replacement.
 2. **Itinerary API payload shape** (Diagram 2). Areas and accommodations currently arrive in the same `content[]` array. The Miro question *"why area syncing done separately from itinerary API?"* — I think it's a naming artefact, not a separate network call. Worth confirming in the Gecko code before we promise "one diagram covers both".
 3. **Explicit accommodation → area mapping** (Diagram 2). Stored on the accommodation, on the area, or a join? Affects what needs to be sourced from elsewhere once Wetu's polygons / hierarchy go away.
-4. **Campground payload** (Diagram 3). When the manual entry is linked to an **area** (not an accommodation), does the itinerary skeleton send the area's `wetu_id` in the accommodation slot, or in a separate slot? Gregor said *"we send an itinerary where the area is the accommodation"* — need the exact shape before we can mimic it post-deprecation.
+4. **Manual entry storage (Diagram 3).** The diagram assumes Link Content stores a single `wetu_id` slot with no type flag on the manual entry, and that TripViz infers "accommodation vs area" from the Elephant entity at render time. Worth confirming that (a) the slot is actually type-agnostic and (b) TripViz really does read the type from Elephant and not from a flag on the Trip's offer item.
 5. **Transport leg internal checks** (Diagram 4). Besides round-trip / same-start-end, any other Gecko logic keyed on `wetu_location_id` (transport type inference, leg merging, etc.) that should be surfaced before we kill Wetu?
 6. **Content Integration team offline flow**. Not drawn. Worth a 5th diagram (even a boxes-and-arrows one) if we want it in the same doc — currently only mentioned in prose under Diagram 1.
 7. **Dead theme/branding buttons**. Gregor flagged that "theme" and "branding" selectors on the trip page drove only the legacy Wetu-side visualization, which no customer hits. Remove from UI rather than model — not drawn.

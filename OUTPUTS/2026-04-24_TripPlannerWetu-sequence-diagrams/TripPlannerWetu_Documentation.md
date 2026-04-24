@@ -25,7 +25,7 @@ Actors / systems used throughout (names aligned with the Miro sketch):
 
 ## Diagram 1 — Link content: mapping an existing accommodation to a Wetu record
 
-Context. An accommodation returned by Accommodation Search without a `wetu_id` shows a "Content unlinked" warning. The agent uses the "Link content" form to search Wetu by name and pick a match. Only the **mapping** (`wetu_id` stored against the Elephant accommodation) is persisted at this step — no descriptions or images are fetched yet.
+Context. An accommodation returned by Accommodation Search without a `wetu_id` shows a "Content unlinked" warning. The agent uses the "Link content" form to search Wetu by name and pick a match. Only the **mapping** (`wetu_id` saved onto the offer item inside the Trip) is persisted at this step — no descriptions or images are fetched yet. The Trip object itself lives inside Gecko API, so this is a local write; Elephant is not touched here.
 
 ```mermaid
 sequenceDiagram
@@ -35,7 +35,6 @@ sequenceDiagram
     participant BE as TripPlanner BE<br/>(Gecko API)
     participant AS as Accommodation Search
     participant Wetu as Wetu Content / Suggestions
-    participant Eleph as Elephant
 
     Agent->>TP: Open offer, search accommodations in destination
     TP->>BE: GET accommodations for destination
@@ -53,11 +52,9 @@ sequenceDiagram
 
     Agent->>TP: Select candidate, click "Add to offer"
     TP->>BE: Persist link (elephant_uuid ↔ wetu_id)
-    BE->>Eleph: Store wetu_id on accommodation
-    Eleph-->>BE: OK
+    BE->>BE: Save wetu_id onto the Trip's offer item<br/>(Trip lives inside Gecko API)
+    Note over BE: Only the mapping is stored here.<br/>Content (descriptions, images) arrives<br/>during Trip Sync (Diagram 2).
     BE-->>TP: Linked
-
-    Note over TP,Eleph: Only the mapping is stored here.<br/>Content (descriptions, images) arrives during Trip Sync (Diagram 2).
 ```
 
 Post-deprecation note. When we stop taking content from Wetu, "Link content" against Wetu goes away for regular accommodations — Accommodation Search only returns items that already have content in our catalog.

@@ -45,7 +45,7 @@ Handle all data fetching and transformation in CFA using Next.js server actions 
 - Single deployment pipeline, no extra infra
 
 **Cons:**
-- Logic coupled to CFA — not reusable by other consumers. If a second consumer appears, refactoring needed. We consider this a non-issue: this is a conscious decision to avoid premature optimisation. There are no other consumers for this logic at the moment and there may not be any. The current logic is view-specific backend-for-the-frontend code.
+- Logic coupled to CFA — not reusable by other consumers. If a second consumer appears, refactoring needed. 
 
 ### Option 2: New aggregation service
 
@@ -91,15 +91,8 @@ Route all data through CM — invoices, documents, and trip data. CM becomes the
 **Option 1 — server-side functions in CFA, invoices through CM.**
 
 Rationale:
-- Only one consumer exists today. Building a separate service is premature.
+- The only cons *"Logic coupled to CFA — not reusable by other consumers"* we consider a non-issue at this stage: Only one consumer exists today. Building a separate service is premature. The current logic is view-specific backend-for-the-frontend code.
 - Fastest path to delivery given resource constraints (Markus, TypeScript, no Ruby capacity).
 - Foxes team can own and maintain it — same language, same patterns, same repo.
 - If a second consumer emerges (mobile app, AI agent), we can extract into a service then. The code will already be cleanly organized in `libs/data/*`.
 - Invoices go through CM because: (a) CM already has the Salesforce connection, (b) we avoid adding a direct CFA ↔ Salesforce dependency, (c) invoice data naturally fits the customer domain.
-
----
-
-## Open Items
-
-- **Documents Dashboard auth:** verify whether CFA needs additional auth setup to call Documents Dashboard directly.
-- **Shared TypeScript types package:** opportunity to create a shared npm package for cross-project type consistency (Markus's suggestion, post-MVP).

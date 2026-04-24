@@ -14,7 +14,6 @@ Actors / systems used throughout (names aligned with the Miro sketch):
 - **Trip Planner FE** — the agent UI.
 - **TripPlanner BE** (a.k.a. Gecko API) — backend that orchestrates everything below.
 - **Accommodation Search** — our accommodation-search service (not a Wetu endpoint). Returns the candidate list with or without a `wetu_id`.
-- **Item Curator** — our admin UI for creating/editing accommodations and areas manually.
 - **Wetu** — external supplier. Two surfaces are used: the **Content / Suggestions API** (search by name) and the **Itinerary API** (private, used to pull enriched content per itinerary).
 - **Elephant** — internal accommodation / touristic-area store. Source of truth for content shown to customers via TripViz.
 - **Routing Service** — our routing / geometry service that computes routes and geometry for transport legs.
@@ -138,7 +137,7 @@ Addresses the open question pinned on the Miro sketch ("why is area syncing done
 
 ## Diagram 3 — Manual accommodation input (including campground / area-as-accommodation)
 
-Context. Used where there is no DMC API connection. The agent creates an accommodation **without** an Elephant UUID, optionally using Item Curator for bookkeeping. "Link content" can target either an accommodation **or** an area (campground case — the customer stays "somewhere in Cape Town"). Because there is no Elephant UUID yet, the first Trip Sync both enriches content **and** establishes the Elephant UUID so the invariant "TripViz only reads Elephant" holds.
+Context. Used where there is no DMC API connection. The agent creates an accommodation **without** an Elephant UUID. "Link content" can target either an accommodation **or** an area (campground case — the customer stays "somewhere in Cape Town"). Because there is no Elephant UUID yet, the first Trip Sync both enriches content **and** establishes the Elephant UUID so the invariant "TripViz only reads Elephant" holds.
 
 ```mermaid
 sequenceDiagram
@@ -146,18 +145,12 @@ sequenceDiagram
     actor Agent as Sales Agent
     participant TP as Trip Planner FE
     participant BE as TripPlanner BE<br/>(Gecko API)
-    participant IC as Item Curator
     participant Wetu as Wetu (content + itinerary)
     participant Eleph as Elephant
 
     Agent->>TP: Create manual accommodation entry<br/>(name, rate — no elephant_uuid yet)
     TP->>BE: Persist manual entry (no elephant_uuid)
     BE-->>TP: Saved (placeholder)
-
-    opt Bookkeeping in Item Curator
-        Agent->>IC: Review / annotate manual entry
-        IC->>Eleph: Update notes
-    end
 
     Agent->>TP: Open "Link content", type name
     TP->>BE: Search Wetu by name
@@ -237,7 +230,6 @@ Post-deprecation note. The simplest of the four to replace — swap Wetu locatio
 2. **Itinerary API payload shape** (Diagram 2). Areas and accommodations currently arrive in the same `content[]` array. The Miro question *"why area syncing done separately from itinerary API?"* — I think it's a naming artefact, not a separate network call. Worth confirming in the Gecko code before we promise "one diagram covers both".
 3. **Explicit accommodation → area mapping** (Diagram 2). Stored on the accommodation, on the area, or a join? Affects what needs to be sourced from elsewhere once Wetu's polygons / hierarchy go away.
 4. **Campground payload** (Diagram 3). When the manual entry is linked to an **area** (not an accommodation), does the itinerary skeleton send the area's `wetu_id` in the accommodation slot, or in a separate slot? Gregor said *"we send an itinerary where the area is the accommodation"* — need the exact shape before we can mimic it post-deprecation.
-5. **Item Curator's role** (Diagram 3). On the sketch it appears alongside the manual-input flow, but in Gregor's walk-through it was mostly a viewer ("I can only trust my dear elephant viewer"). Is it actually part of the write path today, or only a read/annotate surface? Drawn as optional for now.
-6. **Transport leg internal checks** (Diagram 4). Besides round-trip / same-start-end, any other Gecko logic keyed on `wetu_location_id` (transport type inference, leg merging, etc.) that should be surfaced before we kill Wetu?
-7. **Content Integration team offline flow**. Not drawn. Worth a 5th diagram (even a boxes-and-arrows one) if we want it in the same doc — currently only mentioned in prose under Diagram 1.
-8. **Dead theme/branding buttons**. Gregor flagged that "theme" and "branding" selectors on the trip page drove only the legacy Wetu-side visualization, which no customer hits. Remove from UI rather than model — not drawn.
+5. **Transport leg internal checks** (Diagram 4). Besides round-trip / same-start-end, any other Gecko logic keyed on `wetu_location_id` (transport type inference, leg merging, etc.) that should be surfaced before we kill Wetu?
+6. **Content Integration team offline flow**. Not drawn. Worth a 5th diagram (even a boxes-and-arrows one) if we want it in the same doc — currently only mentioned in prose under Diagram 1.
+7. **Dead theme/branding buttons**. Gregor flagged that "theme" and "branding" selectors on the trip page drove only the legacy Wetu-side visualization, which no customer hits. Remove from UI rather than model — not drawn.

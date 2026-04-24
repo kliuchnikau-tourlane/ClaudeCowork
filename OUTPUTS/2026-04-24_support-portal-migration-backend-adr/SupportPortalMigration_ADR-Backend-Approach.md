@@ -11,25 +11,25 @@
 
 We are migrating the authenticated customer area of the Support Portal (Lambus/Nuxt) into the CFA monorepo (Next.js/React, Fusion). The frontend migration approach is agreed upon. This ADR addresses where the **server-side data aggregation logic** should live.
 
-**What the backend does today:**
+**What the Support Portal backend does today:**
 - Fetches data from multiple sources (TripViz S3 JSON, Salesforce, Documents Dashboard, CM, Gecko API)
-- Aggregates and transforms it for display (notably ~1500 lines of TripViz type mapping)
+- Aggregates and transforms it for display
 - All TypeScript, runs as server-side functions in Nitro (Nuxt's server layer)
 
 **Current consumers:** Support Portal web app only. No other service consumes this aggregation logic today.
 
 **Key constraints:**
-- Foxes team (future owners) are frontend engineers — no backend (Ruby) capacity until June
-- Markus (current developer) knows TypeScript, not Ruby
+- Foxes team (future owners) are frontend engineers — no backend (Ruby) capacity until June (when new Backend engineer joins). Jakob knows Ruby, but is not a part of the Foxes team and is fully busy with other commitments (notably Zoom migration, Infrastructure guild)
+- Markus (current developer of the Support Portal) knows TypeScript, not Ruby
 - Company direction: avoid unnecessary microservices, build on domain boundaries
-- Mobile app (Lambus) has its own tightly coupled implementation — cannot reuse a shared service without significant rework on the Lambus side
+- Mobile app (Lambus) has its own tightly coupled implementation and is a proprietary Lambus product that is purchased by other Lambus customers (it is not Tourlane-tailored) — cannot reuse a shared service without significant rework on the Lambus side
 - Decision needed by April 27 for Cycle 2 planning
 
 ---
 
 ## Options
 
-### Option 1: Server-side functions in CFA (recommended)
+### Option 1: Server-side functions in CFA
 
 Handle all data fetching and transformation in CFA using Next.js server actions + `libs/data/*`.
 
@@ -37,13 +37,15 @@ Handle all data fetching and transformation in CFA using Next.js server actions 
 - **Documents:** direct call to Documents Dashboard API from CFA
 - **Invoices:** routed through CM (avoids adding a direct CFA ↔ Salesforce connection)
 
-| Pros | Cons |
-|------|------|
-| No new service to deploy or maintain | Logic coupled to CFA — not reusable by other consumers |
-| Foxes team can own and review (TypeScript, same patterns they already use) | If a second consumer appears, refactoring needed |
-| Fastest to implement — Markus ports existing TS logic directly | |
-| Aligns with existing CFA architecture (server actions + libs/data/*) | |
-| Single deployment pipeline, no extra infra | |
+**Pros:**
+- No new service to deploy or maintain
+- Foxes team can own and review (TypeScript, same patterns they already use)
+- Fastest to implement — Markus ports existing TS logic directly
+- Aligns with existing CFA architecture (server actions + libs/data/*)
+- Single deployment pipeline, no extra infra
+
+**Cons:**
+- Logic coupled to CFA — not reusable by other consumers. If a second consumer appears, refactoring needed. We consider this a non-issue: this is a conscious decision to avoid premature optimisation. There are no other consumers for this logic at the moment and there may not be any. The current logic is view-specific backend-for-the-frontend code.
 
 ### Option 2: New aggregation service
 
@@ -57,24 +59,30 @@ Create a standalone service that aggregates all data sources. CFA calls one endp
 - Markus can build it now
 - Foxes are familiar with Fastify patterns
 
-| Pros | Cons |
-|------|------|
-| Reusable by future consumers (mobile app, AI agents) | New service to deploy, monitor, and maintain |
-| Clean separation of concerns | Only one consumer today — premature abstraction |
-| Future-proof if TripViz JSON is replaced by multiple sources (content catalog, booking platform) | 2a: no Ruby capacity until June, blocks migration timeline |
-| | 2b: adds a TypeScript service that FE team must maintain; Fly.io deployment concerns |
-| | Roughly doubles backend migration effort vs. Option 1 |
+**Pros:**
+- Reusable by future consumers — though there are no clear future consumers at this point. Mobile app is out of the equation (Lambus-owned, tightly coupled to their stack).
+- Logic is independently deployable and scalable
+
+**Cons:**
+- New service to deploy, monitor, and maintain
+- Only one consumer today — premature abstraction
+- 2a: no Ruby capacity until June, blocks migration timeline
+- 2b: adds a TypeScript service that FE team must maintain
+- Roughly doubles backend migration effort vs. Option 1, adding significant time on top of the currently estimated 3–4 sprints
 
 ### Option 3: Everything into CM
 
 Route all data through CM — invoices, documents, and trip data. CM becomes the aggregation layer.
 
-| Pros | Cons |
-|------|------|
-| CM already handles customer auth and Salesforce connection | CM is a Ruby service — no Ruby capacity to build this now |
-| Centralized customer data access | Overloads CM with view-specific aggregation logic that doesn't belong to customer domain |
-| CFA only needs to verify login (already in place) | TripViz doesn't require auth — routing it through CM adds unnecessary complexity |
-| | Increases scope and timeline significantly |
+**Pros:**
+- CM already handles customer auth and Salesforce connection
+- Centralized customer data access
+- CFA only needs to verify login (already in place)
+
+**Cons:**
+- CM is a Ruby service — no Ruby capacity to build this now
+- Overloads CM with view-specific aggregation logic that doesn't belong to the customer domain (e.g. trip visualization data has nothing to do with customer management)
+- Increases scope and timeline significantly
 
 ---
 

@@ -2,9 +2,9 @@
 
 Reconstructed from the 2026-04-22 catch-up with Gregor, cross-referenced against the 3-section sketch on our Miro board (https://miro.com/app/board/uXjVHe9yEWY=/) and the 2026-04-23 drawing session.
 
-Four diagrams are captured below — the Miro sketch groups flows into 3 sections (Link Content and Trip Sync are combined into the top "Default accommodation" section), but here they are split to keep each diagram readable. Mapping:
+Five diagrams are captured below — the Miro sketch groups flows into 3 sections (Link Content variants and Trip Sync are combined into the top "Default accommodation" section), but here they are split to keep each diagram readable. Mapping:
 
-- Diagrams 1 + 2 ↔ Miro top section ("Default accommodation content linking" + sync)
+- Diagrams 1 + 1b + 2 ↔ Miro top section (Diagram 1 = "if wetu_id is missing" branch, Diagram 1b = "if wetu_id is present" branch, Diagram 2 = the Trip Sync step that follows either)
 - Diagram 3 ↔ Miro middle section ("Manual accommodation input")
 - Diagram 4 ↔ Miro bottom section ("Transport leg management")
 
@@ -60,6 +60,36 @@ sequenceDiagram
 Post-deprecation note. When we stop taking content from Wetu, "Link content" against Wetu goes away for regular accommodations — Accommodation Search only returns items that already have content in our catalog.
 
 Offline side flow (not drawn). If Accommodation Search returns nothing for the name the agent needs, the agent reaches out to the Content Integration team. That team batches requests, emails Wetu (Excel list mentioned on the Miro sketch), waits 1–4 days for Wetu to populate content, then runs the Trip Sync themselves. Entirely out-of-band — no TripPlanner UI involved — so it's not drawn as a sequence diagram, but it's the implicit "otherwise" branch of this flow.
+
+---
+
+## Diagram 1b — Happy path: picking an accommodation that already has `wetu_id`
+
+Context. This is the short alternative to Diagram 1. If Accommodation Search returns the accommodation with a `wetu_id` already attached (it was linked on a previous trip and the content is already in Elephant), the agent just picks it — no "Link content" form, no Wetu round-trip. The `wetu_id` is saved onto the Trip's offer item and the offer is ready for Trip Sync (Diagram 2).
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Agent as Sales Agent
+    participant TP as Trip Planner FE
+    participant BE as TripPlanner BE<br/>(Gecko API)
+    participant AS as Accommodation Search
+
+    Agent->>TP: Open offer, search accommodations in destination
+    TP->>BE: GET accommodations for destination
+    BE->>AS: Search accommodations
+    AS-->>BE: List (each item: elephant_uuid + wetu_id)
+    BE-->>TP: Results
+    TP-->>Agent: Cards — content linked, no warning
+
+    Agent->>TP: Pick accommodation, click "Add to offer"
+    TP->>BE: Add to offer
+    BE->>BE: Save (elephant_uuid, wetu_id) onto<br/>the Trip's offer item
+    Note over BE: No Wetu call needed — the mapping already exists on<br/>the accommodation returned by Accommodation Search.<br/>Content still arrives during Trip Sync (Diagram 2).
+    BE-->>TP: Added
+```
+
+Precondition for Trip Sync. Trip Sync can only run once **every** accommodation on the Trip has a `wetu_id` attached to its offer item — i.e. every accommodation has gone through either Diagram 1 or Diagram 1b (or Diagram 3 for manual input).
 
 ---
 

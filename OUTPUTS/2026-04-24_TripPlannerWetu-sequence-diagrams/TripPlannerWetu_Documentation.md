@@ -217,14 +217,14 @@ sequenceDiagram
     BE->>Wetu: PUT + GET itinerary (see Diagram 2)
     Wetu-->>BE: Enriched itinerary<br/>(the linked wetu_id comes back as EITHER<br/>an accommodation OR an area entry)
 
-    Note over BE: Same upsert as Diagram 2, plus UUID binding
+    Note over BE,Eleph: Same upsert as Diagram 2, plus UUID binding
     BE->>Eleph: Upsert by wetu_id<br/>(accommodation table OR area table,<br/>per the type in Wetu's payload)
     Eleph-->>BE: elephant_uuid (for whichever type was chosen)
     BE->>BE: Bind elephant_uuid onto the manual entry<br/>— SAME slot, still no type flag.<br/>Fulfils "TripViz reads only Elephant".
     BE-->>TP: 200 Sync OK
-```
 
-After the sync, Sidekiq JSON build and TripViz visualization continue exactly as in Diagram 2. TripViz fetches the Elephant entity by `elephant_uuid` and renders hotel-card vs area-card based on the entity's own type in Elephant — that's where the accommodation-vs-area distinction finally becomes visible.
+    Note over Agent,Eleph: Sidekiq JSON build + TripViz continue as in Diagram 2.<br/>TripViz fetches the Elephant entity by elephant_uuid<br/>and renders hotel-card vs area-card based on<br/>the entity's type in Elephant.
+```
 
 Post-deprecation note. Replace the Wetu search with a search against our own catalog that returns the same mixed list (accommodations + areas). The storage contract on the Trip's offer item doesn't change — still one `wetu_id`-equivalent slot, still no type flag. The UUID-binding-on-first-sync step goes away because picking a catalog item already returns an `elephant_uuid` directly.
 

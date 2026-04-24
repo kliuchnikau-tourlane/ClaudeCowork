@@ -46,7 +46,7 @@ sequenceDiagram
 
     Agent->>TP: Pick unlinked accommodation, type name in "Link content"
     TP->>BE: Search Wetu by name
-    BE->>Wetu: Suggestions by name<br/>(proxy to Wetu content API — may mix accommodations AND areas;<br/>filtered here to accommodations only)
+    BE->>Wetu: Suggestions by name<br/>(proxy to Wetu content API,<br/>may mix accommodations and areas,<br/>filtered to accommodations only)
     Wetu-->>BE: Candidates (wetu_id, title, area)
     BE-->>TP: Candidates
     TP-->>Agent: List of Wetu candidates

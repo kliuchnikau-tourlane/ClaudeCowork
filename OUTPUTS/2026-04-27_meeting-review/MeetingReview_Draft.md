@@ -159,7 +159,7 @@
 > - **2026-04-24** — Asked clarifying questions in the Completeness Check info session that helped surface a key implementation invariant: provider-based rules only fire when the matching item type is present in the trip. (Source: Completeness Check info session)
 > ```
 > **Source**: Completeness Check info session (2026-04-24)
-> **Action**: [x] Accept  [ ] Decline  [ ] Rephrase
+> **Action**: [ ] Accept  [x] Decline  [ ] Rephrase
 
 ### Projects
 

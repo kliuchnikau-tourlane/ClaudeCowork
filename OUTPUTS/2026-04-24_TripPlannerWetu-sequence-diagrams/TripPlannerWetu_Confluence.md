@@ -194,7 +194,7 @@ Internal Elephant references set during sync (no Wetu IDs leak through):
 
 ## Diagram 3 — Manual input with Link Content (accommodation or area, same flow)
 
-Used when Accommodations Search returns nothing. The agent creates a manual entry, then uses Link Content to pick from a mixed list (accommodations AND areas) returned by Wetu. Both kinds are linked the same way (single `wetu_id` slot). The accommodation-vs-area distinction only surfaces at render time, from which UUID field on the offer item is populated. Campground = pick an area instead of a hotel; same flow.
+Used when Accommodations Search returns nothing. The agent uses Link Content first — picks from a mixed list (accommodations AND areas) returned by Wetu — and then completes the manual entry, which is persisted with the chosen `wetu_id` already attached. Both kinds are linked the same way (single `wetu_id` slot). The accommodation-vs-area distinction is recorded on the offer item during TripViz sync (which UUID field gets set), so TripViz reads it directly. Campground = pick an area instead of a hotel; same flow.
 
 > 📎 **Image: Diagram 3** — upload `diagram_3.png` here.
 
@@ -210,22 +210,17 @@ sequenceDiagram
     participant Wetu as Wetu (content + itinerary)
     participant Eleph as Elephant
 
-    Agent->>TP: Create manual entry on trip<br/>(name, rate — no wetu_id, no elephant_uuid)
-    TP->>BE: Persist manual entry
-    BE->>BE: Save placeholder onto Trip's offer item
-    BE-->>TP: Saved
-
-    Agent->>TP: Open "Link content", type name
+    Agent->>TP: Start manual entry, click "Link content", type name
     TP->>BE: Search Wetu by name
     BE->>Wetu: Suggestions by name
     Wetu-->>BE: Mixed list — accommodations AND areas<br/>in the same response, each with wetu_id<br/>and type flag (accommodation / area)
     BE-->>TP: Candidates (type flag used for display only)
     TP-->>Agent: Any match — hotel or area<br/>(campground case = pick an area)
 
-    Agent->>TP: Select any candidate (accommodation OR area)
-    TP->>BE: Link candidate's wetu_id
-    BE->>BE: Save wetu_id onto the offer item
-    BE-->>TP: Linked
+    Agent->>TP: Select candidate, fill in remaining fields,<br/>save the manual entry
+    TP->>BE: Persist manual entry (with wetu_id)
+    BE->>BE: Save manual entry onto the Trip's offer item<br/>(wetu_id known, no elephant_uuid yet)
+    BE-->>TP: Saved
 
     Agent->>TP: Click "TripViz sync"
     TP->>BE: Sync trip (trip_id)
@@ -244,7 +239,7 @@ sequenceDiagram
     end
     BE-->>TP: 200 Sync OK
 
-    Note over Agent,Eleph: Sidekiq JSON build + TripViz continue as in Diagram 2.<br/>TripViz reads which UUID is populated:<br/>accommodation_uuid → render as hotel-card,<br/>touristic_area_uuid → render as area-card.
+    Note over Agent,Eleph: Sidekiq JSON build + TripViz continue as in Diagram 2.<br/>The offer item now holds either accommodation_uuid<br/>or touristic_area_uuid (set above), so TripViz reads<br/>that field directly to render hotel-card or area-card.
 ```
 
 </details>

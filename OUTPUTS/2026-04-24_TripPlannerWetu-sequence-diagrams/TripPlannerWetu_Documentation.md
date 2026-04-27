@@ -252,3 +252,5 @@ sequenceDiagram
     RS-->>BE: Route geometry / duration
     BE-->>TP: Route ready (for TripViz map)
 ```
+
+Post-deprecation note. The simplest of the four to replace — swap Wetu location search for Google Places or Nominatim (OSM), licensing permitting, and replace the `wetu_location_id`-based identity checks in BE internals with a geo-distance heuristic. Gregor called this *"a story on a sprint, not an initiative"*.

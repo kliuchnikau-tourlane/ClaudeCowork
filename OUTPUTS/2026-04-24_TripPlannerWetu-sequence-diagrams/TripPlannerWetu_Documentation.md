@@ -51,8 +51,6 @@ sequenceDiagram
     BE-->>TP: Linked
 ```
 
-Post-deprecation. The "Link content" form goes away; Accommodation Search keeps working as long as each accommodation has *some* non-Wetu `external_id` in Elephant (catalog id, Expedia id, …).
-
 Offline side flow. If Wetu has no match either, the agent escalates to the Content Integration team, who emails Wetu (Excel list), waits 1–4 days, then runs the Trip Sync themselves. Out-of-band, not drawn.
 
 ---
@@ -111,7 +109,7 @@ sequenceDiagram
 
     Agent->>TP: Click "Trip with Sync"
     TP->>BE: Sync trip (trip_id)
-    Note over BE: Build itinerary skeleton from the Trip's offer items.<br/>First sync runs inline (drawn here); subsequent re-syncs<br/>are delegated to WetuSyncWorker async.
+    Note over BE: Build itinerary skeleton from the Trip's offer items.<br/>First sync runs inline (drawn here).<br/>Subsequent re-syncs are delegated to WetuSyncWorker async.
 
     BE->>Wetu: PUT itinerary<br/>(accommodation wetu_ids + dates)
     Wetu-->>BE: Itinerary upserted
@@ -159,21 +157,24 @@ Async re-sync. If the offer was already fully synced before, `Wetu::UpdateServic
 
 ### ID storage in Elephant after Trip Sync
 
-| Where the ID lives | What it is |
+Wetu IDs persisted into Elephant during sync:
+
+| Elephant row | Where the Wetu ID is stored |
 |---|---|
-| `accommodation.external_ids[source=='wetu'].external_id` | `wetu_id` (= `content_entity_id`) |
-| `area.wetu_id` (direct attribute) | `wetu_id` — **the only real Wetu-ID leak** in Elephant; needs retiring at deprecation |
-| `accommodation.touristic_area_uuids` | array of `elephant_area_uuids` (resolved before persisting) |
+| accommodation | tagged entry in `external_ids[]`: `{ source: 'wetu', external_id: <wetu_id> }` |
+| area | `wetu_id` column (direct attribute) |
 
-Accommodations carry the Wetu identity behind a neutral `external_ids` array; areas hold a literal `wetu_id` column.
+Internal Elephant references set during sync (no Wetu IDs leak through):
 
-Post-deprecation. Content moves to catalog (Expedia / own-managed). The upsert-into-Elephant half and the worker / S3 / Lambus / TripViz half stay; only the Wetu calls drop out.
+| Elephant row | Field | Holds |
+|---|---|---|
+| accommodation | `touristic_area_uuids` | array of Elephant area UUIDs (resolved from Wetu pairs before persisting) |
 
 ---
 
 ## Diagram 3 — Manual input with Link Content (accommodation or area, same flow)
 
-Used when Accommodation Search returns nothing. The agent creates a manual entry, then uses Link Content to pick from a mixed list (accommodations AND areas) returned by Wetu. Both kinds are linked the same way (single `wetu_id` slot). The accommodation-vs-area distinction only surfaces at render time, when TripViz sees which Kiwi field was populated. Campground = pick an area instead of a hotel; same flow.
+Used when Accommodation Search returns nothing. The agent creates a manual entry, then uses Link Content to pick from a mixed list (accommodations AND areas) returned by Wetu. Both kinds are linked the same way (single `wetu_id` slot). The accommodation-vs-area distinction only surfaces at render time, from which UUID field on the offer item is populated. Campground = pick an area instead of a hotel; same flow.
 
 ```mermaid
 sequenceDiagram
@@ -210,18 +211,16 @@ sequenceDiagram
     alt Wetu payload places it under leg.accommodation
         BE->>Eleph: UpsertService.create_accommodation by wetu_id
         Eleph-->>BE: accommodation elephant_uuid
-        BE->>BE: update_offer_for_accommodation:<br/>set kiwi.uuid on the offer item
+        BE->>BE: update_offer_for_accommodation:<br/>set accommodation_uuid on the offer item
     else Wetu payload places it under leg.destinations
         BE->>Eleph: UpsertService.create_area by wetu_id
         Eleph-->>BE: area elephant_uuid
-        BE->>BE: update_offer_for_touristic_area:<br/>set kiwi.touristicAreaUUID on the offer item
+        BE->>BE: update_offer_for_touristic_area:<br/>set touristic_area_uuid on the offer item
     end
     BE-->>TP: 200 Sync OK
 
-    Note over Agent,Eleph: Sidekiq JSON build + TripViz continue as in Diagram 2.<br/>TripViz reads which kiwi field is populated:<br/>kiwi.uuid → render as hotel-card,<br/>kiwi.touristicAreaUUID → render as area-card.
+    Note over Agent,Eleph: Sidekiq JSON build + TripViz continue as in Diagram 2.<br/>TripViz reads which UUID is populated:<br/>accommodation_uuid → render as hotel-card,<br/>touristic_area_uuid → render as area-card.
 ```
-
-Post-deprecation. Replace the Wetu search with a catalog search returning the same mixed list. Picking a catalog item already gives an `elephant_uuid`, so `kiwi.uuid` / `kiwi.touristicAreaUUID` can be set at link time and the UUID-binding-on-first-sync step goes away.
 
 ---
 
@@ -249,19 +248,7 @@ sequenceDiagram
     BE->>BE: Save on Trip's leg:<br/>wetu_location_id + name + coordinates<br/>(stays in Gecko API — Elephant untouched)
     BE-->>TP: Saved
 
-    Note over BE: BE uses content_entity_id (Wetu's location id)<br/>in four internal places — see list below the diagram.
-
     BE->>RS: Compute route (origin, destination)
     RS-->>BE: Route geometry / duration
     BE-->>TP: Route ready (for TripViz map)
 ```
-
-Wetu-id touchpoints inside Gecko (need attention at deprecation):
-
-1. **`RoutingClient` same-location skip** (`routing_client.rb:13`) — skips routing when start and end share `content_entity_id`. Replace with geo-distance / lat-lng check.
-2. **Round-trip / same-start-end transport identity** — same logic, different caller.
-3. **Adjacent-transport matching when replacing an accommodation** (`trip/operations/transport_helper.rb:9,17`) — finds the leg that arrives at / departs from the accommodation being swapped. Structural — needs a stable replacement identity.
-4. **Transport recommendation routing** (`transport/route_endpoint_adapter.rb:46,73-76`) — `Pg::WetuLocation.safe_find_by(content_entity_id:)` resolves transport hubs to Kiwi UUIDs. The whole `Pg::WetuLocation` table (populated by `Wetu::ImportLocationsJob` inside `Trip::Uploader`) is a Wetu-identity → Kiwi-UUID bridge that needs replacing — e.g. keyed on Google Places IDs.
-
-Post-deprecation. Search swap (Google Places / Nominatim) is easy; the `Pg::WetuLocation` bridge and transport-replacement matching are more structural than the original *"story on a sprint"* framing suggested.
-

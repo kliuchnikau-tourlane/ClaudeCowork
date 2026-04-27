@@ -9,8 +9,10 @@ Actors / systems used throughout:
 - **Wetu** — external supplier. Two surfaces are used: the **Content / Suggestions API** (search by name) and the **Itinerary API** (private, used to pull enriched content per itinerary).
 - **Elephant** — internal accommodation / touristic-area store. Source of truth for content shown to customers via TripViz.
 - **Routing Service** — our routing / geometry service that computes routes and geometry for transport legs.
-- **Sidekiq Worker** — TripPlanner BE's background-job processor (builds the TripViz JSON).
+- **Sidekiq Worker** — TripPlanner BE's background-job processor (`Trip::UploadWorker` builds the TripViz JSON; `WetuSyncWorker` is used for async re-syncs).
+- **Salesforce CRM** — receives an opportunity-owner update during Trip Sync (`SyncOpportunityOwner`).
 - **S3** — storage for the generated TripViz JSON.
+- **Lambus** — receives the same JSON payload as S3 from `Trip::UploadWorker`.
 - **TripViz** — customer-facing trip visualization, reads its JSON from S3. Never talks to Wetu.
 
 ---
@@ -93,6 +95,8 @@ Two important callouts from Gregor:
 - The endpoint id pulling the enriched itinerary is Wetu's **private** API (the one that drives their own UI). 
 - Before end-2024, area hierarchy was derived purely from polygons imported from Wetu. Polygons became unreliable / missing, so we additionally persist the explicit accommodation → area mapping that Wetu exposes in the enriched itinerary.
 
+Code references for the orchestration (added after a code review by Aliaksei): `Offers::TripVizSync` (entry point), `Wetu::Kiwi::ItinerarySync` (Wetu interaction — calls `sync_destinations!` **before** `sync_accommodations!`), `SyncOpportunityOwner` (Salesforce CRM update, runs synchronously after Wetu sync), `Offers::VisualizationBuilder#persist_trip_to_s3_and_lambus` (enqueues `Trip::UploadWorker`, which uploads to **both** S3 and Lambus), `Wetu::UpdateService.sync` (sync vs async dispatcher), `WetuSyncWorker` (async re-sync path used when `complete_trip_viz_content?` && `wetu_viz_present?`).
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -101,52 +105,62 @@ sequenceDiagram
     participant BE as TripPlanner BE<br/>(Gecko API)
     participant Wetu as Wetu Itinerary API
     participant Eleph as Elephant
+    participant SF as Salesforce CRM
     participant SK as Sidekiq (BE)
     participant S3 as S3
+    participant Lambus as Lambus
     participant TripViz as TripViz (customer)
 
     Agent->>TP: Click "Trip with Sync"
     TP->>BE: Sync trip (trip_id)
-    Note over BE: Build itinerary skeleton by reading the Trip's<br/>offer items: accommodation wetu_id per leg,<br/>leg dates, theme, branding (legacy, unused)
+    Note over BE: Offers::TripVizSync entry point.<br/>Build itinerary skeleton by reading the Trip's<br/>offer items: accommodation wetu_id per leg,<br/>leg dates, theme, branding (legacy, unused).<br/><br/>If complete_trip_viz_content? && wetu_viz_present?<br/>Wetu::UpdateService.sync delegates to WetuSyncWorker<br/>(async path — see note below). Otherwise sync runs<br/>inline as drawn here.
 
     BE->>Wetu: PUT itinerary<br/>(accommodation wetu_ids + dates)
     Wetu-->>BE: Itinerary upserted
     BE->>Wetu: GET enriched itinerary<br/>(private Wetu UI API)
     Wetu-->>BE: Itinerary JSON with content[]:<br/>• accommodations — identified by wetu_id,<br/>  descriptions (all langs), images<br/>• touristic areas — identified by wetu_id,<br/>  Cape Town → Western Cape → South Africa → Africa<br/>  (polygons when available)<br/>• accommodation → area mapping<br/>  (pairs of wetu_ids)
 
-    loop For each accommodation in content[]
-        BE->>Eleph: Find accommodation by wetu_id<br/>(record PK is elephant_uuid)
-        alt Exists in Elephant
-            BE->>Eleph: Update descriptions, images<br/>(by elephant_uuid)
-        else New
-            BE->>Eleph: Create accommodation<br/>(PK = new elephant_uuid, attribute = wetu_id)
-        end
-    end
+    Note over BE,Eleph: Wetu::Kiwi::ItinerarySync runs<br/>sync_destinations! BEFORE sync_accommodations!
 
-    loop For each touristic area in content[]
+    loop For each touristic area in content[] (sync_destinations!)
         BE->>Eleph: Find area by wetu_id<br/>(record PK is elephant_uuid)
         alt Exists
             BE->>Eleph: Update descriptions, images, polygon<br/>(by elephant_uuid, polygon if present)
         else New
             BE->>Eleph: Create area<br/>(PK = new elephant_uuid, attribute = wetu_id)
         end
+    end
+
+    loop For each accommodation in content[] (sync_accommodations!)
+        BE->>Eleph: Find accommodation by wetu_id<br/>(record PK is elephant_uuid)
+        alt Exists in Elephant
+            BE->>Eleph: Update descriptions, images<br/>(by elephant_uuid)
+        else New
+            BE->>Eleph: Create accommodation<br/>(PK = new elephant_uuid, attribute = wetu_id)
+        end
         BE->>Eleph: Upsert (accommodation_elephant_uuid → area_elephant_uuid) mapping<br/>— resolved from the wetu_id pairs in the payload above<br/>(added end-2024, replaces reliance on polygons)
     end
 
+    Note over BE,SF: Still on the synchronous response path
+    BE->>SF: SyncOpportunityOwner<br/>(opportunity-owner update)
+    SF-->>BE: OK
+
+    BE->>SK: Offers::VisualizationBuilder#persist_trip_to_s3_and_lambus<br/>enqueues Trip::UploadWorker (trip_id)<br/>— async, does not block the response
     BE-->>TP: 200 Sync OK
     TP-->>Agent: "Trip synced" toast
 
-    BE->>SK: Enqueue "build TripViz JSON" job (trip_id)<br/>— async, does not block the sync response
-
-    Note over SK: Resolve Trip → offer items → elephant_uuids
+    Note over SK: Trip::UploadWorker:<br/>resolve Trip → offer items → elephant_uuids
     SK->>Eleph: Fetch accommodations, areas, country,<br/>descriptions, images (all queries by elephant_uuid)
     Eleph-->>SK: Aggregated data (no Wetu calls in this step)
     SK->>S3: PUT tripviz.json
+    SK->>Lambus: PUT same payload<br/>(Lambus receives the same JSON as S3)
 
     TripViz->>S3: GET tripviz.json (on customer open)
     S3-->>TripViz: JSON
     TripViz-->>Agent: Customer-facing trip view
 ```
+
+Async re-sync path (not drawn). When the offer was already fully synced before — `complete_trip_viz_content?` && `wetu_viz_present?` — `Wetu::UpdateService.sync` does **not** run the Wetu interaction inline. It enqueues `WetuSyncWorker` and the FE gets `200 Sync OK` immediately; the worker then performs the same Wetu round-trip + Elephant upserts + Salesforce update + S3/Lambus upload sequence shown above, just out-of-band. The diagram covers the first-sync (synchronous) path because that's the primary one.
 
 ### ID assumptions used above (please verify — flag any wetu_id leaks)
 
@@ -161,9 +175,10 @@ The point of this list is to make every ID explicit so we can spot any wetu-spec
 | Elephant lookup for an accommodation / area | query by the `wetu_id` attribute; record PK is `elephant_uuid` | **Verify** — need to confirm Elephant actually has a `wetu_id` index rather than re-scanning |
 | Elephant create for an accommodation / area | `elephant_uuid` as PK, `wetu_id` stored as attribute | High |
 | Explicit accommodation → area mapping stored in Elephant | `elephant_accommodation_uuid → elephant_area_uuid` (translated from the `wetu_id` pair before persisting) | **Verify** — if we actually persist `wetu_id` pairs here, that's a wetu_id leak into Elephant worth retiring during deprecation |
-| Sidekiq job argument | `trip_id` (job resolves to `elephant_uuid`s itself by reading the Trip) | **Verify** — job could equally take the offer_id or a list of elephant_uuids |
+| Sidekiq job argument | `trip_id` passed to `Trip::UploadWorker`; the worker resolves it to `elephant_uuid`s by reading the Trip | High (confirmed via code review) |
 | Sidekiq fetches from Elephant | all queries by `elephant_uuid` | High |
 | S3 object | keyed by `trip_id` (or a derived URL) | **Verify** |
+| Lambus payload | same JSON as S3, written by the same `Trip::UploadWorker` | High (confirmed via code review) |
 
 Post-deprecation note. This is the interaction we want to remove. Content should come from catalog (Expedia / own-managed) instead of Wetu. Gregor: *"this would all just go away, without replacement"* — the upsert-into-Elephant half and the Sidekiq / S3 / TripViz half stay; only the Wetu calls and the Wetu-sourced content drop out.
 

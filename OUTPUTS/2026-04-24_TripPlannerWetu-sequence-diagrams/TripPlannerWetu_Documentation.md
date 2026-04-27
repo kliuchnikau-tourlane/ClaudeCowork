@@ -1,14 +1,6 @@
 # TripPlanner ↔ Wetu — current-state sequence diagrams
 
-Reconstructed from the 2026-04-22 catch-up with Gregor, cross-referenced against the 3-section sketch on our Miro board (https://miro.com/app/board/uXjVHe9yEWY=/) and the 2026-04-23 drawing session.
-
-Five diagrams are captured below — the Miro sketch groups flows into 3 sections (Link Content variants and Trip Sync are combined into the top "Default accommodation" section), but here they are split to keep each diagram readable. Mapping:
-
-- Diagrams 1 + 1b + 2 ↔ Miro top section (Diagram 1 = "if wetu_id is missing" branch, Diagram 1b = "if wetu_id is present" branch, Diagram 2 = the Trip Sync step that follows either)
-- Diagram 3 ↔ Miro middle section ("Manual accommodation input")
-- Diagram 4 ↔ Miro bottom section ("Transport leg management")
-
-Actors / systems used throughout (names aligned with the Miro sketch):
+Actors / systems used throughout:
 
 - **Sales Agent** — operator in TripPlanner.
 - **Trip Planner FE** — the agent UI.
@@ -57,7 +49,7 @@ sequenceDiagram
     BE-->>TP: Linked
 ```
 
-Post-deprecation note. When we stop taking content from Wetu, "Link content" against Wetu goes away for regular accommodations — Accommodation Search only returns items that already have content in our catalog.
+Post-deprecation note. When we stop taking content from Wetu, "Link content" against Wetu goes away for regular accommodations — Accommodation Search only returns items that already have content in our Catalog.
 
 Offline side flow (not drawn). If Accommodation Search returns nothing for the name the agent needs, the agent reaches out to the Content Integration team. That team batches requests, emails Wetu (Excel list mentioned on the Miro sketch), waits 1–4 days for Wetu to populate content, then runs the Trip Sync themselves. Entirely out-of-band — no TripPlanner UI involved — so it's not drawn as a sequence diagram, but it's the implicit "otherwise" branch of this flow.
 
@@ -89,7 +81,7 @@ sequenceDiagram
     BE-->>TP: Added
 ```
 
-Precondition for Trip Sync. Trip Sync can only run once **every** accommodation on the Trip has a `wetu_id` attached to its offer item — i.e. every accommodation has gone through either Diagram 1 or Diagram 1b (or Diagram 3 for manual input).
+Precondition for Trip Sync. Trip Sync can only run once **every** accommodation on the Trip has a `wetu_id` attached to its offer item — i.e. every accommodation has gone through either Diagram 1a or Diagram 1b (or Diagram 3 for manual input).
 
 ---
 
@@ -98,7 +90,7 @@ Precondition for Trip Sync. Trip Sync can only run once **every** accommodation 
 Context. The heavy interaction. On "Trip with Sync", TripPlanner BE sends the itinerary skeleton (`wetu_id`s + leg dates) to Wetu's **itinerary** API, pulls the enriched itinerary back, and upserts accommodations and touristic areas into Elephant. A Sidekiq job then builds the TripViz JSON purely from Elephant (Wetu is not touched in that step).
 
 Two important callouts from Gregor:
-- The endpoint used to pull the enriched itinerary is Wetu's **private** API (the one that drives their own UI). Called out as "engineering, not hacking" — but we aren't formally licensed to use it.
+- The endpoint id pulling the enriched itinerary is Wetu's **private** API (the one that drives their own UI). 
 - Before end-2024, area hierarchy was derived purely from polygons imported from Wetu. Polygons became unreliable / missing, so we additionally persist the explicit accommodation → area mapping that Wetu exposes in the enriched itinerary.
 
 ```mermaid

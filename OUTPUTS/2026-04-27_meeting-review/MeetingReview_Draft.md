@@ -51,7 +51,7 @@
 > **Action**: [x] Accept  [ ] Decline  [ ] Rephrase
 
 #### [P3] NEW — olu.md
-> **Current context**: NEW — not yet in KB. Already referenced in TASKS.md vacation list as "Oleksii".
+> **Current context**: NEW — not yet in KB.
 > **Proposed addition**:
 > ```
 > # Olu (Oleksii)

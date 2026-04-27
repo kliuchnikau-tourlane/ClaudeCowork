@@ -5,7 +5,7 @@ Actors / systems used throughout:
 - **Sales Agent** — operator in TripPlanner.
 - **Trip Planner FE** — the agent UI.
 - **TripPlanner BE** (a.k.a. Gecko API) — backend that orchestrates everything below.
-- **Accommodation Search** — our accommodation-search service (not a Wetu endpoint). Returns the candidate list with or without a `wetu_id`.
+- **Accommodation Search** — external service codenamed "Beaver" (`REACT_APP_ACCOMMODATION_SEARCH_URL/pricing/v3/...`). Returns each accommodation with an optional `wetu_id` field that Beaver reads from Elephant's `external_ids` array (entry where `source === 'wetu'`). It does **not** call Wetu directly.
 - **Wetu** — external supplier. Two surfaces are used: the **Content / Suggestions API** (search by name) and the **Itinerary API** (private, used to pull enriched content per itinerary).
 - **Elephant** — internal accommodation / touristic-area store. Source of truth for content shown to customers via TripViz.
 - **Routing Service** — our routing / geometry service that computes routes and geometry for transport legs.
@@ -33,9 +33,10 @@ sequenceDiagram
     Agent->>TP: Open offer, search accommodations in destination
     TP->>BE: GET accommodations for destination
     BE->>AS: Search accommodations
+    Note over AS: Beaver reads each item's wetu_id from<br/>Elephant.external_ids[source=='wetu'].<br/>That entry is written by Wetu::Kiwi::DataAdapter::Accommodation<br/>during a previous Trip Sync. No live call to Wetu.
     AS-->>BE: List (each item: elephant_uuid, wetu_id?)
     BE-->>TP: Results
-    TP-->>Agent: Cards — items without wetu_id show "Content unlinked"
+    TP-->>Agent: Cards — items without wetu_id show "Content unlinked"<br/>(i.e. never synced before)
 
     Agent->>TP: Pick unlinked accommodation, type name in "Link content"
     TP->>BE: Search Wetu by name
@@ -51,7 +52,7 @@ sequenceDiagram
     BE-->>TP: Linked
 ```
 
-Post-deprecation note. When we stop taking content from Wetu, "Link content" against Wetu goes away for regular accommodations — Accommodation Search only returns items that already have content in our Catalog.
+Post-deprecation note. When we stop taking content from Wetu, the "Link content" form goes away. Accommodation Search keeps working unchanged — Beaver reads `external_ids` from Elephant, so as long as each accommodation has *some* non-Wetu external_id (catalog id, Expedia id, …), the same gate keeps working with a different source. We just stop populating the `source === 'wetu'` entry going forward.
 
 Offline side flow (not drawn). If Accommodation Search returns nothing for the name the agent needs, the agent reaches out to the Content Integration team. That team batches requests, emails Wetu (Excel list mentioned on the Miro sketch), waits 1–4 days for Wetu to populate content, then runs the Trip Sync themselves. Entirely out-of-band — no TripPlanner UI involved — so it's not drawn as a sequence diagram, but it's the implicit "otherwise" branch of this flow.
 
@@ -117,13 +118,13 @@ sequenceDiagram
 
     BE->>Wetu: PUT itinerary<br/>(accommodation wetu_ids + dates)
     Wetu-->>BE: Itinerary upserted
-    BE->>Wetu: GET enriched itinerary<br/>(private Wetu UI API)
-    Wetu-->>BE: Itinerary JSON with content[]:<br/>• accommodations — identified by wetu_id,<br/>  descriptions (all langs), images<br/>• touristic areas — identified by wetu_id,<br/>  Cape Town → Western Cape → South Africa → Africa<br/>  (polygons when available)<br/>• accommodation → area mapping<br/>  (pairs of wetu_ids)
+    BE->>Wetu: GET LoadItinerary/{identifier}<br/>(single REST GET — Wetu::ItineraryExtractionDataService)
+    Wetu-->>BE: Single JSON response with content[]:<br/>• accommodations — filtered from content[] by matching<br/>  itinerary.legs[].content_entity_id; descriptions (all langs), images<br/>• touristic areas — built from itinerary.legs[].content_entity.destinations<br/>  matched back into content[] (Cape Town → Western Cape → South Africa → Africa,<br/>  polygons when available)<br/>• accommodation → area mapping<br/>  (pairs of wetu_ids on each accommodation)
 
     Note over BE,Eleph: Wetu::Kiwi::ItinerarySync runs<br/>sync_destinations! BEFORE sync_accommodations!
 
     loop For each touristic area in content[] (sync_destinations!)
-        BE->>Eleph: Find area by wetu_id<br/>(record PK is elephant_uuid)
+        BE->>Eleph: Find area by wetu_id<br/>(Wetu::Kiwi::DataAdapter::Destination —<br/>area record stores wetu_id directly as an attribute)
         alt Exists
             BE->>Eleph: Update descriptions, images, polygon<br/>(by elephant_uuid, polygon if present)
         else New
@@ -132,13 +133,14 @@ sequenceDiagram
     end
 
     loop For each accommodation in content[] (sync_accommodations!)
-        BE->>Eleph: Find accommodation by wetu_id<br/>(record PK is elephant_uuid)
+        BE->>Eleph: Find accommodation by external_ids[source=='wetu']<br/>(Wetu::Kiwi::DataAdapter::Accommodation)
         alt Exists in Elephant
             BE->>Eleph: Update descriptions, images<br/>(by elephant_uuid)
         else New
-            BE->>Eleph: Create accommodation<br/>(PK = new elephant_uuid, attribute = wetu_id)
+            BE->>Eleph: Create accommodation<br/>(PK = new elephant_uuid,<br/>external_ids += {source: 'wetu', external_id: wetu_id})
         end
-        BE->>Eleph: Upsert (accommodation_elephant_uuid → area_elephant_uuid) mapping<br/>— resolved from the wetu_id pairs in the payload above<br/>(added end-2024, replaces reliance on polygons)
+        Note over BE: map_wetu_ids_to_kiwi_uuids resolves the area<br/>wetu_ids from the payload to elephant_uuids<br/>(using each area's wetu_id attribute set above)
+        BE->>Eleph: Set touristic_area_uuids on accommodation<br/>(array of elephant_area_uuids — NO wetu_ids leak here)
     end
 
     Note over BE,SF: Still on the synchronous response path
@@ -162,23 +164,24 @@ sequenceDiagram
 
 Async re-sync path (not drawn). When the offer was already fully synced before — `complete_trip_viz_content?` && `wetu_viz_present?` — `Wetu::UpdateService.sync` does **not** run the Wetu interaction inline. It enqueues `WetuSyncWorker` and the FE gets `200 Sync OK` immediately; the worker then performs the same Wetu round-trip + Elephant upserts + Salesforce update + S3/Lambus upload sequence shown above, just out-of-band. The diagram covers the first-sync (synchronous) path because that's the primary one.
 
-### ID assumptions used above (please verify — flag any wetu_id leaks)
+### ID storage in Elephant after Trip Sync (verified via code review)
 
-The point of this list is to make every ID explicit so we can spot any wetu-specific ID sneaking into storage or logic where it doesn't belong. Confidence reflects how sure I am; "verify" items are where I'd like Gregor to confirm or correct.
+| Where the ID lives | What it is | Who reads it |
+|---|---|---|
+| `accommodation.external_ids[source=='wetu'].external_id` | `wetu_id` (= `content_entity_id`) | Beaver / Accommodation Search to attach `wetu_id` to results; sync to find existing accommodation |
+| `area.wetu_id` (direct attribute) | `wetu_id` | sync to find existing area; the only **real Wetu-ID leak** in Elephant — needs retiring during deprecation |
+| `accommodation.touristic_area_uuids` | array of **elephant_area_uuids** (resolved via `map_wetu_ids_to_kiwi_uuids` before persisting) | trip viz, area-hierarchy queries |
 
-| Step | Assumed ID in use | Confidence |
-|------|-------------------|------------|
-| Sync trigger — TP FE → BE | `trip_id` | High |
-| Build itinerary skeleton | `wetu_id` per accommodation, read off the Trip's offer items (stored in Gecko API) | High |
-| PUT / GET itinerary at Wetu | `wetu_id` on the wire (forced by Wetu's API) | High |
-| Itinerary JSON content[] — accommodations, areas, and the accommodation→area pairs all identified by `wetu_id` inside Wetu's namespace | High |
-| Elephant lookup for an accommodation / area | query by the `wetu_id` attribute; record PK is `elephant_uuid` | **Verify** — need to confirm Elephant actually has a `wetu_id` index rather than re-scanning |
-| Elephant create for an accommodation / area | `elephant_uuid` as PK, `wetu_id` stored as attribute | High |
-| Explicit accommodation → area mapping stored in Elephant | `elephant_accommodation_uuid → elephant_area_uuid` (translated from the `wetu_id` pair before persisting) | **Verify** — if we actually persist `wetu_id` pairs here, that's a wetu_id leak into Elephant worth retiring during deprecation |
-| Sidekiq job argument | `trip_id` passed to `Trip::UploadWorker`; the worker resolves it to `elephant_uuid`s by reading the Trip | High (confirmed via code review) |
-| Sidekiq fetches from Elephant | all queries by `elephant_uuid` | High |
-| S3 object | keyed by `trip_id` (or a derived URL) | **Verify** |
-| Lambus payload | same JSON as S3, written by the same `Trip::UploadWorker` | High (confirmed via code review) |
+So accommodations carry the Wetu identity behind a neutral `external_ids` array (easy to swap for catalog ids later), while areas still hold a literal `wetu_id` column — that's the leak to plan for at deprecation.
+
+| Other ID touchpoints in the flow | ID in use | Source |
+|------|-----------|--------|
+| Sync trigger TP FE → BE | `trip_id` | code |
+| Build itinerary skeleton | `wetu_id` per accommodation, read off the Trip's offer items | code |
+| PUT / GET itinerary at Wetu | `wetu_id` on the wire (forced by Wetu's API) | code |
+| `Trip::UploadWorker` argument | `trip_id`; worker resolves it to `elephant_uuid`s | code |
+| Sidekiq fetches from Elephant | all queries by `elephant_uuid` | code |
+| S3 / Lambus payload | same JSON, both written by `Trip::UploadWorker` | code |
 
 Post-deprecation note. This is the interaction we want to remove. Content should come from catalog (Expedia / own-managed) instead of Wetu. Gregor: *"this would all just go away, without replacement"* — the upsert-into-Elephant half and the Sidekiq / S3 / TripViz half stay; only the Wetu calls and the Wetu-sourced content drop out.
 
@@ -215,25 +218,31 @@ sequenceDiagram
 
     Agent->>TP: Select any candidate (accommodation OR area)
     TP->>BE: Link candidate's wetu_id
-    BE->>BE: Save wetu_id onto the Trip's offer item<br/>— SAME slot regardless of type,<br/>NO type flag persisted here
-    Note over BE: One wetu_id on the manual entry.<br/>Accommodation vs area is NOT recorded locally —<br/>TripViz infers it from Elephant at render time.
+    BE->>BE: Save WetuAccommodationMetaData on the offer item:<br/>{ wetu_id, type: wetu_data['type'] }<br/>(type IS stored, but it is INERT — backend ignores<br/>it when routing the sync, see below)
+    Note over BE: The stored 'type' is bookkeeping only.<br/>Routing at sync time uses the Wetu payload structure<br/>(content_entity_id appears under leg.accommodation<br/>vs leg.destinations) — UpsertService picks<br/>create_accommodation vs create_area from that.
     BE-->>TP: Linked
 
     Agent->>TP: Click "Trip with Sync"
     TP->>BE: Sync trip (trip_id)
     BE->>Wetu: PUT + GET itinerary (see Diagram 2)
-    Wetu-->>BE: Enriched itinerary<br/>(the linked wetu_id comes back as EITHER<br/>an accommodation OR an area entry)
+    Wetu-->>BE: Enriched itinerary<br/>(the linked wetu_id comes back EITHER<br/>under leg.accommodation OR under leg.destinations)
 
     Note over BE,Eleph: Same upsert as Diagram 2, plus UUID binding
-    BE->>Eleph: Upsert by wetu_id<br/>(accommodation table OR area table,<br/>per the type in Wetu's payload)
-    Eleph-->>BE: elephant_uuid (for whichever type was chosen)
-    BE->>BE: Bind elephant_uuid onto the manual entry<br/>— SAME slot, still no type flag.<br/>Fulfils "TripViz reads only Elephant".
+    alt Wetu payload places it under leg.accommodation
+        BE->>Eleph: UpsertService.create_accommodation by wetu_id
+        Eleph-->>BE: accommodation elephant_uuid
+        BE->>BE: update_offer_for_accommodation:<br/>set kiwi.uuid on the offer item
+    else Wetu payload places it under leg.destinations
+        BE->>Eleph: UpsertService.create_area by wetu_id
+        Eleph-->>BE: area elephant_uuid
+        BE->>BE: update_offer_for_touristic_area:<br/>set kiwi.touristicAreaUUID on the offer item
+    end
     BE-->>TP: 200 Sync OK
 
-    Note over Agent,Eleph: Sidekiq JSON build + TripViz continue as in Diagram 2.<br/>TripViz fetches the Elephant entity by elephant_uuid<br/>and renders hotel-card vs area-card based on<br/>the entity's type in Elephant.
+    Note over Agent,Eleph: Sidekiq JSON build + TripViz continue as in Diagram 2.<br/>TripViz reads which kiwi field is populated:<br/>kiwi.uuid → render as hotel-card,<br/>kiwi.touristicAreaUUID → render as area-card.
 ```
 
-Post-deprecation note. Replace the Wetu search with a search against our own catalog that returns the same mixed list (accommodations + areas). The storage contract on the Trip's offer item doesn't change — still one `wetu_id`-equivalent slot, still no type flag. The UUID-binding-on-first-sync step goes away because picking a catalog item already returns an `elephant_uuid` directly.
+Post-deprecation note. Replace the Wetu search with a search against our own catalog that returns the same mixed list (accommodations + areas). The offer-item storage contract is unchanged — still a single neutral slot for the source-of-content id, with the inert `type` left in for backwards compatibility (or removed). The UUID-binding-on-first-sync step goes away because picking a catalog item already returns an `elephant_uuid` directly, so `kiwi.uuid` / `kiwi.touristicAreaUUID` can be set immediately at link time.
 
 ---
 
@@ -261,23 +270,45 @@ sequenceDiagram
     BE->>BE: Save on Trip's leg:<br/>wetu_location_id + name + coordinates<br/>(stays in Gecko API — Elephant untouched)
     BE-->>TP: Saved
 
-    Note over BE: BE uses wetu_location_id for identity checks<br/>(round-trip? same start/end?). Once Wetu is gone,<br/>replace with a geo-distance heuristic or<br/>Google Places / Nominatim IDs.
+    Note over BE: BE uses content_entity_id (Wetu's location id)<br/>in four internal places — see list below the diagram.
 
     BE->>RS: Compute route (origin, destination)
     RS-->>BE: Route geometry / duration
     BE-->>TP: Route ready (for TripViz map)
 ```
 
-Post-deprecation note. The simplest of the four to replace — swap Wetu location search for Google Places or Nominatim (OSM), licensing permitting, and replace the wetu_location_id-based identity checks in BE internals with a geo-distance heuristic. Gregor called this *"a story on a sprint, not an initiative"*.
+Wetu-id touchpoints inside Gecko (verified via code review). Four places will need attention at deprecation, not just the round-trip / same-start-end check:
+
+1. **`RoutingClient` same-location skip** (`routing_client.rb:13`) — `return if start_location.content_entity_id == end_location.content_entity_id` skips computing a route if both ends are the same Wetu entity. Replace with a geo-distance or lat/lng equality check.
+2. **Round-trip / same-start-end transport identity** — the original case Gregor flagged.
+3. **Adjacent transport matching when replacing an accommodation** (`trip/operations/transport_helper.rb:9,17`) — `transport.end_location.content_entity_id == accommodation.wetu_meta_data.content_entity_id` is used to find the leg that arrives at / departs from the accommodation being swapped, so the leg's endpoint can be updated. Structural — needs a stable location identity from whatever replaces Wetu.
+4. **Transport recommendation routing** (`transport/route_endpoint_adapter.rb:46,73-76`) — `Pg::WetuLocation.safe_find_by(content_entity_id:)` resolves a transport hub's `content_entity_id` to Kiwi accommodation/area UUIDs for the recommendation service. The whole `Pg::WetuLocation` table (populated by `Wetu::ImportLocationsJob`, triggered inside `Trip::Uploader`) is a Wetu-identity → Kiwi-UUID bridge for transport. If Wetu goes away, this bridge needs a replacement — e.g. keyed on Google Places IDs or lat/lng.
+
+Post-deprecation note. Originally framed as *"a story on a sprint, not an initiative"*, but the third and fourth touchpoints above (transport replacement matching, the `Pg::WetuLocation` bridge) are more structural than just swapping a search backend. Worth scoping the work properly before committing to that framing. The location-search swap (Google Places / Nominatim) is still the easy part.
 
 ---
 
-## Open questions to refine together
+## Answers from code review (Aliaksei, 2026-04-27)
 
-1. **Accommodation Search branch** (Diagram 1). On the Miro sketch, the arrow from Accommodation Search labels the return as "accommodations with optional wetu_id". Is that service reading `wetu_id` straight from Elephant, or does it merge from elsewhere? Worth pinning before we remove Wetu — it drives whether "Link content" can disappear entirely or needs a catalog-backed replacement.
-2. **Itinerary API payload shape** (Diagram 2). Areas and accommodations currently arrive in the same `content[]` array. The Miro question *"why area syncing done separately from itinerary API?"* — I think it's a naming artefact, not a separate network call. Worth confirming in the Gecko code before we promise "one diagram covers both".
-3. **Explicit accommodation → area mapping** (Diagram 2). Stored on the accommodation, on the area, or a join? Affects what needs to be sourced from elsewhere once Wetu's polygons / hierarchy go away.
-4. **Manual entry storage (Diagram 3).** The diagram assumes Link Content stores a single `wetu_id` slot with no type flag on the manual entry, and that TripViz infers "accommodation vs area" from the Elephant entity at render time. Worth confirming that (a) the slot is actually type-agnostic and (b) TripViz really does read the type from Elephant and not from a flag on the Trip's offer item.
-5. **Transport leg internal checks** (Diagram 4). Besides round-trip / same-start-end, any other Gecko logic keyed on `wetu_location_id` (transport type inference, leg merging, etc.) that should be surfaced before we kill Wetu?
-6. **Content Integration team offline flow**. Not drawn. Worth a 5th diagram (even a boxes-and-arrows one) if we want it in the same doc — currently only mentioned in prose under Diagram 1.
-7. **Dead theme/branding buttons**. Gregor flagged that "theme" and "branding" selectors on the trip page drove only the legacy Wetu-side visualization, which no customer hits. Remove from UI rather than model — not drawn.
+The seven questions that started as "to refine together" are now answered against the source. Findings folded into the diagrams above; this section keeps the answers verbatim for traceability.
+
+**Q1 — Where does Accommodation Search get the `wetu_id`?**
+Accommodation Search is an external service (codenamed "Beaver"), not Gecko. The FE calls `REACT_APP_ACCOMMODATION_SEARCH_URL/pricing/v3/...`. The response type `IAccommodationStreamData` exposes `wetu_id?: string | null`, populated from Elephant's `external_ids` array — specifically the entry where `source === 'wetu'` (`getWetuId` in `AccommodationMap/utils.ts:142`). That entry was written to Elephant by `Wetu::Kiwi::DataAdapter::Accommodation` during a previous Trip Sync (`external_id: wetu_accommodation.content_entity_id.to_s.presence`). So Beaver reads `wetu_id` from Elephant, not from Wetu directly. If an accommodation has never been synced, Elephant has no entry and Beaver returns `wetu_id: null` → "Content unlinked". *Implication for deprecation:* once content comes from catalog, as long as Elephant has a non-Wetu `external_id`, Accommodation Search returns it the same way. Same gate, different source.
+
+**Q2 — Are areas and accommodations from the same itinerary API call?**
+Yes, single call. `Wetu::ItineraryExtractionDataService` makes one REST GET to `https://wetu.com/Itinerary/JSON/LoadItinerary/{identifier}`. Both accommodations and areas come out of the same `response['content']` array. Accommodations are filtered by matching `content_entity_id` against `itinerary.legs`; areas are built from `itinerary.legs[].content_entity.destinations` matched back into `content[]`. Two loops in code, one network call. The Miro question *"why area syncing done separately?"* is a naming artefact.
+
+**Q3 — Accommodation→area mapping: where stored, are Wetu IDs leaked into Elephant?**
+Stored on the accommodation as `touristic_area_uuids` — an array of Elephant (Kiwi) UUIDs. The mapping is resolved from Wetu IDs to Kiwi UUIDs before persisting (`Wetu::Kiwi::DataAdapter::Accommodation#map_wetu_ids_to_kiwi_uuids`). **No Wetu IDs leak via the mapping itself.** *However:* the area record stores `wetu_id` directly as an attribute (`data_adapter/destination.rb:15`), which IS a real Wetu ID inside Elephant — to be retired or replaced with a catalog ID at deprecation.
+
+**Q4 — Manual entry storage: type-agnostic slot? does TripViz read type from Elephant?**
+(a) The wetu slot stores a `type` field (from `WetuAccommodationMetaData`: `type: wetu_data['type']`), so it *is* persisted — but at sync time the backend ignores it. Whether `UpsertService` calls `create_accommodation` vs `create_area` is determined by where in the Wetu enriched itinerary the `content_entity_id` shows up (under leg accommodation vs leg destination). The stored `type` is inert for routing.
+(b) TripViz distinguishes via which Kiwi subfield is populated after sync — `kiwi.uuid` means accommodation, `kiwi.touristicAreaUUID` means area (set by `update_offer_for_accommodation` vs `update_offer_for_touristic_area` in `UpsertService`). Those fields ultimately reflect the Elephant entity type, so the diagram's claim ("TripViz infers from Elephant") holds.
+
+**Q5 — What else in Gecko is keyed on `content_entity_id` / `wetu_location_id`?** See the four touchpoints listed under Diagram 4.
+
+**Q6 — Content Integration team offline flow.**
+No code. Genuinely out-of-band — emails, Excel files, manual sync runs by CIT. Confirmed it's not drawn anywhere in the codebase. The prose note under Diagram 1 stands.
+
+**Q7 — Are theme / branding buttons actually dead?**
+Alive in the UI, sent to Wetu, ignored by TripViz. `Wetu::BasicInformationSerializer` sends `OperatorThemeId` and `OperatorIdentityId` in every `save_itinerary` SOAP call. They affect only Wetu's own rendering on their side. TripViz never reads them. When the Wetu sync is removed, the FE fields (`TripDetailsForm.tsx:402-416`) and the serializer lines become dead code — delete both.

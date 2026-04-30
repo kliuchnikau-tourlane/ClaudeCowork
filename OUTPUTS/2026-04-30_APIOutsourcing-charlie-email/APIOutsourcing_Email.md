@@ -17,7 +17,7 @@ Thanks for the discussion yesterday. To prepare for Tuesday, we'd like to ask yo
 
 If you don't manage to cover every item in 1–14, that's fine — we'll work through the remaining ones on Tuesday. The important thing is that we have your responses in writing, not just verbal, so we share the same understanding before the meeting.
 
-If anything is unclear in the meantime, please reach out via chat or email — happy to answer ahead of Monday.
+If anything is unclear in the meantime, please reach out via chat or email — happy to answer ahead of Monday. Just a heads-up: tomorrow (Friday) is a public holiday on our side, so we'll be available today and again on Monday.
 
 To avoid any confusion: the Tourlane API specification we shared is a reference point for our discussion, not a 1:1 implementation requirement.
 

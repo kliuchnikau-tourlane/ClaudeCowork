@@ -8,27 +8,22 @@
 
 Hi Charlie,
 
-Thanks for the discussion yesterday. To make Tuesday's session productive, here is what we need from you by end of Monday so we can pre-read it.
+Thanks for the discussion yesterday. To make Tuesday's session productive, we'd like your responses in writing by end of Monday so we can pre-read them and keep the meeting focused.
 
-**What we need by Monday**
+**What we need by Monday — please pick one of the two:**
 
-1. A written proposal structured around our 22-point document. For each relevant point, please include:
-   - your proposed approach
-   - implementation details or examples where helpful
-   - whether the proposal depends on a new API
-   - any open questions or constraints from your side
+- **Option A — New API specification.** If your recommendation is to move to a new API, please share the draft specification: what is already defined at this stage, what still needs clarification, and how you propose we approach the data model.
+- **Option B — Written answers to our 22-point document, focusing on items 1–14** (the "critical" and "important" sections). For each point, please include your proposed approach, any implementation details, whether it depends on a new API, and any open questions or constraints from your side.
 
-   If you recommend moving to a new API, please also cover what would already be defined at this stage, what still needs clarification, and how you suggest we approach the data model.
+If you don't manage to cover every item in 1–14, that's fine — we'll work through the remaining ones on Tuesday. The important thing is that we have your responses in writing, not just verbal, so we share the same understanding before the meeting.
 
-2. A revised version of the gateway documentation that fixes the known typos and inconsistencies and includes all mandatory fields — including the player ID that was flagged as missing.
+If anything is unclear in the meantime, please reach out via chat or email — happy to answer ahead of Monday.
 
 To avoid any confusion: the Tourlane API specification we shared is a reference point for our discussion, not a 1:1 implementation requirement.
 
-**What we will do on Tuesday**
+**On Tuesday**
 
-Walk through your written proposal, discuss the 22 points together, align on the data model, and confirm next steps and follow-ups.
-
-The goal is to leave Tuesday with a shared understanding of the direction and clear ownership of what happens next.
+We'll walk through your written response, discuss the open points, align on the data model, and confirm next steps.
 
 Thanks,
 Aliaksei
